@@ -1,0 +1,15 @@
+$historical
+NULL
+
+$ssp1_2_6
+[1] "canesm5"    "miroc_es2l"
+
+$ssp2_4_5
+[1] "miroc_es2l"
+
+$ssp3_7_0
+NULL
+
+$ssp5_8_5
+[1] "miroc_es2l"
+
