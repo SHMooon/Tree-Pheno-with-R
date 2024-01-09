@@ -245,7 +245,7 @@ write.csv(KA_weather_stacked, "data/KA_weather_stacked.csv", row.names = FALSE)
 
     kable(head(KA_weather_stacked)) %>%
       kable_styling("striped", position = "left",font_size = 10)
-    ```
+```
 
 ### Produce empirical temperature curve parameters for the Winters_hours_gaps dataset, and use them to predict hourly values from daily temperatures (this is very similar to the example above, but please make sure you understand what’s going on)
 
@@ -323,7 +323,7 @@ Please document all results of the following assignments in your learning logboo
 ### Choose a location of interest and find the 25 closest weather stations using the handle_gsod function
 - Kiel 
 
-```{r echo=TRUE}
+```{r include=FALSE}
 Kiel_list<-handle_gsod(action="list_stations",
                           location=c(10.28, 54.5),
                           time_interval=c(1990,2020))
@@ -334,15 +334,19 @@ kable(Kiel_list) %>%
   kable_styling("striped", position = "left", font_size = 8)
 
 ```
+```{r include=FALSE}
+head(Kiel_list, 15)
+```
+
 ### Download weather data for the most promising station on the list
-```{r}
+```{r echo=FALSE}
 
 weather_Kiel<-handle_gsod(action="download_weather",
                      location=Kiel_list$chillR_code[9],
                      time_interval=c(1990,2020))
 ```
 
-```{r}
+```{r include=FALSE}
 weather_Kiel[[1]][1:20,]
 
 ```
@@ -350,13 +354,13 @@ weather_Kiel[[1]][1:20,]
 
 ### Convert the weather data into chillR format
  
-```{r}
+```{r include=FALSE}
 cleaned_weather_Kiel<-handle_gsod(weather_Kiel)
 cleaned_weather_Kiel[[1]][1:20,]
 ```
 
 
-```{r}
+```{r include=FALSE}
 
 write.csv(Kiel_list,"data/Kiel_station_list.csv",row.names=FALSE)
 write.csv(weather_Kiel[[1]],"data/Kiel_raw_weather.csv",row.names=FALSE)
@@ -375,7 +379,7 @@ write.csv(cleaned_weather_Kiel[[1]],"data/Kiel_chillR_weather.csv",row.names=FAL
 Please document all results of the following assignments in your learning logbook.
 
 You already downloaded some weather data in the exercises for the Getting temperatures lesson. You can keep working with this.
-```{r}
+```{r include=FALSE}
 #from previous data
 Kiel<-read.csv("data/Kiel_chillR_weather.csv")
 ```
@@ -384,16 +388,11 @@ Kiel<-read.csv("data/Kiel_chillR_weather.csv")
 
 ### Use chillR functions to find out how many gaps you have in this dataset (even if you have none, please still follow all further steps)
 
-```{r}
+```{r include=FALSE}
 
 #checking for gaps using fix_weather function
 Kiel_QC<-fix_weather(Kiel)$QC
 write.csv(Kiel_QC, "data/Kiel_QC.csv", row.names = FALSE)
-
-
-```
-
-```{r}
 
 ##saving and downloading the needed columns
 Kiel_weather<-Kiel[,c("Year","Month", "Day", "Tmax", "Tmin")]
@@ -401,10 +400,11 @@ kable(Kiel_weather,) %>%
   kable_styling("striped", position = "left", font_size = 10)
 
 write.csv(Kiel_weather, "data/Kiel_weather.csv", row.names = FALSE)
+
 ```
 
 
-```{r, echo=FALSE}
+```{r include=FALSE}
     Kiel_QC<-read_tab("data/Kiel_QC.csv")
 
     kable(head(Kiel_QC), caption="Quality control summary produced by *fix_weather()*") %>%
@@ -412,18 +412,21 @@ write.csv(Kiel_weather, "data/Kiel_weather.csv", row.names = FALSE)
 ```
 
 
-```{r, echo=FALSE}
+```{r include=FALSE}
     library(kableExtra)
     Kiel_weather<-read_tab("data/Kiel_weather.csv")
 
     kable(head(Kiel_weather)) %>%
       kable_styling("striped", position = "left", font_size = 10)
-    ```
+```
 
+```{r echo=FALSE}
+head(Kiel_weather, 10)
+```
 
 ### Create a list of the 25 closest weather stations using the handle_gsod function
 
-```{r}
+```{r echo=FALSE}
 Kiel_list<-handle_gsod(action="list_stations",
                           location=c(10.28, 54.5),
                           time_interval=c(1990,2020))
@@ -503,7 +506,7 @@ There are 5 days missing after the patching. It seems safe to use linear interpo
 
 ### If necessary, repeat until you have a dataset you can work with in further analyses
 
-```{r}
+```{r include=FALSE}
 Kiel_post_patch_stats <- fix_weather(Kiel_patched)$QC
 
 Kiel_post_patch_stats
@@ -512,9 +515,12 @@ Kiel_post_patch_stats
 
 ```
 
+```{r echo=FALSE}
+head(Kiel_post_patch_stats)
+```
  
 
-```{r}
+```{r, include=FALSE}
 Kiel_weather2<-fix_weather(Kiel_patched)
 
 write.csv(Kiel_weather2$weather, "data/Kiel_patched2.csv", row.names = FALSE)
@@ -527,6 +533,10 @@ Kiel_weather <- round(Kiel_weather, digits = 1)
 
 write.csv(Kiel_weather, "data/Kiel_weather.csv", row.names = FALSE)
 
+```
+
+```{r}
+head(Kiel_weather)
 ```
 
 # Generating temperature scenarios
@@ -546,7 +556,7 @@ Please document all results of the following assignments in your learning logboo
 
 The location where I choose is c(10.28, 54.5) 
 
-```{r include=FALSE}
+```{r, include=FALSE}
 library(chillR)
 library(RMAWGEN)
 library(ggplot2)
@@ -555,7 +565,7 @@ library(dplyr)
 ```
 
 
-```{r echo=FALSE}
+```{r, include=FALSE}
 #from the fixed weather
 Kiel_weather<-read.csv("data/Kiel_weather.csv")
 
@@ -580,7 +590,7 @@ Temperatures[,"Date"]<-as.Date(ISOdate(2000, Temperatures$Month, Temperatures$Da
 
 ### Calculate winter chill (in Chill Portions) for your synthetic weather, and illustrate your results as histograms and cumulative distributions.
 
-```{r, eval=FALSE}
+```{r, echo=FALSE}
 
 
      chill_observed<-chilling(
@@ -624,16 +634,16 @@ Temperatures[,"Date"]<-as.Date(ISOdate(2000, Temperatures$Month, Temperatures$Da
 
     write.csv(chill_comparison_full_seasons,"data/chill_comparison_full_seasons.csv", row.names = FALSE)
 
-    ```
+```
 
-    ```{r, echo=FALSE}
+```{r, echo=FALSE}
     library(knitr)
     library(kableExtra)
     chill_comparison_full_seasons<-read_tab("data/chill_comparison_full_seasons.csv")
 
     kable(head(chill_comparison_full_seasons)) %>%
       kable_styling("striped", position = "left", font_size = 10)
-    ```
+```
 
 ```{r, eval=FALSE}
     ##amount of chill that is exceeded in 90% of all years
@@ -645,12 +655,12 @@ Temperatures[,"Date"]<-as.Date(ISOdate(2000, Temperatures$Month, Temperatures$Da
     quantile(chill_simulations$Chill_portions, c(0.25,0.75))
        #  25%      75% 
     #62.81098 71.61968 
-    ```
+```
 
 ### Produce similar plots for the number of freezing hours (<0°C) in April (or October, if your site is in the Southern Hemisphere) for your location of interest.
 check lecture 7 to change it.
 
-```{r, eval=FALSE}
+```{r, echo=FALSE}
  
     #attempt 3, freezing() function created based on chillR's chilling function
     library(chillR)
@@ -797,11 +807,11 @@ freezing<-function (hourtemps = NULL, Start_JDay = 1, End_JDay = 366, THourly = 
       xlab("Cumulative Freezing Hours") +
       theme_bw(base_size = 20)
       
-    ```
+```
 
  
 
-    ```{r,echo=FALSE}
+```{r, include=FALSE}
     library(chillR)
     library(kableExtra)
     freeze_comparison_full_seasons<-read_tab("data/freeze_comparison_full_seasons.csv")
@@ -836,16 +846,16 @@ Please document all results of the following assignments in your learning logboo
 
 Station Schleswig :c(9.54, 54.52)
 
-```{r, eval=FALSE}
+```{r, include=FALSE}
     require(chillR)
     require(ggplot2)
     require(reshape2)
     require(kableExtra)
 
-    ```
+```
 
-run from here!!!!
-```{r}
+
+```{r,include=FALSE}
 # download weather station list for the vicinity of Bonn
 Kiel_station_list <- handle_gsod(action = "list_stations",
                             location=c(10.28, 54.5))
@@ -853,16 +863,16 @@ Kiel_station_list <- handle_gsod(action = "list_stations",
 
 # download weather data for Cologne/Bonn airport and convert it to chillR format
 Kiel_weather <- handle_gsod(action = "download_weather",
-                            location = Kiel_station_list$chillR_code[9],
+                            location = Kiel_station_list$chillR_code[11],
                             time_interval = c(1973,2019)) %>%
   handle_gsod()
 
 # check record for missing data
-fix_weather(Kiel_weather$'KEGNAES')$QC
+fix_weather(Kiel_weather$'SCHLESWIG')$QC
 
 # (incidentally almost all gaps are for years covered by the KA_weather dataset)
 Kiel_patched <- patch_daily_temperatures(
-  weather = Kiel_weather$'KEGNAES',
+  weather = Kiel_weather$'SCHLESWIG',
   patch_weather = list(KA_weather))
 
 fix_weather(Kiel_patched)$QC
@@ -885,8 +895,9 @@ Kiel_scenario_1980$'1980'$data
 Kiel_temps_1980 <- temperature_generation(weather = Kiel_temps,
                                      years = c(1973,2019),
                                      sim_years = c(2001,2100),
-                                     # just index... not real data.: relative time scenario. difference compare to 1996. 
                                      temperature_scenario = Kiel_scenario_1980)
+                                     # just index... not real data.: relative time scenario. difference compare to 1996. 
+                                     
 
 Kiel_scenario_1996 <- temperature_scenario_from_records(weather = Kiel_temps,
                                                    year = 1996)
@@ -910,7 +921,7 @@ Kiel_temps_1980<-temperature_generation(weather = Kiel_temps,
 
 ### Produce chill distributions for these scenarios and plot them.
 
-```{r}
+```{r, echo=FALSE}
 require(chillR)
     require(ggplot2)
     require(reshape2)
@@ -943,6 +954,7 @@ Kiel_chill_hist_scenario_list <- tempResponse_daily_list(Kiel_all_past_scenario_
                                                     End_JDay = 59)
 
 
+save_temperature_scenarios(Kiel_chill_hist_scenario_list, "data","Kiel_hist_chill_305_59")
 
 scenarios <- names(Kiel_chill_hist_scenario_list)[1:4]
 
@@ -982,6 +994,7 @@ ggplot(data = Kiel_all_scenarios,
   scale_fill_discrete(name = "Scenario",
                       breaks = unique(Kiel_all_scenarios$scenario)) 
 
+write.csv(Kiel_actual_chill,"data/Kiel_observed_chill_305_59.csv", row.names = FALSE)
 
 Kiel_temperature_means <- 
   data.frame(Year = min(Kiel_temps$Year):max(Kiel_temps$Year),
@@ -1048,14 +1061,6 @@ ggplot(Kiel_temperature_means,
 ```
 
 # future temperature scenarios
-## Exercises on generating future temperature scenarios
-
-Please document all results of the following assignments in your learning logbook.
-
-### Analyze the historic and future impact of climate change on three agroclimatic metrics of your choice, for the location you’ve chosen for your earlier analyses.
-
-
-# future temperature scenarios
 
 CMIP6: lastly updated
 - they are came from  scenarios contained in the Special Report on Emission Scenarios (SRES) (2000): used not that much anymore 
@@ -1079,7 +1084,7 @@ Please document all results of the following assignments in your learning logboo
 
 ### Analyze the historic and future impact of climate change on two agroclimatic metrics of your choice, for the location you’ve chosen for your earlier analyses.
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 library(chillR)
 library(kableExtra)
 library(tidyverse)
@@ -1215,7 +1220,7 @@ Kiel_temps<-read_tab("data/Kiel_temps.csv")
 #Error in validObject(.Object) : 
 #  invalid class “Period” object: periods must have integer values
 
-temps <- temperature_generation(Kiel_temps, years = c(1973, 2019), 
+temps_Kiel <- temperature_generation(Kiel_temps, years = c(1973, 2019), 
                                 sim_years = c(2001, 2100), 
                                 temperature_scenario = adjusted_list, 
                                 temperature_check_args=list(
@@ -1225,9 +1230,19 @@ temps <- temperature_generation(Kiel_temps, years = c(1973, 2019),
 
 
 
-save_temperature_scenarios(temps,"data/Kiel_future_climate","Kiel_future")
-temps <- load_temperature_scenarios("data/Kiel_future_climate","Kiel_future")
+save_temperature_scenarios(temps_Kiel,"data/Kiel_future_climate",
+                           "Kiel_future")
+Kiel_future_climate <- load_temperature_scenarios("data/Kiel_future_climate",
+                                                  "Kiel_future")
 
+```
+
+```{r}
+library(kableExtra)
+library(chillR)
+library(tidyverse)
+library(ggpmisc)
+library(patchwork)
 
 
 
@@ -1245,34 +1260,41 @@ models <- list(Chill_Portions = Dynamic_Model,
 
 
 
-chill_future_scenario_list <- tempResponse_daily_list(temps,
+chill_future_scenario_list_Kiel <- tempResponse_daily_list(
+                                                    Kiel_temps,
                                                     latitude =  54.52,
                                                     Start_JDay = 305,
                                                     End_JDay = 59,
                                                     models = models)
-chill_future_scenario_list <- lapply(chill_future_scenario_list,
+chill_future_scenario_list_Kiel <- lapply(chill_future_scenario_list_Kiel,
                                      function(x) x %>%
                                        filter(Perc_complete == 100))
 
-save_temperature_scenarios(chill_future_scenario_list,"data/Kiel_future_climate","Kiel_futurechill")
+save_temperature_scenarios(chill_future_scenario_list_Kiel,"data/Kiel_future_climate","Kiel_futurechill")
 
 
 
-chill_future_scenario_list <- load_temperature_scenarios("data/Kiel_future_climate","Kiel_futurechill")
+chill_future_scenario_list_Kiel <- load_temperature_scenarios("data/Kiel_future_climate","Kiel_futurechill")
 
 
-chill_hist_scenario_list<-load_temperature_scenarios("data","Kiel_hist_chill_305_59")
-observed_chill <- read_tab("data/Kiel_observed_chill_305_59.csv")
+chill_hist_scenario_list_Kiel<-load_temperature_scenarios("data","Kiel_hist_chill_305_59")
+observed_chill_Kiel <- read_tab("data/Kiel_observed_chill_305_59.csv")
+
+```
+
+
+```{r}
+
 
 # prepare for plotting 
-chills <- make_climate_scenario(
-  chill_hist_scenario_list,
+chills_Kiel <- make_climate_scenario(
+  chill_hist_scenario_list_Kiel,
   caption = "Historic",
-  historic_data = observed_chill,
+  historic_data = observed_chill_Kiel,
   time_series = TRUE)
 
 plot_climate_scenarios(
-  climate_scenario_list = chills,
+  climate_scenario_list = chills_Kiel,
   metric = "Chill_Portions",
   metric_label = "Chill (Chill Portions)")
 
@@ -1282,17 +1304,17 @@ SSPs <- c("ssp126", "ssp245", "ssp585")
 Times <- c(2050, 2085)
 
 list_ssp <- 
-  strsplit(names(chill_future_scenario_list), '\\.') %>%
+  strsplit(names(chill_future_scenario_list_Kiel), '\\.') %>%
   map(2) %>%
   unlist()
 
 list_gcm <-
-  strsplit(names(chill_future_scenario_list), '\\.') %>%
+  strsplit(names(chill_future_scenario_list_Kiel), '\\.') %>%
   map(3) %>%
   unlist()
 
 list_time <-
-  strsplit(names(chill_future_scenario_list), '\\.') %>%
+  strsplit(names(chill_future_scenario_list_Kiel), '\\.') %>%
   map(4) %>%
   unlist()
 
@@ -1302,42 +1324,42 @@ for(SSP in SSPs)
     {
     
     # find all scenarios for the ssp and time
-    chill <- chill_future_scenario_list[list_ssp == SSP & list_time == Time]
-    names(chill) <- list_gcm[list_ssp == SSP & list_time == Time]
+    Kiel_chill <- chill_future_scenario_list_Kiel[list_ssp == SSP & list_time == Time]
+    names(Kiel_chill) <- list_gcm[list_ssp == SSP & list_time == Time]
     if(SSP == "ssp126") SSPcaption <- "SSP1"
     if(SSP == "ssp245") SSPcaption <- "SSP2"
     if(SSP == "ssp585") SSPcaption <- "SSP5"    
     if(Time == "2050") Time_caption <- "2050"
     if(Time == "2085") Time_caption <- "2085"
-    chills <- chill %>% 
+    chills_Kiel <- Kiel_chill %>% 
       make_climate_scenario(
         caption = c(SSPcaption,
                     Time_caption),
-        add_to = chills)
+        add_to = chills_Kiel)
 }
 
 
 
 info_chill <-
   plot_climate_scenarios(
-    climate_scenario_list = chills,
+    climate_scenario_list = chills_Kiel,
     metric = "Chill_Portions",
     metric_label = "Chill (Chill Portions)",
     texcex = 1.5)
 
 info_heat <-
   plot_climate_scenarios(
-    climate_scenario_list = chills,
+    climate_scenario_list = chills_Kiel,
     metric = "GDH",
     metric_label = "Heat (Growing Degree Hours)",
     texcex = 1.5)
 
-info_frost <- 
-  plot_climate_scenarios(  
-    climate_scenario_list=chills,
-    metric="Frost_H",
-    metric_label="Frost incidence (hours)",
-    texcex=1.5)
+# info_frost <- 
+#   plot_climate_scenarios(  
+#     climate_scenario_list = chills_Kiel,
+#     metric="Frost_H",
+#     metric_label="Frost incidence (hours)",
+#     texcex=1.5)
 
 
 
@@ -1359,43 +1381,50 @@ Please document all results of the following assignments in your learning logboo
 
 ### Produce similar plots for the weather station you selected for earlier exercises.
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
+library(kableExtra)
 library(chillR)
 library(tidyverse)
 library(ggpmisc)
 library(patchwork)
+library(ggplot2)
 
+```
 
- 
+```{r echo=FALSE}
 
-Kiel_chill_hist_scenario_list <- load_temperature_scenarios("data",
-                                                       "Kiel_hist_chill_305_59")
-actual_chill <- read_tab("data/Kiel_observed_chill_305_59.csv")
+chill_hist_scenario_list_Kiel<-load_temperature_scenarios("data","Kiel_hist_chill_305_59")
+observed_chill_Kiel <- read_tab("data/Kiel_observed_chill_305_59.csv")
+chill_future_scenario_list_Kiel <- load_temperature_scenarios("data/Kiel_future_climate","Kiel_futurechill")
 
-Kiel_chill_future_scenario_list <- load_temperature_scenarios("data/future_climate",
-                                                         "Kiel_futurechill")
-
-chills <- make_climate_scenario(
-  Kiel_chill_hist_scenario_list,
+chills_Kiel <- make_climate_scenario(
+  chill_hist_scenario_list_Kiel,
   caption = "Historic",
-  historic_data = actual_chill,
+  historic_data = observed_chill_Kiel,
   time_series = TRUE)
+
+plot_climate_scenarios(
+  climate_scenario_list = chills_Kiel,
+  metric = "Chill_Portions",
+  metric_label = "Chill (Chill Portions)")
+
+
 
 SSPs <- c("ssp126", "ssp245", "ssp585")
 Times <- c(2050, 2085)
 
 list_ssp <- 
-  strsplit(names(Kiel_chill_future_scenario_list), '\\.') %>%
+  strsplit(names(chill_future_scenario_list_Kiel), '\\.') %>%
   map(2) %>%
   unlist()
 
 list_gcm <-
-  strsplit(names(Kiel_chill_future_scenario_list), '\\.') %>%
+  strsplit(names(chill_future_scenario_list_Kiel), '\\.') %>%
   map(3) %>%
   unlist()
 
 list_time <-
-  strsplit(names(Kiel_chill_future_scenario_list), '\\.') %>%
+  strsplit(names(chill_future_scenario_list_Kiel), '\\.') %>%
   map(4) %>%
   unlist()
 
@@ -1405,22 +1434,23 @@ for(SSP in SSPs)
     {
     
     # find all scenarios for the ssp and time
-    chill <- Kiel_chill_future_scenario_list[list_ssp == SSP & list_time == Time]
-    names(chill) <- list_gcm[list_ssp == SSP & list_time == Time]
+    Kiel_chill <- chill_future_scenario_list_Kiel[list_ssp == SSP & list_time == Time]
+    names(Kiel_chill) <- list_gcm[list_ssp == SSP & list_time == Time]
     if(SSP == "ssp126") SSPcaption <- "SSP1"
     if(SSP == "ssp245") SSPcaption <- "SSP2"
     if(SSP == "ssp585") SSPcaption <- "SSP5"    
     if(Time == "2050") Time_caption <- "2050"
     if(Time == "2085") Time_caption <- "2085"
-    chills <- chill %>% 
+    chills_Kiel <- Kiel_chill %>% 
       make_climate_scenario(
         caption = c(SSPcaption,
                     Time_caption),
-        add_to = chills)
+        add_to = chills_Kiel)
 }
 
+
 plot_climate_scenarios(
-  climate_scenario_list = chills,
+  climate_scenario_list = chills_Kiel,
   metric = "Chill_Portions",
   metric_label = "Chill (Chill Portions)",
   texcex = 1)
@@ -1431,24 +1461,24 @@ plot_climate_scenarios(
 # the various past scenarios.
 # Using a 'for' loop, we cycle through all these data.frames.
 
-for(nam in names(chills[[1]]$data))
+for(nam in names(chills_Kiel[[1]]$data))
   {
    # Extract the data frame.
-   ch <- chills[[1]]$data[[nam]]
+   ch_Kiel <- chills_Kiel[[1]]$data[[nam]]
    # Add columns for the new information we have to add and fill them.
-   ch[,"GCM"] <- "none"
-   ch[,"SSP"] <- "none"
-   ch[,"Year"] <- as.numeric(nam)
+   ch_Kiel[,"GCM"] <- "none"
+   ch_Kiel[,"SSP"] <- "none"
+   ch_Kiel[,"Year"] <- as.numeric(nam)
    
    # Now check if this is the first time we've gone through this loop.
    # If this is the first time, the ch data.frame becomes the output
    # object (past_simulated).
    # If it is not the first time ('else'), we add the current data.frame
    # to the 'past_simulated' object
-  if(nam == names(chills[[1]]$data)[1])
-    past_simulated <- ch else
+  if(nam == names(chills_Kiel[[1]]$data)[1])
+    past_simulated <- ch_Kiel else
       past_simulated <- rbind(past_simulated,
-                              ch)
+                              ch_Kiel)
   }
 
 # We add another column called 'Scenario' and label all rows as 'Historic' 
@@ -1459,26 +1489,27 @@ head(past_simulated)
 # We'll want to add the historic observation too, so let's simplify the
 # pointer to this information for easier use later
 
-past_observed <- chills[[1]][["historic_data"]]
+past_observed <- chills_Kiel[[1]][["historic_data"]]
 
 
 head(past_observed)
+```
 
-
+```{r}
 # Extract future data
-for(i in 2:length(chills))
-  for(nam in names(chills[[i]]$data))
-    {ch <- chills[[i]]$data[[nam]]
-     ch[,"GCM"] <- nam
-     ch[,"SSP"] <- chills[[i]]$caption[1]
-     ch[,"Year"] <- chills[[i]]$caption[2]
-     if(i == 2 & nam == names(chills[[i]]$data)[1])
-       future_data <- ch else
-         future_data <- rbind(future_data,ch)
+for(i in 2:length(chills_Kiel))
+  for(nam in names(chills_Kiel[[i]]$data))
+    {ch_Kiel <- chills_Kiel[[i]]$data[[nam]]
+     ch_Kiel[,"GCM"] <- nam
+     ch_Kiel[,"SSP"] <- chills_Kiel[[i]]$caption[1]
+     ch_Kiel[,"Year"] <- chills_Kiel[[i]]$caption[2]
+     if(i == 2 & nam == names(chills_Kiel[[i]]$data)[1])
+       future_data_Kiel <- ch_Kiel else
+         future_data_Kiel <- rbind(future_data_Kiel,ch_Kiel)
   }
 
 
-head(future_data) #long dataset
+head(future_data_Kiel) #long dataset
 
 
 ### this is where we left off
@@ -1492,7 +1523,7 @@ axis_label <- "Heat (in GDH)"
 
 rng <- range(past_observed[[metric]],
              past_simulated[[metric]],
-             future_data[[metric]])  
+             future_data_Kiel[[metric]])  
 rng
 
 
@@ -1549,7 +1580,7 @@ past_plot
 
 y <- 2050
 
-future_2050 <- ggplot(data= future_data[which(future_data$Year==y),]) +
+future_2050 <- ggplot(data= future_data_Kiel[which(future_data_Kiel$Year==y),]) +
   geom_boxplot(aes_string("GCM", # with all the scenarios
                           metric, 
                           fill = "GCM"))
@@ -1608,7 +1639,7 @@ for(y in c(2050,
 {
   future_plot_list[[which(y == c(2050,#should be a number 
                                  2085))]] <-
-    ggplot(data = future_data[which(future_data$Year==y),]) +
+    ggplot(data = future_data_Kiel[which(future_data_Kiel$Year==y),]) +
     geom_boxplot(aes_string("GCM",
                             metric,
                             fill="GCM")) +
@@ -1676,7 +1707,7 @@ axis_label <- "Chill (in CP)"
 
 rng <- range(past_observed[[metric]],
              past_simulated[[metric]],
-             future_data[[metric]])  
+             future_data_Kiel[[metric]])  
 past_plot <- ggplot() +
   geom_boxplot(data = past_simulated,
                aes_string("as.numeric(Year)",
@@ -1701,7 +1732,7 @@ for(y in c(2050,
            2085))
 {
   future_plot_list[[which(y == c(2050,2085))]] <-
-    ggplot(data = future_data[which(future_data$Year==y),]) +
+    ggplot(data = future_data_Kiel[which(future_data_Kiel$Year==y),]) +
     geom_boxplot(aes_string("GCM", 
                             metric, 
                             fill="GCM")) +
@@ -1756,7 +1787,7 @@ axis_label <- "Frost duration (in hours)"
 
 rng <- range(past_observed[[metric]],
              past_simulated[[metric]],
-             future_data[[metric]])  
+             future_data_Kiel[[metric]])  
 past_plot <- ggplot() +
   geom_boxplot(data = past_simulated,
                aes_string("as.numeric(Year)",
@@ -1781,7 +1812,7 @@ for(y in c(2050,
            2085))
 {
   future_plot_list[[which(y == c(2050,2085))]] <-
-    ggplot(data = future_data[which(future_data$Year==y),]) +
+    ggplot(data = future_data_Kiel[which(future_data_Kiel$Year==y),]) +
     geom_boxplot(aes_string("GCM", 
                             metric, 
                             fill="GCM")) +
@@ -1827,13 +1858,13 @@ plot
 
 plot_scenarios_gg <- function(past_observed,
                               past_simulated,
-                              future_data,
+                              future_data_Kiel,
                               metric,
                               axis_label)
 {
   rng <- range(past_observed[[metric]],
                past_simulated[[metric]],
-               future_data[[metric]])  
+               future_data_Kiel[[metric]])  
   past_plot <- ggplot() +
     geom_boxplot(data = past_simulated,
                  aes_string("as.numeric(Year)",
@@ -1860,7 +1891,7 @@ plot_scenarios_gg <- function(past_observed,
              2085))
   {
     future_plot_list[[which(y == c(2050,2085))]] <-
-      ggplot(data = future_data[which(future_data$Year==y),]) +
+      ggplot(data = future_data_Kiel[which(future_data_Kiel$Year==y),]) +
       geom_boxplot(aes_string("GCM", 
                               metric, 
                               fill="GCM")) +
@@ -1912,17 +1943,17 @@ plot_scenarios_gg <- function(past_observed,
 
 plot_scenarios_gg(past_observed=past_observed,
                   past_simulated=past_simulated,
-                  future_data=future_data,
+                  future_data_Kiel=future_data,
                   metric="GDH",
                   axis_label="Heat (in Growing Degree Hours)")
 plot_scenarios_gg(past_observed=past_observed,
                   past_simulated=past_simulated,
-                  future_data=future_data,
+                  future_data_Kiel=future_data,
                   metric="Chill_Portions",
                   axis_label="Chill (in Chill Portions)")
 plot_scenarios_gg(past_observed=past_observed,
                   past_simulated=past_simulated,
-                  future_data=future_data,
+                  future_data_Kiel=future_data,
                   metric="Frost_H",
                   axis_label="Frost duration (in hours)")
 
@@ -1948,3 +1979,7 @@ plot_scenarios_gg(past_observed=past_observed,
 - with datasets, we don't have to visit in orchard. but modeling... 
 - Important: always keep in mind that we’re using PLS with a very small dataset and we should not place too much emphasis on individual characteristics of the emerging model coefficient patterns#
 
+# 24
+what kind of chilling and forcing period where we see 
+where is it worked and where not 
+california tunesia and why did it work and why not. 
