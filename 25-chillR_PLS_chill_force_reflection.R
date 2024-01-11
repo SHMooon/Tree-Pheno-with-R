@@ -1,5 +1,11 @@
 library(chillR)
+library(dplyr)
+library(purrr)
 
+#make a function first: particular temp condition. how much chilling we get. 
+#how much variation we pick up in the model
+
+#january first
 mon <- 1 # Month
 ndays <- 31 # Number of days per month
 tmin <- 1
@@ -8,7 +14,7 @@ latitude <- 50
 
 
 weather <- make_all_day_table(
-            data.frame(Year = c(2001, 2002),
+            data.frame(Year = c(2001, 2001),
                        Month = c(mon, mon),
                        Day = c(1, ndays),
                        Tmin = c(0, 0),
@@ -16,19 +22,21 @@ weather <- make_all_day_table(
   mutate(Tmin = tmin,
          Tmax = tmax)
 
+# hourly temperature 
 hourly_temps <- stack_hourly_temps(weather,
                                    latitude = latitude)
 
 CPs <- Dynamic_Model(
      hourly_temps$hourtemps$Temp)
 
-daily_CPs <- CPs[length(CPs)] / nrow(weather)
+#CP divide number of rows (31 days)
+daily_CPs <- tail(CPs,1) / nrow(weather)
 
-daily_CPs
+daily_CPs # every day there are 71 chilling points 
 
 
-
-
+# how the model response to different temp
+#do with loop
 latitude <- 50.6
 
 month_range <- c(10, 11, 12, 1, 2, 3)
@@ -36,25 +44,26 @@ month_range <- c(10, 11, 12, 1, 2, 3)
 Tmins <- c(-20:20)
 Tmaxs <- c(-15:30)
 
+# the NA data under: variables that we need 
 mins <- NA
 maxs <- NA
 CP <- NA
 month <- NA
-temp_model <- Dynamic_Model
+temp_model <- Dynamic_Model 
 
 for(mon in month_range)
     {days_month <- as.numeric(
-      difftime( ISOdate(2002,
+      difftime( ISOdate(2001,
                         mon+1,
                         1),
-                ISOdate(2002,
+                ISOdate(2001,
                         mon,
                         1)))
 
-    if(mon == 12) days_month <- 31
+    if(mon == 12) days_month <- 31 #for Decemper: 31 days
 
     weather <- make_all_day_table(
-                data.frame(Year = c(2001, 2002),
+                data.frame(Year = c(2001, 2001),
                            Month = c(mon, mon),
                            Day = c(1, days_month),
                            Tmin = c(0, 0),
@@ -71,9 +80,9 @@ for(mon in month_range)
             pluck("hourtemps", "Temp")
 
           CP <- c(CP,
-                  do.call(Dynamic_Model,
-                          list(hourtemps))[length(hourtemps)]/
-                                (length(hourtemps)/24))
+                  tail(do.call(temp_model,
+                          list(hourtemps)),1)/
+                                (days_month))
           mins <- c(mins, tmin)
           maxs <- c(maxs, tmax)
           month <- c(month, mon)
@@ -85,6 +94,7 @@ results <- data.frame(Month = month,
                       Tmax = maxs,
                       CP)
 
+#remove NA 
 results <- results[!is.na(results$Month),
                    ]
 
@@ -97,23 +107,13 @@ head(results)
 
 results <- read.csv("data/model_sensitivity_development.csv")
 
-month_range <- c(10, 11, 12, 1, 2, 3)
-
-latitude <- 50.6
-
-month_range <- c(10, 11, 12, 1, 2, 3)
-
-Tmins <- c(-20:20)
-Tmaxs <- c(-15:30)
-
-
 
 
 library(ggplot2)
 library(colorRamps)
 
 results$Month_names <- factor(results$Month,
-                              levels = month_range,
+                              levels = month_range, #we want the month range from oct to march
                               labels = month.name[month_range])  
 
 DM_sensitivity <- ggplot(results,
@@ -122,15 +122,17 @@ DM_sensitivity <- ggplot(results,
                              fill = CP)) +
   geom_tile() +
   scale_fill_gradientn(colours = alpha(matlab.like(15),
-                                       alpha = .5),
+                                       alpha = .5), #alpha make it transparent 
                        name = "Chill/day (CP)") +
   ylim(min(results$Tmax),
        max(results$Tmax)) +
   ylim(min(results$Tmin),
        max(results$Tmin))
 
+#through the geom_tile: Removed 2706 rows containing missing values 
 DM_sensitivity
 
+#different months in klein Altendorf 
 DM_sensitivity <- DM_sensitivity +
   facet_wrap(vars(Month_names)) +
   ylim(min(results$Tmax),
@@ -140,8 +142,9 @@ DM_sensitivity <- DM_sensitivity +
 
 DM_sensitivity
 
+#real temp from klein altendorf
 temperatures <- read_tab("data/TMaxTMin1958-2019_patched.csv") %>%
-  filter(Month %in% month_range) %>%
+  filter(Month %in% month_range) %>% # using the filter: only what we need
   mutate(Month_names =
            factor(Month,
                   levels = c(10, 11, 12, 1, 2, 3),
@@ -149,17 +152,17 @@ temperatures <- read_tab("data/TMaxTMin1958-2019_patched.csv") %>%
                              "January", "February", "March")))
 
 temperatures[which(temperatures$Tmax < temperatures$Tmin),
-             c("Tmax", "Tmin")] <- NA
+             c("Tmax", "Tmin")] <- NA #we will only see the temperature: max < min 
 
 DM_sensitivity +
   geom_point(data = temperatures,
              aes(x = Tmin,
                  y = Tmax,
-                 fill = NULL,
+                 fill = NULL, #this will not fill color but point! because DM_sensitivity this had Fill = CP
                  color = "Temperature"),
              size = 0.2) +
   facet_wrap(vars(Month_names)) +
-  scale_color_manual(values = "black",
+  scale_color_manual(values = "black", # change the point color
                      labels = "Daily temperature \nextremes (°C)",
                      name = "Observed at site" ) +
   guides(fill = guide_colorbar(order = 1),
@@ -168,8 +171,15 @@ DM_sensitivity +
   xlab("Tmin (°C)") + 
   theme_bw(base_size = 15) 
 
+#the ideal to chilling are between the range (yellow)
+#in January: not so nice: ideal to chilling 
+#and February are response because it is cold.
+#Oct (still warm condition), Nov, Mar: 
 
 
+
+#run with function 
+#scroll until line 309 and run it then it will work! 
 Chill_model_sensitivity<-
   function(latitude,
            temp_models = list(Dynamic_Model = Dynamic_Model,
@@ -412,3 +422,5 @@ Chill_sensitivity_temps(Model_sensitivities_Sfax,
                         legend_label = "Heat per day \n(GDH)") +
   ggtitle("Heat model sensitivity near Sfax, Tunisia")
 
+
+#Excersises only 1st question. 
