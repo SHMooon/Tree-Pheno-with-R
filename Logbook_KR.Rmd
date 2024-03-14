@@ -1,0 +1,137 @@
+---
+title: "Moon_Logbook_KO"
+author: "Sang Hyo Moon"
+date: "2024-02-03"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    number_sections: true
+    code_folding: "hide"
+    
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+don't run a code but show it eval = FALSE
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    echo = TRUE, # show all code
+    tidy = FALSE, # cleaner code printing
+    size = "small", # smaller code
+    
+    fig.path = "figures/", #graphics location
+    out.width = "100%",
+
+    message = FALSE,
+    warning = FALSE,
+    cache=TRUE,
+    results = "hide",
+    message = FALSE,
+    warning = FALSE
+    
+    
+    )
+```
+
+```{r, include=FALSE}
+    require(chillR)
+    require(ggplot2)
+    require(reshape2)
+    require(kableExtra)
+
+```
+
+weather station in Korea <https://minwon.kma.go.kr/main/obvStn.do>
+
+CHEONGJU 36.63924 127.44066 58.7 Apfel hof 30km weiter weg von der
+Wetter stastion
+
+```{r}
+# download weather station list for the vicinity of Bonn
+Cheong_station_list <- handle_gsod(action = "list_stations",
+                            location=c(127.44066,  36.63924))
+```
+
+Yangpyeong 37.48863 127.49446 47.26 Paju 37.88589 126.76648
+
+Suwon 37.25746 126.983 39.81
+
+Gwangju 35.17294 126.89156 70.28
+
+Busan 35.10468 129.03203 69.56
+
+wando 34.3959 126.70182
+
+gunsan 36.0053 126.76135
+
+gimhae 35.22981 128.89075
+
+KAESONG KN 37.967 126.567 19570202 20231111 19.71 63.91
+
+대관령 37.67713 128.71834
+
+37.48129 130.89864
+
+sri lanka 7 81
+
+```{r}
+# download weather station list for the vicinity of Bonn
+Yang_station_list <- handle_gsod(action = "list_stations",
+                            location=c(81,  7))
+```
+
+# Korean data
+
+-   apple production:
+    <http://www.nongsaro.go.kr/portal/ps/psb/psbx/cropEbookFileViewPop.ps?indexPage=9&indexBasePage=0&cropsEbookFileNo=00001&ebookCode=8>
+-   pear production:
+    <http://www.nongsaro.go.kr/portal/ps/psb/psbx/cropEbookFileViewPop.ps?indexPage=9&indexBasePage=3&cropsEbookFileNo=00002&ebookCode=13>
+
+CHUPUNGNYEONG: 36.22025 127.99458 244.98 산사과 농장: 경북 영동군
+추풍령면 학동길 83 산사과농장 (contact) around 700m away from weather
+station no data...
+
+```{r}
+# download weather station list for the vicinity of Bonn
+KO_station_list <- handle_gsod(action = "list_stations",
+                            location=c(127.99458,  36.22025))
+
+	
+CHUPUNGNYEONG_weather <- handle_gsod(action = "download_weather",
+                            location = KO_station_list$chillR_code[1],
+                            time_interval = c(1973,2019)) %>%
+  handle_gsod()
+```
+
+Daegu 35.87797 128.65295 54.27
+
+```{r}
+# download weather station list for the vicinity of Bonn
+Daegu_station_list <- handle_gsod(action = "list_stations",
+                            location=c(128.65295,  35.87797))
+```
+
+Naju
+
+GWANGJU 35.126 126.809 19531201 20230829 67.09 (Gwangju airport) to Naju
+(city of pears) around 20km away
+
+lack of data... there is no farms where wrote the blooming date asked to
+pear institute in Korean agricultural chamber and to pear center in
+agricultural technique center in Naju
+
+interview: expert of forestry: no data in Korea. recommended korean
+samrt farm sector (around 6 years) old)
+
+나주는
+
+# Introduction
+
+# tools
+
+# tree dormancy

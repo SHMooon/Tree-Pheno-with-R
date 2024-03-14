@@ -1,0 +1,374 @@
+---
+title: "Logbookkkk"
+author: "Sang Hyo Moon"
+date: "2024-02-03"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    echo = TRUE, # show all code
+    code_folding = "hide", 
+    tidy = FALSE, # cleaner code printing
+    size = "small", # smaller code
+    
+    fig.path = "figures/", #graphics location
+    out.width = "100%",
+
+    message = FALSE,
+    warning = FALSE,
+    cache=TRUE
+    
+    )
+```
+
+```{r Import Libraries, echo=FALSE}
+library(chillR)
+library(ggplot2)
+library(reshape2)
+library(tidyr)
+library(kableExtra)
+library(RMAWGEN)
+library(dplyr)
+library(tidyverse)
+library(knitr)
+library(ggpmisc)
+library(patchwork)
+library(purrr)
+
+```
+
+# Making hourly temperatures (8)
+## Exercises on hourly temperatures
+
+Please document all results of the following assignments in your learning logbook.
+
+### Choose a location of interest, find out its latitude and produce plots of daily sunrise, sunset and daylength
+
+
+
+GWANGJU 35.126 126.809 
+```{r}
+GWANGJU_Days <- daylength(latitude = 35.126, JDay = 1:365)
+
+GWANGJU_Days_df <-
+  data.frame(
+    JDay = 1:365,
+    Sunrise = GWANGJU_Days$Sunrise,
+    Sunset = GWANGJU_Days$Sunset,
+    Daylength = GWANGJU_Days$Daylength
+  )
+
+GWANGJU_Days_df <- pivot_longer(GWANGJU_Days_df,cols=c(Sunrise:Daylength))
+
+ggplot(GWANGJU_Days_df, aes(JDay, value)) +
+  geom_line(lwd = 1.5) +
+  facet_grid(cols = vars(name)) +
+  ylab("Time of Day / Daylength (Hours)") +
+  theme_bw(base_size = 20)
+
+```
+
+
+ location=c(126.809, 35.126),
+                          time_interval=c(1990,2020))
+
+### Produce an hourly dataset, based on idealized daily curves, for the KA_weather dataset (included in chillR)
+
+```{r}
+#require(chillR)
+
+KA_weather_stacked <- stack_hourly_temps(KA_weather, latitude=54.32)
+
+write.csv(KA_weather_stacked, "KR_data/KA_weather_stacked.csv", row.names = FALSE)
+
+```
+
+```{r}
+#require(kableExtra)
+
+KA_weather_stacked<-read_tab("KR_data/KA_weather_stacked.csv")
+
+kable(head(KA_weather_stacked)) %>%
+  kable_styling("striped", position = "left",font_size = 10)
+```
+
+### Produce empirical temperature curve parameters for the Winters_hours_gaps dataset, and use them to predict hourly values from daily temperatures (this is very similar to the example above, but please make sure you understand what’s going on)
+
+```{r}
+#library(chillR)
+#library(ggplot2)
+
+coeffs <- Empirical_daily_temperature_curve(Winters_hours_gaps)
+Winters_daily <-
+  make_all_day_table(Winters_hours_gaps, input_timestep = "hour")
+Winters_hours <- Empirical_hourly_temperatures(Winters_daily, coeffs)
+
+
+#require(reshape2)
+
+Winters_hours <- Winters_hours[, c("Year", "Month", "Day", "Hour", "Temp")]
+colnames(Winters_hours)[ncol(Winters_hours)] <- "Temp_empirical"
+Winters_ideal <-
+  stack_hourly_temps(Winters_daily, latitude = 38.5)$hourtemps
+Winters_ideal <- Winters_ideal[, c("Year", "Month", "Day", "Hour", "Temp")]
+colnames(Winters_ideal)[ncol(Winters_ideal)] <- "Temp_ideal"
+
+```
+
+
+
+#Some useful tools in R
+## on useful R tools
+
+Please document all results of the following assignments in your learning logbook.
+
+### Based on the Winters_hours_gaps dataset, use magrittr pipes and functions of the tidyverse to accomplish the following:
+- Convert the dataset into a tibble
+- Select only the top 10 rows of the dataset
+- Convert the tibble to a long format, with separate rows for Temp_gaps and Temp
+- Use ggplot2 to plot Temp_gaps and Temp as facets (point or line plot)
+- Convert the dataset back to the wide format
+- Select only the following columns: Year, Month, Day and Temp
+- Sort the dataset by the Temp column, in descending order
+### For the Winter_hours_gaps dataset, write a for loop to convert all temperatures (Temp column) to degrees Fahrenheit
+### Execute the same operation with a function from the apply family
+### Now use the tidyverse function mutate to achieve the same outcome
+### Voluntary: consider taking a look at the instruction materials on all these functions, which I linked above, as well as at other sources on the internet. There’s a lot more to discover here, with lots of potential for making your coding more elegant and easier - and possibly even more fun!
+
+
+# Getting temperature data
+
+
+## Exercises on getting temperature data
+
+Please document all results of the following assignments in your learning logbook.
+
+### Choose a location of interest and find the 25 closest weather stations using the handle_gsod function
+GWANGJU location=c(126.809,35.126)
+
+```{r list_stations}
+GWANGJU_list<-handle_gsod(action="list_stations",
+                          location=c(126.809, 35.126),
+                          time_interval=c(1990,2020))
+
+#require(kableExtra)
+
+kable(GWANGJU_list) %>%
+  kable_styling("striped", position = "left", font_size = 8)
+
+```
+
+```{r}
+head(GWANGJU_list, 15)
+```
+
+### Download weather data for the most promising station on the list
+```{r download_weather}
+
+weather_GWANGJU<-handle_gsod(action="download_weather",
+                     location=GWANGJU_list$chillR_code[2],
+                     time_interval=c(1990,2020))
+```
+
+```{r}
+weather_GWANGJU[[1]][1:20,]
+
+```
+
+
+### Convert the weather data into chillR format
+ 
+```{r}
+cleaned_weather_GWANGJU<-handle_gsod(weather_GWANGJU)
+cleaned_weather_GWANGJU[[1]][1:20,]
+```
+
+
+```{r save_weather}
+
+write.csv(GWANGJU_list,"KR_data/GWANGJU_station_list.csv",row.names=FALSE)
+write.csv(weather_GWANGJU[[1]],"KR_data/GWANGJU_raw_weather.csv",row.names=FALSE)
+write.csv(cleaned_weather_GWANGJU[[1]],"KR_data/GWANGJU_chillR_weather.csv",row.names=FALSE)
+```
+
+
+
+
+# Filling gaps in temperature records
+
+## Gaps
+
+## Exercises on filling gaps
+
+Please document all results of the following assignments in your learning logbook.
+
+You already downloaded some weather data in the exercises for the Getting temperatures lesson. You can keep working with this.
+```{r}
+#from previous data
+GWANGJU<-read.csv("KR_data/GWANGJU_chillR_weather.csv")
+```
+
+
+
+### Use chillR functions to find out how many gaps you have in this dataset (even if you have none, please still follow all further steps)
+
+```{r}
+
+#checking for gaps using fix_weather function
+GWANGJU_QC<-fix_weather(GWANGJU)$QC
+write.csv(GWANGJU_QC, "KR_data/GWANGJU_QC.csv", row.names = FALSE)
+
+##saving and downloading the needed columns
+GWANGJU_weather<-GWANGJU[,c("Year","Month", "Day", "Tmax", "Tmin")]
+kable(GWANGJU_weather,) %>%
+  kable_styling("striped", position = "left", font_size = 10)
+
+write.csv(GWANGJU_weather, "KR_data/GWANGJU_weather.csv", row.names = FALSE)
+
+```
+
+
+
+```{r}
+GWANGJU_QC<-read_tab("KR_data/GWANGJU_QC.csv")
+
+kable(head(GWANGJU_QC), caption="Quality control summary produced by *fix_weather()*") %>%
+kable_styling("striped", position = "left", font_size = 10)
+```
+5 missing days
+
+```{r}
+#library(kableExtra)
+GWANGJU_weather<-read_tab("KR_data/GWANGJU_weather.csv")
+
+kable(head(GWANGJU_weather)) %>%
+  kable_styling("striped", position = "left", font_size = 10)
+```
+
+```{r}
+head(GWANGJU_weather, 10)
+```
+
+### Create a list of the 25 closest weather stations using the handle_gsod function
+
+```{r}
+GWANGJU_list<-handle_gsod(action="list_stations",
+                          location=c(126.809, 35.126),
+                          time_interval=c(1990,2020))
+
+kable(GWANGJU_list) %>%
+  kable_styling("striped", position = "left", font_size = 8)
+
+```
+
+
+
+### Identify suitable weather stations for patching gaps
+
+I will work with the position 8,9 and 15 for patching gaps
+
+8:JEONJU
+9:MOKPO
+15:SUNCHEON
+
+### Download weather data for promising stations, convert them to chillR format and compile them in a list
+
+```{r}
+GWANGJU_patch_weather<-
+      handle_gsod(action = "download_weather",
+                  location = as.character(GWANGJU_list$chillR_code[c(8,9,15)]),
+                  time_interval = c(1990,2020)) %>%
+  handle_gsod()
+
+
+```
+
+### Use the patch_daily_temperatures function to fill gaps
+
+```{r}
+GWANGJU_patched <- patch_daily_temperatures(weather = GWANGJU,
+                                    patch_weather = GWANGJU_patch_weather)
+
+
+save_temperature_scenarios(GWANGJU_patched,"KR_data/", "GWANGJU_patched")
+
+#GWANGJU_patched[[2]]
+
+GWANGJU_patched$statistics[[1]]
+GWANGJU_patched$statistics[[2]]
+GWANGJU_patched$statistics[[3]]
+
+```
+
+### !!!!check!!!!!
+the Data from all positions look good. 
+So it is not necessary to cap the mean_bias at 1 °C and the stdev_bias at 2°C.????
+
+By the data from JEONJU, 1 gaps for Tmin and 1 gaps for Tmax were able to be filled. There were 10 gaps remain for each of Tmin and Tmax. By the Data from MOKPO,I was able to filled no gaps for both Tmin and Tmax. There were 4 gaps remain for both Tmin and Tmax, respectively. By the data from SUNCHEON, I was able to filled 0 gaps for both Tmin and Tmax. There were 4 gaps remain for Tmin and also for Tmax.
+
+
+
+
+### Investigate the results - have all gaps been filled?
+
+```{r}
+#library(chillR)
+
+GWANGJU_patched<-read.csv("KR_data/GWANGJU_patched_1_weather.csv")
+
+GWANGJU_post_patch_stats<-fix_weather(GWANGJU_patched)$QC
+
+write.csv(GWANGJU_post_patch_stats, "KR_data/GWANGJU_post_patchstats.csv", row.names = FALSE)
+```
+
+```{r}
+#library(kableExtra)
+
+GWANGJU_post_patch_stats<-read_tab("KR_data/GWANGJU_post_patchstats.csv")
+
+kable(GWANGJU_post_patch_stats,) %>%
+ kable_styling("striped", position = "left", font_size = 10)
+```
+ 
+There are 4 days missing after the patching. It seems safe to use linear interpolation for such a short gap.
+
+
+
+### If necessary, repeat until you have a dataset you can work with in further analyses
+
+```{r}
+GWANGJU_post_patch_stats <- fix_weather(GWANGJU_patched)$QC
+
+GWANGJU_post_patch_stats
+
+write.csv(GWANGJU_post_patch_stats, "KR_data/GWANGJU_post_patchstats.csv", row.names = FALSE)
+
+```
+
+```{r}
+head(GWANGJU_post_patch_stats)
+```
+ 
+
+```{r}
+GWANGJU_weather2<-fix_weather(GWANGJU_patched)
+
+write.csv(GWANGJU_weather2$weather, "KR_data/GWANGJU_patched2.csv", row.names = FALSE)
+
+GWANGJU_weather<-GWANGJU_weather2$weather[c("Year","Month", "Day", "Tmin", "Tmax")]
+kable(GWANGJU_weather,) %>%
+  kable_styling("striped", position = "left", font_size = 10)
+
+GWANGJU_weather <- round(GWANGJU_weather, digits = 1)
+
+write.csv(GWANGJU_weather, "KR_data/GWANGJU_weather.csv", row.names = FALSE)
+
+```
+
+```{r}
+head(GWANGJU_weather)
+```
+
