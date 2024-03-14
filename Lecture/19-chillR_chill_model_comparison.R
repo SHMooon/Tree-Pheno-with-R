@@ -27,6 +27,7 @@ hourly_models <- list(Chilling_units = chilling_units,
      Chill_Portions = Dynamic_Model)
 
 
+
 #daily steps.
 daily_models <- list(Rate_of_Chill = rate_of_chill,
                      Chill_Days = chill_days,

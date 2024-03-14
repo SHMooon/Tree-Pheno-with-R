@@ -155,11 +155,32 @@ for (sc in scenarios[2:4])
   filter(Perc_complete == 100)
 
 # Let's compute the actual 'observed' chill for comparison
+frost_model <- function(x)
+  step_model(x,
+             data.frame(
+               lower=c(-1000,0),
+               upper=c(0,1000),
+               weight=c(1,0)))
+
+models <- list(Chill_Portions = Dynamic_Model,
+               GDH = GDH,
+               Frost_H = frost_model)
+
 actual_chill <- tempResponse_daily_list(Bonn_temps,
                                         latitude=50.9,
                                         Start_JDay = 305,
-                                        End_JDay = 59)[[1]] %>%
+                                        End_JDay = 59,
+                                        models)[[1]] %>%
   filter(Perc_complete == 100)
+
+
+
+chills <- make_climate_scenario(
+  chill_hist_scenario_list,
+  caption = "Historic",
+  historic_data = actual_chill,
+  time_series = TRUE)
+
 
 ggplot(data = all_scenarios,
        aes(scenario,

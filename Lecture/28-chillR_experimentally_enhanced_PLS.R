@@ -45,9 +45,8 @@ library(patchwork)
 library(fields)
 library(reshape2)
 library(metR)
-library(ggplot2)
-library(colorRamps)
 
+#we can check the chapter book to see where the codes are coming from 
 
 ggplot_PLS<-function(PLS_results)
 {
@@ -482,6 +481,9 @@ pls_out<-PLS_pheno(weather_data=weather_data,bio_data = pheno_data)
 
 ggplot_PLS(pls_out)
 
+#red-green-red-green pattern: October: there are two Octobers one was cold the other one was warm. 
+  # so the pattern looks weird 
+# lot of chilling means negative: red : chlling priod in the dormancy period
 
 
 temps_hourly<-stack_hourly_temps(weather_data,latitude=50.6)
@@ -558,3 +560,4 @@ pheno_trend_ggplot(temps=weather_data,
                    exclude_years=pheno_data$Year[is.na(pheno_data$pheno)],
                    phenology_stage="Bloom")
 
+#we don't have cold chilling period. we don't have cold winter.

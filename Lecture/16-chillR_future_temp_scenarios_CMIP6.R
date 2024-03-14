@@ -14,6 +14,7 @@ require(kableExtra)
 require(tidyverse)
 require(ecmwfr)
 require(REMAGEN)
+library(purrr)
 
 
 Temperature_scenarios<-read.csv("data/Temperature_scenarios.csv")
@@ -241,34 +242,4 @@ for(SSP in SSPs)
                     Time_caption),
         add_to = chills)
 }
-
-
-
-info_chill <-
-  plot_climate_scenarios(
-    climate_scenario_list = chills,
-    metric = "Chill_Portions",
-    metric_label = "Chill (Chill Portions)",
-    texcex = 1.5)
-
-info_heat <-
-  plot_climate_scenarios(
-    climate_scenario_list = chills,
-    metric = "GDH",
-    metric_label = "Heat (Growing Degree Hours)",
-    texcex = 1.5)
-
-info_frost <- 
-  plot_climate_scenarios(  
-    climate_scenario_list=chills,
-    metric="Frost_H",
-    metric_label="Frost incidence (hours)",
-    texcex=1.5)
-
-
-
-## info_chill[[2]]
-
-kable(info_chill[[2]])  %>%
-  kable_styling("striped", position = "left",font_size = 10)
 

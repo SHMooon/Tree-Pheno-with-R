@@ -2,6 +2,7 @@ library(chillR)
 library(tidyverse)
 library(ggpmisc)
 library(patchwork)
+library(ggplot2)
 
 
  
@@ -102,6 +103,23 @@ past_observed <- chills[[1]][["historic_data"]]
 
 head(past_observed)
 
+names(chills[[2]]$data)
+names(chills[[3]]$data)
+names(chills[[4]]$data)
+
+
+for(i in 2:length(chills)) {
+  for(nam in names(chills[[i]]$data)[!is.na(names(chills[[i]]$data))]) {
+    ch <- chills[[i]]$data[["MIROC6"]]
+    ch[,"GCM"] <- nam
+    ch[,"SSP"] <- chills[[i]]$caption[1]
+    ch[,"Year"] <- chills[[i]]$caption[2]
+    if(i == 2 & nam == names(chills[[i]]$data)[1])
+      future_data <- ch else
+        future_data <- rbind(future_data,ch)
+  }
+}
+
 
 # Extract future data
 for(i in 2:length(chills))
@@ -115,10 +133,15 @@ for(i in 2:length(chills))
          future_data <- rbind(future_data,ch)
   }
 
+# chills %>%
+#   lapply(function(x){
+#     x$data %>%
+#       lapply(length) == 1
+#   })
 
 head(future_data) #long dataset
 
-
+saveRDS(chills, "path/you/want/to_write_to.rds")
 ### this is where we left off
 
 
@@ -567,3 +590,5 @@ plot_scenarios_gg(past_observed=past_observed,
 
 # use ggsave for the adjustable format for a paper 
 #ggsave("data/__, width= 10, height =5, dpi = 600) # dpi resolution 
+
+
