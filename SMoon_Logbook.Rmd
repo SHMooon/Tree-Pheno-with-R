@@ -9,6 +9,17 @@ output:
     toc_float: true
     number_sections: true
 ---
+title: "'Tree phenology analysis with R' learning Logbook" 
+author: "Sang Hyo Moon" 
+date: "2024-03-15"
+
+output: 
+  html_document: 
+    toc: true 
+    toc_float: true 
+    toc_depth: 3
+    number_sections: true
+    standalone: true
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
