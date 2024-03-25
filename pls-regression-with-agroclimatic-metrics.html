@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 22 PLS regression with agroclimatic metrics | ‘Tree phenology analysis with R’ learning Logbook</title>
+  <meta name="description" content="Chapter 22 PLS regression with agroclimatic metrics | ‘Tree phenology analysis with R’ learning Logbook" />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 22 PLS regression with agroclimatic metrics | ‘Tree phenology analysis with R’ learning Logbook" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 22 PLS regression with agroclimatic metrics | ‘Tree phenology analysis with R’ learning Logbook" />
+  
+  
+  
+
+<meta name="author" content="Sang Hyo Moon" />
+
+
+<meta name="date" content="2024-03-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="successes-and-limitations-of-pls-regression-analysis.html"/>
+<link rel="next" href="examples-of-pls-regression-with-agroclimatic-metrics.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Tree phenology analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="tools.html"><a href="tools.html"><i class="fa fa-check"></i><b>2</b> tools</a></li>
+<li class="chapter" data-level="3" data-path="tree-dormancy.html"><a href="tree-dormancy.html"><i class="fa fa-check"></i><b>3</b> <strong>tree dormancy</strong></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tree-dormancy.html"><a href="tree-dormancy.html#put-yourself-in-the-place-of-a-breeder-who-wants-to-calculate-the-temperature-requirements-of-a-newly-released-cultivar.-which-method-will-you-use-to-calculate-the-chilling-and-forcing-periods-please-justify-your-answer."><i class="fa fa-check"></i><b>3.1</b> Put yourself in the place of a breeder who wants to calculate the temperature requirements of a newly released cultivar. Which method will you use to calculate the chilling and forcing periods? Please justify your answer.</a></li>
+<li class="chapter" data-level="3.2" data-path="tree-dormancy.html"><a href="tree-dormancy.html#which-are-the-advantages-2-of-the-bbch-scale-compared-with-earlies-scales"><i class="fa fa-check"></i><b>3.2</b> Which are the advantages (2) of the BBCH scale compared with earlies scales?</a></li>
+<li class="chapter" data-level="3.3" data-path="tree-dormancy.html"><a href="tree-dormancy.html#classify-the-following-phenological-stages-of-sweet-cherry-according-to-the-bbch-scalephenological-stages-of-cherry"><i class="fa fa-check"></i><b>3.3</b> Classify the following phenological stages of sweet cherry according to the BBCH scale:Phenological stages of cherry</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="climate-change-and-impact-projection.html"><a href="climate-change-and-impact-projection.html"><i class="fa fa-check"></i><b>4</b> <strong>Climate change and impact projection</strong></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="climate-change-and-impact-projection.html"><a href="climate-change-and-impact-projection.html#list-the-main-drivers-of-climate-change-at-the-decade-to-century-scale-and-briefly-explain-the-mechanism-through-which-the-currently-most-important-driver-affects-our-climate."><i class="fa fa-check"></i><b>4.1</b> List the main drivers of climate change at the decade to century scale, and briefly explain the mechanism through which the currently most important driver affects our climate.</a></li>
+<li class="chapter" data-level="4.2" data-path="climate-change-and-impact-projection.html"><a href="climate-change-and-impact-projection.html#explain-briefly-what-is-special-about-temperature-dynamics-of-recent-decades-and-why-we-have-good-reasons-to-be-concerned."><i class="fa fa-check"></i><b>4.2</b> Explain briefly what is special about temperature dynamics of recent decades, and why we have good reasons to be concerned.</a></li>
+<li class="chapter" data-level="4.3" data-path="climate-change-and-impact-projection.html"><a href="climate-change-and-impact-projection.html#what-does-the-abbreviation-rcp-stand-for-how-are-rcps-defined-and-what-is-their-role-in-projecting-future-climates"><i class="fa fa-check"></i><b>4.3</b> What does the abbreviation ‘RCP’ stand for, how are RCPs defined, and what is their role in projecting future climates?</a></li>
+<li class="chapter" data-level="4.4" data-path="climate-change-and-impact-projection.html"><a href="climate-change-and-impact-projection.html#briefly-describe-the-4-climate-impact-projection-methods-described-in-the-fourth-video."><i class="fa fa-check"></i><b>4.4</b> Briefly describe the 4 climate impact projection methods described in the fourth video.</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="winter-chill-projections.html"><a href="winter-chill-projections.html"><i class="fa fa-check"></i><b>5</b> <strong>Winter chill projections</strong></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="winter-chill-projections.html"><a href="winter-chill-projections.html#sketch-out-three-data-access-and-processing-challenges-that-had-to-be-overcome-in-order-to-produce-chill-projections-with-state-of-the-art-methodology."><i class="fa fa-check"></i><b>5.1</b> Sketch out three data access and processing challenges that had to be overcome in order to produce chill projections with state-of-the-art methodology.</a></li>
+<li class="chapter" data-level="5.2" data-path="winter-chill-projections.html"><a href="winter-chill-projections.html#outline-in-your-understanding-the-basic-steps-that-are-necessary-to-make-such-projections."><i class="fa fa-check"></i><b>5.2</b> Outline, in your understanding, the basic steps that are necessary to make such projections.</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manual-chill-analysis.html"><a href="manual-chill-analysis.html"><i class="fa fa-check"></i><b>6</b> <strong>Manual chill analysis</strong></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manual-chill-analysis.html"><a href="manual-chill-analysis.html#write-a-basic-function-that-calculates-warm-hours-25c"><i class="fa fa-check"></i><b>6.1</b> Write a basic function that calculates warm hours (&gt;25°C)</a></li>
+<li class="chapter" data-level="6.2" data-path="manual-chill-analysis.html"><a href="manual-chill-analysis.html#apply-this-function-to-the-winters_hours_gaps-dataset"><i class="fa fa-check"></i><b>6.2</b> Apply this function to the Winters_hours_gaps dataset</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="manual-chill-analysis.html"><a href="manual-chill-analysis.html#extend-this-function-so-that-it-can-take-start-and-end-dates-as-inputs-and-sums-up-warm-hours-between-these-dates"><i class="fa fa-check"></i><b>6.2.1</b> Extend this function, so that it can take start and end dates as inputs and sums up warm hours between these dates</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chill-models.html"><a href="chill-models.html"><i class="fa fa-check"></i><b>7</b> <strong>Chill models</strong></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chill-models.html"><a href="chill-models.html#run-the-chilling-function-on-the-winters_hours_gap-dataset"><i class="fa fa-check"></i><b>7.1</b> Run the chilling() function on the Winters_hours_gap dataset</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="chill-models.html"><a href="chill-models.html#create-your-own-temperature-weighting-chill-model-using-the-step_model-function"><i class="fa fa-check"></i><b>7.1.1</b> Create your own temperature-weighting chill model using the step_model() function</a></li>
+<li class="chapter" data-level="7.1.2" data-path="chill-models.html"><a href="chill-models.html#run-this-model-on-the-winters_hours_gaps-dataset-using-the-tempresponse-function."><i class="fa fa-check"></i><b>7.1.2</b> Run this model on the Winters_hours_gaps dataset using the tempResponse() function.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="making-hourly-temperatures.html"><a href="making-hourly-temperatures.html"><i class="fa fa-check"></i><b>8</b> <strong>Making hourly temperatures</strong></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="making-hourly-temperatures.html"><a href="making-hourly-temperatures.html#choose-a-location-of-interest-find-out-its-latitude-and-produce-plots-of-daily-sunrise-sunset-and-daylength"><i class="fa fa-check"></i><b>8.1</b> Choose a location of interest, find out its latitude and produce plots of daily sunrise, sunset and daylength</a></li>
+<li class="chapter" data-level="8.2" data-path="making-hourly-temperatures.html"><a href="making-hourly-temperatures.html#produce-an-hourly-dataset-based-on-idealized-daily-curves-for-the-ka_weather-dataset-included-in-chillr"><i class="fa fa-check"></i><b>8.2</b> Produce an hourly dataset, based on idealized daily curves, for the KA_weather dataset (included in chillR)</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="making-hourly-temperatures.html"><a href="making-hourly-temperatures.html#produce-empirical-temperature-curve-parameters-for-the-winters_hours_gaps-dataset-and-use-them-to-predict-hourly-values-from-daily-temperatures-this-is-very-similar-to-the-example-above-but-please-make-sure-you-understand-whats-going-on"><i class="fa fa-check"></i><b>8.2.1</b> Produce empirical temperature curve parameters for the Winters_hours_gaps dataset, and use them to predict hourly values from daily temperatures (this is very similar to the example above, but please make sure you understand what’s going on)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html"><i class="fa fa-check"></i><b>9</b> <strong>Some useful tools in R</strong></a>
+<ul>
+<li class="chapter" data-level="9.0.1" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html#based-on-the-winters_hours_gaps-dataset-use-magrittr-pipes-and-functions-of-the-tidyverse-to-accomplish-the-following"><i class="fa fa-check"></i><b>9.0.1</b> Based on the <code>Winters_hours_gaps</code> dataset, use <code>magrittr</code> pipes and functions of the <code>tidyvers</code>e to accomplish the following:</a></li>
+<li class="chapter" data-level="9.1" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html#for-the-winter_hours_gaps-dataset-write-a-for-loop-to-convert-all-temperatures-temp-column-to-degrees-fahrenheit"><i class="fa fa-check"></i><b>9.1</b> For the <code>Winter_hours_gaps</code> dataset, write a <code>for</code> loop to convert all temperatures (<code>Temp</code> column) to degrees Fahrenheit</a></li>
+<li class="chapter" data-level="9.2" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html#execute-the-same-operation-with-a-function-from-the-apply-family"><i class="fa fa-check"></i><b>9.2</b> Execute the same operation with a function from the <code>apply</code> family</a></li>
+<li class="chapter" data-level="9.3" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html#now-use-the-tidyverse-function-mutate-to-achieve-the-same-outcome"><i class="fa fa-check"></i><b>9.3</b> Now use the <code>tidyverse</code> function <code>mutate</code> to achieve the same outcome</a></li>
+<li class="chapter" data-level="9.4" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html#voluntary-consider-taking-a-look-at-the-instruction-materials-on-all-these-functions-which-i-linked-above-as-well-as-at-other-sources-on-the-internet.-theres-a-lot-more-to-discover-here-with-ots-of-potential-for-making-your-coding-more-elegant-and-easier---and-possibly-even-more-fun"><i class="fa fa-check"></i><b>9.4</b> Voluntary: consider taking a look at the instruction materials on all these functions, which I linked above, as well as at other sources on the internet. There’s a lot more to discover here, with ots of potential for making your coding more elegant and easier - and possibly even more fun!</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="getting-temperature-data.html"><a href="getting-temperature-data.html"><i class="fa fa-check"></i><b>10</b> <strong>Getting temperature data</strong></a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="getting-temperature-data.html"><a href="getting-temperature-data.html#choose-a-location-of-interest-and-find-the-25-closest-weather-stations-using-the-handle_gsod-function"><i class="fa fa-check"></i><b>10.1</b> Choose a location of interest and find the 25 closest weather stations using the handle_gsod function</a></li>
+<li class="chapter" data-level="10.2" data-path="getting-temperature-data.html"><a href="getting-temperature-data.html#download-weather-data-for-the-most-promising-station-on-the-list"><i class="fa fa-check"></i><b>10.2</b> Download weather data for the most promising station on the list</a></li>
+<li class="chapter" data-level="10.3" data-path="getting-temperature-data.html"><a href="getting-temperature-data.html#convert-the-weather-data-into-chillr-format"><i class="fa fa-check"></i><b>10.3</b> Convert the weather data into chillR format</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html"><i class="fa fa-check"></i><b>11</b> <strong>Filling gaps in temperature records</strong></a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#use-chillr-functions-to-find-out-how-many-gaps-you-have-in-this-dataset-even-if-you-have-none-please-still-follow-all-further-steps"><i class="fa fa-check"></i><b>11.1</b> Use chillR functions to find out how many gaps you have in this dataset (even if you have none, please still follow all further steps)</a></li>
+<li class="chapter" data-level="11.2" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#create-a-list-of-the-25-closest-weather-stations-using-the-handle_gsod-function"><i class="fa fa-check"></i><b>11.2</b> Create a list of the 25 closest weather stations using the handle_gsod function</a></li>
+<li class="chapter" data-level="11.3" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#identify-suitable-weather-stations-for-patching-gaps"><i class="fa fa-check"></i><b>11.3</b> Identify suitable weather stations for patching gaps</a></li>
+<li class="chapter" data-level="11.4" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#download-weather-data-for-promising-stations-convert-them-to-chillr-format-and-compile-them-in-a-list"><i class="fa fa-check"></i><b>11.4</b> Download weather data for promising stations, convert them to chillR format and compile them in a list</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#use-the-patch_daily_temperatures-function-to-fill-gaps"><i class="fa fa-check"></i><b>11.4.1</b> Use the patch_daily_temperatures function to fill gaps</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#investigate-the-results---have-all-gaps-been-filled"><i class="fa fa-check"></i><b>11.5</b> Investigate the results - have all gaps been filled?</a></li>
+<li class="chapter" data-level="11.6" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#if-necessary-repeat-until-you-have-a-dataset-you-can-work-with-in-further-analyses"><i class="fa fa-check"></i><b>11.6</b> If necessary, repeat until you have a dataset you can work with in further analyses</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="generating-temperature-scenarios.html"><a href="generating-temperature-scenarios.html"><i class="fa fa-check"></i><b>12</b> <strong>Generating temperature scenarios</strong></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="generating-temperature-scenarios.html"><a href="generating-temperature-scenarios.html#for-the-location-you-chose-for-your-earlier-analyses-use-chillrs-weather-generator-to-produce-100-years-of-synthetic-temperature-data."><i class="fa fa-check"></i><b>12.1</b> For the location you chose for your earlier analyses, use chillR’s weather generator to produce 100 years of synthetic temperature data.</a></li>
+<li class="chapter" data-level="12.2" data-path="generating-temperature-scenarios.html"><a href="generating-temperature-scenarios.html#calculate-winter-chill-in-chill-portions-for-your-synthetic-weather-and-illustrate-your-results-as-histograms-and-cumulative-distributions."><i class="fa fa-check"></i><b>12.2</b> Calculate winter chill (in Chill Portions) for your synthetic weather, and illustrate your results as histograms and cumulative distributions.</a></li>
+<li class="chapter" data-level="12.3" data-path="generating-temperature-scenarios.html"><a href="generating-temperature-scenarios.html#produce-similar-plots-for-the-number-of-freezing-hours-0c-in-april-or-october-if-your-site-is-in-the-southern-hemisphere-for-your-location-of-interest."><i class="fa fa-check"></i><b>12.3</b> Produce similar plots for the number of freezing hours (&lt;0°C) in April (or October, if your site is in the Southern Hemisphere) for your location of interest.</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="saving-and-loading-data.html"><a href="saving-and-loading-data.html"><i class="fa fa-check"></i><b>13</b> Saving and loading data</a></li>
+<li class="chapter" data-level="14" data-path="historic-temperature-scenarios.html"><a href="historic-temperature-scenarios.html"><i class="fa fa-check"></i><b>14</b> <strong>historic temperature scenarios</strong></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="historic-temperature-scenarios.html"><a href="historic-temperature-scenarios.html#for-the-location-you-chose-for-previous-exercises-produce-historic-temperature-scenarios-representing-several-years-of-the-historic-record-your-choice."><i class="fa fa-check"></i><b>14.1</b> For the location you chose for previous exercises, produce historic temperature scenarios representing several years of the historic record (your choice).</a></li>
+<li class="chapter" data-level="14.2" data-path="historic-temperature-scenarios.html"><a href="historic-temperature-scenarios.html#produce-chill-distributions-for-these-scenarios-and-plot-them."><i class="fa fa-check"></i><b>14.2</b> Produce chill distributions for these scenarios and plot them.</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="future-temperature-scenarios.html"><a href="future-temperature-scenarios.html"><i class="fa fa-check"></i><b>15</b> <strong>future temperature scenarios</strong></a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="future-temperature-scenarios.html"><a href="future-temperature-scenarios.html#briefly-describe-the-differences-between-the-rcps-and-the-ssps-you-may-have-to-follow-some-of-the-links-provided-above."><i class="fa fa-check"></i><b>15.1</b> Briefly describe the differences between the RCPs and the SSPs (you may have to follow some of the links provided above).</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="making-cmpi6-scenario.html"><a href="making-cmpi6-scenario.html"><i class="fa fa-check"></i><b>16</b> <strong>Making CMPI6 scenario</strong></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="making-cmpi6-scenario.html"><a href="making-cmpi6-scenario.html#analyze-the-historic-and-future-impact-of-climate-change-on-two-agroclimatic-metrics-of-your-choice-for-the-location-youve-chosen-for-your-earlier-analyses."><i class="fa fa-check"></i><b>16.1</b> Analyze the historic and future impact of climate change on two agroclimatic metrics of your choice, for the location you’ve chosen for your earlier analyses.</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="plotting-future-scenario.html"><a href="plotting-future-scenario.html"><i class="fa fa-check"></i><b>17</b> <strong>Plotting future scenario</strong></a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="plotting-future-scenario.html"><a href="plotting-future-scenario.html#produce-similar-plots-for-the-weather-station-you-selected-for-earlier-exercises."><i class="fa fa-check"></i><b>17.1</b> Produce similar plots for the weather station you selected for earlier exercises.</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="chill-model-comparison.html"><a href="chill-model-comparison.html"><i class="fa fa-check"></i><b>18</b> <strong>Chill model comparison</strong></a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="chill-model-comparison.html"><a href="chill-model-comparison.html#perform-a-similar-analysis-for-the-location-youve-chosen-for-your-exercises."><i class="fa fa-check"></i><b>18.1</b> Perform a similar analysis for the location you’ve chosen for your exercises.</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="chill-model-comparison.html"><a href="chill-model-comparison.html#make-a-heat-map-illustrating-past-and-future-changes-in-safe-winter-chill-relative-to-a-past-scenario-for-the-13-chill-models-used-here"><i class="fa fa-check"></i><b>18.1.1</b> Make a heat map illustrating past and future changes in Safe Winter Chill, relative to a past scenario, for the 13 chill models used here</a></li>
+<li class="chapter" data-level="18.1.2" data-path="chill-model-comparison.html"><a href="chill-model-comparison.html#produce-an-animated-line-plot-of-your-results-summarizing-safe-winter-chill-across-all-the-gcms."><i class="fa fa-check"></i><b>18.1.2</b> Produce an animated line plot of your results (summarizing Safe Winter Chill across all the GCMs).</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="simple-phenology-analysis.html"><a href="simple-phenology-analysis.html"><i class="fa fa-check"></i><b>19</b> <strong>Simple phenology analysis</strong></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="simple-phenology-analysis.html"><a href="simple-phenology-analysis.html#provide-a-brief-narrative-describing-what-p-hacking-is-and-why-this-is-a-problematic-approach-to-data-analysis."><i class="fa fa-check"></i><b>19.1</b> Provide a brief narrative describing what p-hacking is, and why this is a problematic approach to data analysis.</a></li>
+<li class="chapter" data-level="19.2" data-path="simple-phenology-analysis.html"><a href="simple-phenology-analysis.html#provide-a-sketch-of-your-causal-understanding-of-the-relationship-between-temperature-and-bloom-dates."><i class="fa fa-check"></i><b>19.2</b> Provide a sketch of your causal understanding of the relationship between temperature and bloom dates.</a></li>
+<li class="chapter" data-level="19.3" data-path="simple-phenology-analysis.html"><a href="simple-phenology-analysis.html#what-do-we-need-to-know-to-build-a-process-based-model-from-this"><i class="fa fa-check"></i><b>19.3</b> What do we need to know to build a process-based model from this?</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="delineating-temperature-response-phases-with-pls-regression.html"><a href="delineating-temperature-response-phases-with-pls-regression.html"><i class="fa fa-check"></i><b>20</b> <strong>Delineating temperature response phases with PLS regression</strong></a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="delineating-temperature-response-phases-with-pls-regression.html"><a href="delineating-temperature-response-phases-with-pls-regression.html#briefly-explain-why-you-shouldnt-take-the-results-of-a-pls-regression-analysis-between-temperature-and-phenology-at-face-value.-what-do-you-need-in-addition-in-order-to-make-sense-of-such-outputs"><i class="fa fa-check"></i><b>20.1</b> Briefly explain why you shouldn’t take the results of a PLS regression analysis between temperature and phenology at face value. What do you need in addition in order to make sense of such outputs?</a></li>
+<li class="chapter" data-level="20.2" data-path="delineating-temperature-response-phases-with-pls-regression.html"><a href="delineating-temperature-response-phases-with-pls-regression.html#replicate-the-pls-analysis-for-the-roter-boskoop-dataset-that-you-used-in-a-previous-lesson."><i class="fa fa-check"></i><b>20.2</b> Replicate the PLS analysis for the Roter Boskoop dataset that you used in a previous lesson.</a></li>
+<li class="chapter" data-level="20.3" data-path="delineating-temperature-response-phases-with-pls-regression.html"><a href="delineating-temperature-response-phases-with-pls-regression.html#write-down-your-thoughts-on-why-were-not-seeing-the-temperature-response-pattern-we-may-have-expected.-what-happened-to-the-chill-response"><i class="fa fa-check"></i><b>20.3</b> Write down your thoughts on why we’re not seeing the temperature response pattern we may have expected. What happened to the chill response?</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="successes-and-limitations-of-pls-regression-analysis.html"><a href="successes-and-limitations-of-pls-regression-analysis.html"><i class="fa fa-check"></i><b>21</b> <strong>Successes and limitations of PLS regression analysis</strong></a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="successes-and-limitations-of-pls-regression-analysis.html"><a href="successes-and-limitations-of-pls-regression-analysis.html#briefly-explain-in-what-climatic-settings-we-can-expect-pls-regression-to-detect-the-chilling-phase---and-in-what-settings-this-probably-wont-work."><i class="fa fa-check"></i><b>21.1</b> Briefly explain in what climatic settings we can expect PLS regression to detect the chilling phase - and in what settings this probably won’t work.</a></li>
+<li class="chapter" data-level="21.2" data-path="successes-and-limitations-of-pls-regression-analysis.html"><a href="successes-and-limitations-of-pls-regression-analysis.html#how-could-we-overcome-this-problem"><i class="fa fa-check"></i><b>21.2</b> How could we overcome this problem?</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="pls-regression-with-agroclimatic-metrics.html"><a href="pls-regression-with-agroclimatic-metrics.html"><i class="fa fa-check"></i><b>22</b> <strong>PLS regression with agroclimatic metrics</strong></a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="pls-regression-with-agroclimatic-metrics.html"><a href="pls-regression-with-agroclimatic-metrics.html#repeat-the-pls_chill_force-procedure-for-the-roter-boskoop-dataset.-include-plots-of-daily-chill-and-heat-accumulation."><i class="fa fa-check"></i><b>22.1</b> Repeat the PLS_chill_force procedure for the ‘Roter Boskoop’ dataset. Include plots of daily chill and heat accumulation.</a></li>
+<li class="chapter" data-level="22.2" data-path="pls-regression-with-agroclimatic-metrics.html"><a href="pls-regression-with-agroclimatic-metrics.html#run-pls_chill_force-analyses-for-all-three-major-chill-models.-delineate-your-best-estimates-of-chilling-and-forcing-phases-for-all-of-them."><i class="fa fa-check"></i><b>22.2</b> Run PLS_chill_force analyses for all three major chill models. Delineate your best estimates of chilling and forcing phases for all of them.</a></li>
+<li class="chapter" data-level="22.3" data-path="pls-regression-with-agroclimatic-metrics.html"><a href="pls-regression-with-agroclimatic-metrics.html#plot-results-for-all-three-analyses-including-shaded-plot-areas-for-the-chilling-and-forcing-periods-you-estimated."><i class="fa fa-check"></i><b>22.3</b> Plot results for all three analyses, including shaded plot areas for the chilling and forcing periods you estimated.</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="examples-of-pls-regression-with-agroclimatic-metrics.html"><a href="examples-of-pls-regression-with-agroclimatic-metrics.html"><i class="fa fa-check"></i><b>23</b> <strong>Examples of PLS regression with agroclimatic metrics</strong></a>
+<ul>
+<li class="chapter" data-level="23.0.1" data-path="examples-of-pls-regression-with-agroclimatic-metrics.html"><a href="examples-of-pls-regression-with-agroclimatic-metrics.html#look-across-all-the-pls-results-presented-above.-can-you-detect-a-pattern-in-where-chilling-and-forcing-periods-could-be-delineated-clearly-and-where-this-attempt-failed"><i class="fa fa-check"></i><b>23.0.1</b> Look across all the PLS results presented above. Can you detect a pattern in where chilling and forcing periods could be delineated clearly, and where this attempt failed?</a></li>
+<li class="chapter" data-level="23.1" data-path="examples-of-pls-regression-with-agroclimatic-metrics.html"><a href="examples-of-pls-regression-with-agroclimatic-metrics.html#think-about-possible-reasons-for-the-success-or-failure-of-pls-analysis-based-on-agroclimatic-metrics.-write-down-your-thoughts."><i class="fa fa-check"></i><b>23.1</b> Think about possible reasons for the success or failure of PLS analysis based on agroclimatic metrics. Write down your thoughts.</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="why-pls-doesnt-always-work.html"><a href="why-pls-doesnt-always-work.html"><i class="fa fa-check"></i><b>24</b> <strong>Why PLS doesn’t always work</strong></a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="why-pls-doesnt-always-work.html"><a href="why-pls-doesnt-always-work.html#produce-chill-and-heat-model-sensitivity-plots-for-the-location-you-focused-on-in-previous-exercises."><i class="fa fa-check"></i><b>24.1</b> Produce chill and heat model sensitivity plots for the location you focused on in previous exercises.</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="evaluating-pls-outputs.html"><a href="evaluating-pls-outputs.html"><i class="fa fa-check"></i><b>25</b> <strong>Evaluating PLS outputs</strong></a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="evaluating-pls-outputs.html"><a href="evaluating-pls-outputs.html#reproduce-the-analysis-for-the-roter-boskoop-dataset."><i class="fa fa-check"></i><b>25.1</b> Reproduce the analysis for the ‘Roter Boskoop’ dataset.</a></li>
+<li class="chapter" data-level="25.2" data-path="evaluating-pls-outputs.html"><a href="evaluating-pls-outputs.html#weve-looked-at-data-from-a-number-of-locations-so-far.-how-would-you-expect-this-surface-plot-to-look-like-in-beijing-and-how-should-it-look-in-tunisia"><i class="fa fa-check"></i><b>25.2</b> We’ve looked at data from a number of locations so far. How would you expect this surface plot to look like in Beijing? And how should it look in Tunisia?</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="the-relative-importance-of-chill-and-heat.html"><a href="the-relative-importance-of-chill-and-heat.html"><i class="fa fa-check"></i><b>26</b> <strong>The relative importance of chill and heat</strong></a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="the-relative-importance-of-chill-and-heat.html"><a href="the-relative-importance-of-chill-and-heat.html#describe-the-temperature-response-hypothesis-outlined-in-this-chapter."><i class="fa fa-check"></i><b>26.1</b> Describe the temperature response hypothesis outlined in this chapter.</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="experimentally-enhanced-pls.html"><a href="experimentally-enhanced-pls.html"><i class="fa fa-check"></i><b>27</b> Experimentally enhanced PLS</a></li>
+<li class="chapter" data-level="28" data-path="making-valid-tree-phenology-models.html"><a href="making-valid-tree-phenology-models.html"><i class="fa fa-check"></i><b>28</b> <strong>Making valid tree phenology models</strong></a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="making-valid-tree-phenology-models.html"><a href="making-valid-tree-phenology-models.html#explain-the-difference-between-output-validation-and-process-validation."><i class="fa fa-check"></i><b>28.1</b> Explain the difference between output validation and process validation.</a></li>
+<li class="chapter" data-level="28.2" data-path="making-valid-tree-phenology-models.html"><a href="making-valid-tree-phenology-models.html#explain-what-a-validity-domain-is-and-why-it-is-important-to-consider-this-whenever-we-want-to-use-our-model-to-forecast-something."><i class="fa fa-check"></i><b>28.2</b> Explain what a validity domain is and why it is important to consider this whenever we want to use our model to forecast something.</a></li>
+<li class="chapter" data-level="28.3" data-path="making-valid-tree-phenology-models.html"><a href="making-valid-tree-phenology-models.html#what-is-validation-for-purpose"><i class="fa fa-check"></i><b>28.3</b> What is validation for purpose?</a></li>
+<li class="chapter" data-level="28.4" data-path="making-valid-tree-phenology-models.html"><a href="making-valid-tree-phenology-models.html#how-can-we-ensure-that-our-model-is-suitable-for-the-predictions-we-want-to-make"><i class="fa fa-check"></i><b>28.4</b> How can we ensure that our model is suitable for the predictions we want to make?</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="the-phenoflex-model.html"><a href="the-phenoflex-model.html"><i class="fa fa-check"></i><b>29</b> <strong>The PhenoFlex model</strong></a>
+<ul>
+<li class="chapter" data-level="29.0.1" data-path="the-phenoflex-model.html"><a href="the-phenoflex-model.html#parameterize-the-phenoflex-model-for-roter-boskoop-apples."><i class="fa fa-check"></i><b>29.0.1</b> Parameterize the PhenoFlex model for `Roter Boskoop’ apples.</a></li>
+<li class="chapter" data-level="29.0.2" data-path="the-phenoflex-model.html"><a href="the-phenoflex-model.html#produce-plots-of-predicted-vs.-observed-bloom-dates-and-distribution-of-prediction-errors."><i class="fa fa-check"></i><b>29.0.2</b> Produce plots of predicted vs. observed bloom dates and distribution of prediction errors.</a></li>
+<li class="chapter" data-level="29.1" data-path="the-phenoflex-model.html"><a href="the-phenoflex-model.html#compute-the-model-performance-metrics-rmsep-mean-error-and-mean-absolute-error."><i class="fa fa-check"></i><b>29.1</b> Compute the model performance metrics RMSEP, mean error and mean absolute error.</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="the-phenoflex-model---a-second-look.html"><a href="the-phenoflex-model---a-second-look.html"><i class="fa fa-check"></i><b>30</b> <strong>The PhenoFlex model - a second look</strong></a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="the-phenoflex-model---a-second-look.html"><a href="the-phenoflex-model---a-second-look.html#make-chill-and-heat-response-plots-for-the-roter-boskoop-phenoflex-modelfrom-lecture-30-for-the-location-you-did-the-earlier-analyses-for."><i class="fa fa-check"></i><b>30.1</b> Make chill and heat response plots for the `Roter Boskoop’ PhenoFlex model(from lecture 30) for the location you did the earlier analyses for.</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="can-we-improve-the-performance-of-phenoflex.html"><a href="can-we-improve-the-performance-of-phenoflex.html"><i class="fa fa-check"></i><b>31</b> <strong>Can we improve the performance of PhenoFlex?</strong></a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="can-we-improve-the-performance-of-phenoflex.html"><a href="can-we-improve-the-performance-of-phenoflex.html#what-was-the-objective-of-this-work"><i class="fa fa-check"></i><b>31.1</b> What was the objective of this work?</a></li>
+<li class="chapter" data-level="31.2" data-path="can-we-improve-the-performance-of-phenoflex.html"><a href="can-we-improve-the-performance-of-phenoflex.html#what-was-the-main-conclusion"><i class="fa fa-check"></i><b>31.2</b> What was the main conclusion?</a></li>
+<li class="chapter" data-level="31.3" data-path="can-we-improve-the-performance-of-phenoflex.html"><a href="can-we-improve-the-performance-of-phenoflex.html#what-experiments-could-we-conduct-to-test-the-hypothesis-that-emerged-at-the-end-of-the-conclusion"><i class="fa fa-check"></i><b>31.3</b> What experiments could we conduct to test the hypothesis that emerged at the end of the conclusion?</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html"><i class="fa fa-check"></i><b>32</b> <strong>Frost risk analysis</strong></a>
+<ul>
+<li class="chapter" data-level="32.1" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html#download-the-phenology-dataset-for-the-apple-cultivar-roter-boskoop-from-klein-altendorf."><i class="fa fa-check"></i><b>32.1</b> Download the phenology dataset for the apple cultivar Roter Boskoop from Klein-Altendorf.</a></li>
+<li class="chapter" data-level="32.2" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html#illustrate-the-development-of-the-bloom-period-over-the-duration-of-the-weather-record.-use-multiple-ways-to-show-this---feel-free-to-be-creative."><i class="fa fa-check"></i><b>32.2</b> Illustrate the development of the bloom period over the duration of the weather record. Use multiple ways to show this - feel free to be creative.</a></li>
+<li class="chapter" data-level="32.3" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html#evaluate-the-occurrence-of-frost-events-at-klein-altendorf-since-1958.-illustrate-this-in-a-plot."><i class="fa fa-check"></i><b>32.3</b> Evaluate the occurrence of frost events at Klein-Altendorf since 1958. Illustrate this in a plot.</a></li>
+<li class="chapter" data-level="32.4" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html#produce-an-illustration-of-the-relationship-between-spring-frost-events-and-the-bloom-period-of-roter-boskoop."><i class="fa fa-check"></i><b>32.4</b> Produce an illustration of the relationship between spring frost events and the bloom period of ‘Roter Boskoop’.</a></li>
+<li class="chapter" data-level="32.5" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html#evaluate-how-the-risk-of-spring-frost-for-this-cultivar-has-changed-over-time.-has-there-been-a-significant-trend"><i class="fa fa-check"></i><b>32.5</b> Evaluate how the risk of spring frost for this cultivar has changed over time. Has there been a significant trend?</a></li>
+</ul></li>
+<li class="chapter" data-level="33" data-path="end-of-the-assignment.html"><a href="end-of-the-assignment.html"><i class="fa fa-check"></i><b>33</b> <strong>End of the Assignment</strong></a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">‘Tree phenology analysis with R’ learning Logbook</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="pls-regression-with-agroclimatic-metrics" class="section level1 hasAnchor" number="22">
+<h1><span class="header-section-number">Chapter 22</span> <strong>PLS regression with agroclimatic metrics</strong><a href="pls-regression-with-agroclimatic-metrics.html#pls-regression-with-agroclimatic-metrics" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="repeat-the-pls_chill_force-procedure-for-the-roter-boskoop-dataset.-include-plots-of-daily-chill-and-heat-accumulation." class="section level2 hasAnchor" number="22.1">
+<h2><span class="header-section-number">22.1</span> Repeat the PLS_chill_force procedure for the ‘Roter Boskoop’ dataset. Include plots of daily chill and heat accumulation.<a href="pls-regression-with-agroclimatic-metrics.html#repeat-the-pls_chill_force-procedure-for-the-roter-boskoop-dataset.-include-plots-of-daily-chill-and-heat-accumulation." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-1" tabindex="-1"></a>Roter<span class="ot">&lt;-</span><span class="fu">read_tab</span>(<span class="st">&quot;KR_data/Roter_Boskoop_bloom_1958_2019.csv&quot;</span>)</span>
+<span id="cb98-2"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-2" tabindex="-1"></a>Roter_first<span class="ot">&lt;-</span>Roter[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb98-3"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-3" tabindex="-1"></a>Roter_first[,<span class="st">&quot;Year&quot;</span>]<span class="ot">&lt;-</span><span class="fu">substr</span>(Roter_first<span class="sc">$</span>First_bloom,<span class="dv">1</span>,<span class="dv">4</span>)</span>
+<span id="cb98-4"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-4" tabindex="-1"></a>Roter_first[,<span class="st">&quot;Month&quot;</span>]<span class="ot">&lt;-</span><span class="fu">substr</span>(Roter_first<span class="sc">$</span>First_bloom,<span class="dv">5</span>,<span class="dv">6</span>)</span>
+<span id="cb98-5"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-5" tabindex="-1"></a>Roter_first[,<span class="st">&quot;Day&quot;</span>]<span class="ot">&lt;-</span><span class="fu">substr</span>(Roter_first<span class="sc">$</span>First_bloom,<span class="dv">7</span>,<span class="dv">8</span>)</span>
+<span id="cb98-6"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-6" tabindex="-1"></a>Roter_first<span class="ot">&lt;-</span><span class="fu">make_JDay</span>(Roter_first)</span>
+<span id="cb98-7"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-7" tabindex="-1"></a>Roter_first<span class="ot">&lt;-</span>Roter_first[,<span class="fu">c</span>(<span class="st">&quot;Pheno_year&quot;</span>,<span class="st">&quot;JDay&quot;</span>)]</span>
+<span id="cb98-8"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-8" tabindex="-1"></a><span class="fu">colnames</span>(Roter_first)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>,<span class="st">&quot;pheno&quot;</span>)</span>
+<span id="cb98-9"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-9" tabindex="-1"></a>  </span>
+<span id="cb98-10"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-10" tabindex="-1"></a></span>
+<span id="cb98-11"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-11" tabindex="-1"></a>temps_hourly <span class="ot">&lt;-</span> <span class="fu">read_tab</span>(<span class="st">&quot;data/TMaxTMin1958-2019_patched.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb98-12"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-12" tabindex="-1"></a>  <span class="fu">stack_hourly_temps</span>(<span class="at">latitude =</span> <span class="fl">50.6</span>)</span>
+<span id="cb98-13"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-13" tabindex="-1"></a></span>
+<span id="cb98-14"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-14" tabindex="-1"></a></span>
+<span id="cb98-15"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-15" tabindex="-1"></a><span class="fu">head</span>(temps_hourly<span class="sc">$</span>hourtemps)</span>
+<span id="cb98-16"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-16" tabindex="-1"></a>  </span>
+<span id="cb98-17"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-17" tabindex="-1"></a>daychill <span class="ot">&lt;-</span> <span class="fu">daily_chill</span>(<span class="at">hourtemps =</span> temps_hourly,</span>
+<span id="cb98-18"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-18" tabindex="-1"></a>                          <span class="at">running_mean =</span> <span class="dv">1</span>,</span>
+<span id="cb98-19"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-19" tabindex="-1"></a>                          <span class="at">models =</span> <span class="fu">list</span>(</span>
+<span id="cb98-20"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-20" tabindex="-1"></a>                            <span class="at">Chilling_Hours =</span> Chilling_Hours,</span>
+<span id="cb98-21"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-21" tabindex="-1"></a>                            <span class="at">Utah_Chill_Units =</span> Utah_Model,</span>
+<span id="cb98-22"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-22" tabindex="-1"></a>                            <span class="at">Chill_Portions =</span> Dynamic_Model,</span>
+<span id="cb98-23"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-23" tabindex="-1"></a>                            <span class="at">GDH =</span> GDH)</span>
+<span id="cb98-24"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-24" tabindex="-1"></a>  )</span>
+<span id="cb98-25"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-25" tabindex="-1"></a>  </span>
+<span id="cb98-26"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-26" tabindex="-1"></a>  <span class="do">##extracting PLS results table for CP</span></span>
+<span id="cb98-27"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-27" tabindex="-1"></a>plscf <span class="ot">&lt;-</span> <span class="fu">PLS_chill_force</span>(<span class="at">daily_chill_obj =</span> daychill,</span>
+<span id="cb98-28"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-28" tabindex="-1"></a>                           <span class="at">bio_data_frame =</span> Roter_first,</span>
+<span id="cb98-29"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-29" tabindex="-1"></a>                           <span class="at">split_month =</span> <span class="dv">6</span>,</span>
+<span id="cb98-30"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-30" tabindex="-1"></a>                           <span class="at">chill_models =</span> <span class="st">&quot;Chill_Portions&quot;</span>, <span class="co">#we can add multiple models</span></span>
+<span id="cb98-31"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-31" tabindex="-1"></a>                           <span class="at">heat_models =</span> <span class="st">&quot;GDH&quot;</span>) <span class="co">#name of heat model </span></span>
+<span id="cb98-32"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-32" tabindex="-1"></a>  </span>
+<span id="cb98-33"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-33" tabindex="-1"></a>  </span>
+<span id="cb98-34"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-34" tabindex="-1"></a><span class="fu">plot_PLS</span>(plscf,</span>
+<span id="cb98-35"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-35" tabindex="-1"></a>           <span class="at">PLS_results_path =</span> <span class="st">&quot;KR_data/plscf_outputs_11days&quot;</span>)</span>
+<span id="cb98-36"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-36" tabindex="-1"></a>  </span>
+<span id="cb98-37"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-37" tabindex="-1"></a>  <span class="do">##extracting PLS results table for CU</span></span>
+<span id="cb98-38"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-38" tabindex="-1"></a>plscf <span class="ot">&lt;-</span> <span class="fu">PLS_chill_force</span>(<span class="at">daily_chill_obj =</span> daychill,</span>
+<span id="cb98-39"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-39" tabindex="-1"></a>                           <span class="at">bio_data_frame =</span> Roter_first,</span>
+<span id="cb98-40"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-40" tabindex="-1"></a>                           <span class="at">split_month =</span> <span class="dv">6</span>,</span>
+<span id="cb98-41"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-41" tabindex="-1"></a>                           <span class="at">chill_models =</span> <span class="st">&quot;Utah_Chill_Units&quot;</span>, <span class="co">#we can add multiple models</span></span>
+<span id="cb98-42"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-42" tabindex="-1"></a>                           <span class="at">heat_models =</span> <span class="st">&quot;GDH&quot;</span>) <span class="co">#name of heat model </span></span>
+<span id="cb98-43"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-43" tabindex="-1"></a>  </span>
+<span id="cb98-44"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-44" tabindex="-1"></a>  </span>
+<span id="cb98-45"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-45" tabindex="-1"></a><span class="fu">plot_PLS</span>(plscf,</span>
+<span id="cb98-46"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-46" tabindex="-1"></a>           <span class="at">PLS_results_path =</span> <span class="st">&quot;KR_data/plscf_outputs_11days&quot;</span>)</span>
+<span id="cb98-47"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-47" tabindex="-1"></a>  </span>
+<span id="cb98-48"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-48" tabindex="-1"></a>  </span>
+<span id="cb98-49"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-49" tabindex="-1"></a>  <span class="do">##extracting PLS results table for CH</span></span>
+<span id="cb98-50"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-50" tabindex="-1"></a>plscf <span class="ot">&lt;-</span> <span class="fu">PLS_chill_force</span>(<span class="at">daily_chill_obj =</span> daychill,</span>
+<span id="cb98-51"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-51" tabindex="-1"></a>                           <span class="at">bio_data_frame =</span> Roter_first,</span>
+<span id="cb98-52"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-52" tabindex="-1"></a>                           <span class="at">split_month =</span> <span class="dv">6</span>,</span>
+<span id="cb98-53"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-53" tabindex="-1"></a>                           <span class="at">chill_models =</span> <span class="st">&quot;Chilling_Hours&quot;</span>, <span class="co">#we can add multiple models</span></span>
+<span id="cb98-54"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-54" tabindex="-1"></a>                           <span class="at">heat_models =</span> <span class="st">&quot;GDH&quot;</span>) <span class="co">#name of heat model </span></span>
+<span id="cb98-55"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-55" tabindex="-1"></a>  </span>
+<span id="cb98-56"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-56" tabindex="-1"></a>  </span>
+<span id="cb98-57"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-57" tabindex="-1"></a><span class="fu">plot_PLS</span>(plscf,</span>
+<span id="cb98-58"><a href="pls-regression-with-agroclimatic-metrics.html#cb98-58" tabindex="-1"></a>           <span class="at">PLS_results_path =</span> <span class="st">&quot;KR_data/plscf_outputs_11days&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-110"></span>
+<img src="KR_data/plscf_outputs_11days_Chill_Portions_GDH.png" alt="chill and heat accumulation (CP)" width="100%" />
+<p class="caption">
+Figure 22.1: chill and heat accumulation (CP)
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-111"></span>
+<img src="KR_data/plscf_outputs_11days_Utah_Chill_Units_GDH.png" alt="chill and heat accumulation (CU)" width="100%" />
+<p class="caption">
+Figure 22.2: chill and heat accumulation (CU)
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-112"></span>
+<img src="KR_data/plscf_outputs_11days_Chilling_Hours_GDH.png" alt="chill and heat accumulation (CH)" width="100%" />
+<p class="caption">
+Figure 22.3: chill and heat accumulation (CH)
+</p>
+</div>
+</div>
+<div id="run-pls_chill_force-analyses-for-all-three-major-chill-models.-delineate-your-best-estimates-of-chilling-and-forcing-phases-for-all-of-them." class="section level2 hasAnchor" number="22.2">
+<h2><span class="header-section-number">22.2</span> Run PLS_chill_force analyses for all three major chill models. Delineate your best estimates of chilling and forcing phases for all of them.<a href="pls-regression-with-agroclimatic-metrics.html#run-pls_chill_force-analyses-for-all-three-major-chill-models.-delineate-your-best-estimates-of-chilling-and-forcing-phases-for-all-of-them." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The chilling period in the chilling hours model appears vague and relatively insignificant, with difficulties in delineation. However, the forcing period spans from Julian Day 7 (January 7) to Julian Day 105 (April 15).</p>
+<p>In the case of Utah Chilling Units, the chilling period likely extends from Julian Days -15 (December 16) to 66 (March 7), while the forcing period is expected between Julian Days 10 (January 10) and 106 (April 16).</p>
+<p>Regarding the Chilling Portions model, the chilling period is estimated to range from Julian Days -25 (December 7) to 62 (March 3), albeit with a weaker relationship observed. Conversely, the forcing period is more easily identifiable, spanning from Julian Days 8 (January 8) to 105.5 (April 15).</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-1" tabindex="-1"></a>Roter<span class="ot">&lt;-</span><span class="fu">read_tab</span>(<span class="st">&quot;KR_data/Roter_Boskoop_bloom_1958_2019.csv&quot;</span>)</span>
+<span id="cb99-2"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-2" tabindex="-1"></a>Roter_first<span class="ot">&lt;-</span>Roter[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb99-3"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-3" tabindex="-1"></a>Roter_first[,<span class="st">&quot;Year&quot;</span>]<span class="ot">&lt;-</span><span class="fu">substr</span>(Roter_first<span class="sc">$</span>First_bloom,<span class="dv">1</span>,<span class="dv">4</span>)</span>
+<span id="cb99-4"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-4" tabindex="-1"></a>Roter_first[,<span class="st">&quot;Month&quot;</span>]<span class="ot">&lt;-</span><span class="fu">substr</span>(Roter_first<span class="sc">$</span>First_bloom,<span class="dv">5</span>,<span class="dv">6</span>)</span>
+<span id="cb99-5"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-5" tabindex="-1"></a>Roter_first[,<span class="st">&quot;Day&quot;</span>]<span class="ot">&lt;-</span><span class="fu">substr</span>(Roter_first<span class="sc">$</span>First_bloom,<span class="dv">7</span>,<span class="dv">8</span>)</span>
+<span id="cb99-6"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-6" tabindex="-1"></a>Roter_first<span class="ot">&lt;-</span><span class="fu">make_JDay</span>(Roter_first)</span>
+<span id="cb99-7"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-7" tabindex="-1"></a>Roter_first<span class="ot">&lt;-</span>Roter_first[,<span class="fu">c</span>(<span class="st">&quot;Pheno_year&quot;</span>,<span class="st">&quot;JDay&quot;</span>)]</span>
+<span id="cb99-8"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-8" tabindex="-1"></a><span class="fu">colnames</span>(Roter_first)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>,<span class="st">&quot;pheno&quot;</span>)</span>
+<span id="cb99-9"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-9" tabindex="-1"></a>  </span>
+<span id="cb99-10"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-10" tabindex="-1"></a></span>
+<span id="cb99-11"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-11" tabindex="-1"></a>temps_hourly <span class="ot">&lt;-</span> <span class="fu">read_tab</span>(<span class="st">&quot;data/TMaxTMin1958-2019_patched.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb99-12"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-12" tabindex="-1"></a>  <span class="fu">stack_hourly_temps</span>(<span class="at">latitude =</span> <span class="fl">50.6</span>)</span>
+<span id="cb99-13"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-13" tabindex="-1"></a></span>
+<span id="cb99-14"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-14" tabindex="-1"></a>  </span>
+<span id="cb99-15"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-15" tabindex="-1"></a>daychill <span class="ot">&lt;-</span> <span class="fu">daily_chill</span>(<span class="at">hourtemps =</span> temps_hourly,</span>
+<span id="cb99-16"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-16" tabindex="-1"></a>                          <span class="at">running_mean =</span> <span class="dv">1</span>,</span>
+<span id="cb99-17"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-17" tabindex="-1"></a>                          <span class="at">models =</span> <span class="fu">list</span>(</span>
+<span id="cb99-18"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-18" tabindex="-1"></a>                            <span class="at">Chilling_Hours =</span> Chilling_Hours,</span>
+<span id="cb99-19"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-19" tabindex="-1"></a>                            <span class="at">Utah_Chill_Units =</span> Utah_Model,</span>
+<span id="cb99-20"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-20" tabindex="-1"></a>                            <span class="at">Chill_Portions =</span> Dynamic_Model,</span>
+<span id="cb99-21"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-21" tabindex="-1"></a>                            <span class="at">GDH =</span> GDH)</span>
+<span id="cb99-22"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-22" tabindex="-1"></a>  )</span>
+<span id="cb99-23"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-23" tabindex="-1"></a>  </span>
+<span id="cb99-24"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-24" tabindex="-1"></a>  </span>
+<span id="cb99-25"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-25" tabindex="-1"></a>plscf <span class="ot">&lt;-</span> <span class="fu">PLS_chill_force</span>(<span class="at">daily_chill_obj =</span> daychill,</span>
+<span id="cb99-26"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-26" tabindex="-1"></a>                           <span class="at">bio_data_frame =</span> Roter_first,</span>
+<span id="cb99-27"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-27" tabindex="-1"></a>                           <span class="at">split_month =</span> <span class="dv">6</span>,</span>
+<span id="cb99-28"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-28" tabindex="-1"></a>                           <span class="at">chill_models =</span> <span class="st">&quot;Chill_Portions&quot;</span>, <span class="co">#we can add multiple models</span></span>
+<span id="cb99-29"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-29" tabindex="-1"></a>                           <span class="at">heat_models =</span> <span class="st">&quot;GDH&quot;</span>) <span class="co">#name of heat model </span></span>
+<span id="cb99-30"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-30" tabindex="-1"></a>  </span>
+<span id="cb99-31"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-31" tabindex="-1"></a>  </span>
+<span id="cb99-32"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-32" tabindex="-1"></a><span class="fu">plot_PLS</span>(plscf,</span>
+<span id="cb99-33"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-33" tabindex="-1"></a>           <span class="at">PLS_results_path =</span> <span class="st">&quot;KR_data/plscf_outputs_11days&quot;</span>)</span>
+<span id="cb99-34"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-34" tabindex="-1"></a>  </span>
+<span id="cb99-35"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-35" tabindex="-1"></a>plot_PLS_chill_force <span class="ot">&lt;-</span> <span class="cf">function</span>(plscf,</span>
+<span id="cb99-36"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-36" tabindex="-1"></a>                                   <span class="at">chill_metric =</span> <span class="st">&quot;Chill_Portions&quot;</span>,</span>
+<span id="cb99-37"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-37" tabindex="-1"></a>                                   <span class="at">heat_metric =</span> <span class="st">&quot;GDH&quot;</span>,</span>
+<span id="cb99-38"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-38" tabindex="-1"></a>                                   <span class="at">chill_label =</span> <span class="st">&quot;CP&quot;</span>,</span>
+<span id="cb99-39"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-39" tabindex="-1"></a>                                   <span class="at">heat_label =</span> <span class="st">&quot;GDH&quot;</span>,</span>
+<span id="cb99-40"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-40" tabindex="-1"></a>                                   <span class="at">chill_phase =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">48</span>, <span class="dv">62</span>),</span>
+<span id="cb99-41"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-41" tabindex="-1"></a>                                   <span class="at">heat_phase =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="fl">105.5</span>)) <span class="co">#they are the only input </span></span>
+<span id="cb99-42"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-42" tabindex="-1"></a>  {</span>
+<span id="cb99-43"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-43" tabindex="-1"></a>    <span class="co"># and we need to chagne the chill metric so that we can use flexiable </span></span>
+<span id="cb99-44"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-44" tabindex="-1"></a>    PLS_gg <span class="ot">&lt;-</span> plscf[[chill_metric]][[heat_metric]]<span class="sc">$</span>PLS_summary <span class="sc">%&gt;%</span></span>
+<span id="cb99-45"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-45" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">trunc</span>(Date<span class="sc">/</span><span class="dv">100</span>),</span>
+<span id="cb99-46"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-46" tabindex="-1"></a>             <span class="at">Day =</span> Date <span class="sc">-</span> Month <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb99-47"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-47" tabindex="-1"></a>             <span class="at">Date =</span> <span class="fu">ISOdate</span>(<span class="dv">2002</span>,</span>
+<span id="cb99-48"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-48" tabindex="-1"></a>                            Month,</span>
+<span id="cb99-49"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-49" tabindex="-1"></a>                            Day))</span>
+<span id="cb99-50"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-50" tabindex="-1"></a>    </span>
+<span id="cb99-51"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-51" tabindex="-1"></a>    PLS_gg[PLS_gg<span class="sc">$</span>JDay <span class="sc">&lt;=</span> <span class="dv">0</span>,<span class="st">&quot;Date&quot;</span>]<span class="ot">&lt;-</span></span>
+<span id="cb99-52"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-52" tabindex="-1"></a>      <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-53"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-53" tabindex="-1"></a>              PLS_gg<span class="sc">$</span>Month[PLS_gg<span class="sc">$</span>JDay <span class="sc">&lt;=</span> <span class="dv">0</span>],</span>
+<span id="cb99-54"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-54" tabindex="-1"></a>              PLS_gg<span class="sc">$</span>Day[PLS_gg<span class="sc">$</span>JDay <span class="sc">&lt;=</span> <span class="dv">0</span>])</span>
+<span id="cb99-55"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-55" tabindex="-1"></a>    </span>
+<span id="cb99-56"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-56" tabindex="-1"></a>    PLS_gg <span class="ot">&lt;-</span> PLS_gg <span class="sc">%&gt;%</span></span>
+<span id="cb99-57"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-57" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">VIP_importance =</span> VIP <span class="sc">&gt;=</span> <span class="fl">0.8</span>,</span>
+<span id="cb99-58"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-58" tabindex="-1"></a>             <span class="at">VIP_Coeff =</span> <span class="fu">factor</span>(<span class="fu">sign</span>(Coef) <span class="sc">*</span> VIP_importance))</span>
+<span id="cb99-59"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-59" tabindex="-1"></a>    </span>
+<span id="cb99-60"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-60" tabindex="-1"></a>    <span class="co">#and we need to change the chill date and ... </span></span>
+<span id="cb99-61"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-61" tabindex="-1"></a>    chill_start_date <span class="ot">&lt;-</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-62"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-62" tabindex="-1"></a>                                <span class="dv">12</span>,</span>
+<span id="cb99-63"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-63" tabindex="-1"></a>                                <span class="dv">31</span>) <span class="sc">+</span> chill_phase[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span></span>
+<span id="cb99-64"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-64" tabindex="-1"></a>    chill_end_date <span class="ot">&lt;-</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-65"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-65" tabindex="-1"></a>                              <span class="dv">12</span>,</span>
+<span id="cb99-66"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-66" tabindex="-1"></a>                              <span class="dv">31</span>) <span class="sc">+</span> chill_phase[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span></span>
+<span id="cb99-67"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-67" tabindex="-1"></a>    heat_start_date <span class="ot">&lt;-</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-68"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-68" tabindex="-1"></a>                               <span class="dv">12</span>,</span>
+<span id="cb99-69"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-69" tabindex="-1"></a>                               <span class="dv">31</span>) <span class="sc">+</span> heat_phase[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span></span>
+<span id="cb99-70"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-70" tabindex="-1"></a>    heat_end_date <span class="ot">&lt;-</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-71"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-71" tabindex="-1"></a>                             <span class="dv">12</span>,</span>
+<span id="cb99-72"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-72" tabindex="-1"></a>                             <span class="dv">31</span>) <span class="sc">+</span> heat_phase[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span></span>
+<span id="cb99-73"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-73" tabindex="-1"></a>    </span>
+<span id="cb99-74"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-74" tabindex="-1"></a>    </span>
+<span id="cb99-75"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-75" tabindex="-1"></a>    </span>
+<span id="cb99-76"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-76" tabindex="-1"></a>    </span>
+<span id="cb99-77"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-77" tabindex="-1"></a>    temp_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(PLS_gg) <span class="sc">+</span></span>
+<span id="cb99-78"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-78" tabindex="-1"></a>      <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>,</span>
+<span id="cb99-79"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-79" tabindex="-1"></a>               <span class="at">xmin =</span> chill_start_date,</span>
+<span id="cb99-80"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-80" tabindex="-1"></a>               <span class="at">xmax =</span> chill_end_date,</span>
+<span id="cb99-81"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-81" tabindex="-1"></a>               <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb99-82"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-82" tabindex="-1"></a>               <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb99-83"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-83" tabindex="-1"></a>               <span class="at">alpha =</span> .<span class="dv">1</span>,</span>
+<span id="cb99-84"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-84" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-85"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-85" tabindex="-1"></a>      <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>,</span>
+<span id="cb99-86"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-86" tabindex="-1"></a>               <span class="at">xmin =</span> heat_start_date,</span>
+<span id="cb99-87"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-87" tabindex="-1"></a>               <span class="at">xmax =</span> heat_end_date,</span>
+<span id="cb99-88"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-88" tabindex="-1"></a>               <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb99-89"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-89" tabindex="-1"></a>               <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb99-90"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-90" tabindex="-1"></a>               <span class="at">alpha =</span> .<span class="dv">1</span>,</span>
+<span id="cb99-91"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-91" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-92"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-92" tabindex="-1"></a>      <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>,</span>
+<span id="cb99-93"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-93" tabindex="-1"></a>               <span class="at">xmin =</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-94"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-94" tabindex="-1"></a>                              <span class="dv">12</span>,</span>
+<span id="cb99-95"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-95" tabindex="-1"></a>                              <span class="dv">31</span>) <span class="sc">+</span></span>
+<span id="cb99-96"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-96" tabindex="-1"></a>                 <span class="fu">min</span>(plscf<span class="sc">$</span>pheno<span class="sc">$</span>pheno,</span>
+<span id="cb99-97"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-97" tabindex="-1"></a>                     <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span>,</span>
+<span id="cb99-98"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-98" tabindex="-1"></a>               <span class="at">xmax =</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-99"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-99" tabindex="-1"></a>                              <span class="dv">12</span>,</span>
+<span id="cb99-100"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-100" tabindex="-1"></a>                              <span class="dv">31</span>) <span class="sc">+</span></span>
+<span id="cb99-101"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-101" tabindex="-1"></a>                 <span class="fu">max</span>(plscf<span class="sc">$</span>pheno<span class="sc">$</span>pheno,</span>
+<span id="cb99-102"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-102" tabindex="-1"></a>                     <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span>,</span>
+<span id="cb99-103"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-103" tabindex="-1"></a>               <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb99-104"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-104" tabindex="-1"></a>               <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb99-105"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-105" tabindex="-1"></a>               <span class="at">alpha =</span> .<span class="dv">1</span>,</span>
+<span id="cb99-106"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-106" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-107"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-107" tabindex="-1"></a>      <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-108"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-108" tabindex="-1"></a>                                      <span class="dv">12</span>,</span>
+<span id="cb99-109"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-109" tabindex="-1"></a>                                      <span class="dv">31</span>) <span class="sc">+</span></span>
+<span id="cb99-110"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-110" tabindex="-1"></a>                   <span class="fu">median</span>(plscf<span class="sc">$</span>pheno<span class="sc">$</span>pheno,</span>
+<span id="cb99-111"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-111" tabindex="-1"></a>                          <span class="at">na.rm=</span><span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span>,</span>
+<span id="cb99-112"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-112" tabindex="-1"></a>                 <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-113"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-113" tabindex="-1"></a>      <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date,</span>
+<span id="cb99-114"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-114" tabindex="-1"></a>                      <span class="at">ymin =</span> MetricMean <span class="sc">-</span> MetricStdev ,</span>
+<span id="cb99-115"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-115" tabindex="-1"></a>                      <span class="at">ymax =</span> MetricMean <span class="sc">+</span> MetricStdev ),</span>
+<span id="cb99-116"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-116" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;grey&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-117"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-117" tabindex="-1"></a>      <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date,</span>
+<span id="cb99-118"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-118" tabindex="-1"></a>                      <span class="at">ymin =</span> MetricMean <span class="sc">-</span> MetricStdev <span class="sc">*</span> (VIP_Coeff <span class="sc">==</span> <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb99-119"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-119" tabindex="-1"></a>                      <span class="at">ymax =</span> MetricMean <span class="sc">+</span> MetricStdev <span class="sc">*</span> (VIP_Coeff <span class="sc">==</span> <span class="sc">-</span><span class="dv">1</span>)),</span>
+<span id="cb99-120"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-120" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-121"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-121" tabindex="-1"></a>      <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date,</span>
+<span id="cb99-122"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-122" tabindex="-1"></a>                      <span class="at">ymin =</span> MetricMean <span class="sc">-</span> MetricStdev <span class="sc">*</span> (VIP_Coeff <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb99-123"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-123" tabindex="-1"></a>                      <span class="at">ymax =</span> MetricMean <span class="sc">+</span> MetricStdev <span class="sc">*</span> (VIP_Coeff <span class="sc">==</span> <span class="dv">1</span>)),</span>
+<span id="cb99-124"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-124" tabindex="-1"></a>                  <span class="at">fill =</span> <span class="st">&quot;dark green&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-125"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-125" tabindex="-1"></a>      <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date,</span>
+<span id="cb99-126"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-126" tabindex="-1"></a>                    <span class="at">y =</span> MetricMean)) <span class="sc">+</span></span>
+<span id="cb99-127"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-127" tabindex="-1"></a>      <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(Type),</span>
+<span id="cb99-128"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-128" tabindex="-1"></a>                 <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>,</span>
+<span id="cb99-129"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-129" tabindex="-1"></a>                 <span class="at">strip.position =</span> <span class="st">&quot;left&quot;</span>,</span>
+<span id="cb99-130"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-130" tabindex="-1"></a>                 <span class="at">labeller =</span> </span>
+<span id="cb99-131"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-131" tabindex="-1"></a>                   <span class="fu">labeller</span>(</span>
+<span id="cb99-132"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-132" tabindex="-1"></a>                     <span class="at">Type =</span></span>
+<span id="cb99-133"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-133" tabindex="-1"></a>                       <span class="fu">as_labeller</span>(<span class="fu">c</span>(<span class="at">Chill =</span> <span class="fu">paste0</span>(<span class="st">&quot;Chill (&quot;</span>,</span>
+<span id="cb99-134"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-134" tabindex="-1"></a>                                                    chill_label,</span>
+<span id="cb99-135"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-135" tabindex="-1"></a>                                                    <span class="st">&quot;)&quot;</span>),</span>
+<span id="cb99-136"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-136" tabindex="-1"></a>                                     <span class="at">Heat =</span> <span class="fu">paste0</span>(<span class="st">&quot;Heat (&quot;</span>,</span>
+<span id="cb99-137"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-137" tabindex="-1"></a>                                                   heat_label,</span>
+<span id="cb99-138"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-138" tabindex="-1"></a>                                                   <span class="st">&quot;)&quot;</span>))))) <span class="sc">+</span></span>
+<span id="cb99-139"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-139" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">&quot;Daily chill and heat accumulation rates&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-140"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-140" tabindex="-1"></a>      <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">15</span>) <span class="sc">+</span> </span>
+<span id="cb99-141"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-141" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb99-142"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-142" tabindex="-1"></a>            <span class="at">strip.placement =</span> <span class="st">&quot;outside&quot;</span>,</span>
+<span id="cb99-143"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-143" tabindex="-1"></a>            <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb99-144"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-144" tabindex="-1"></a>            <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb99-145"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-145" tabindex="-1"></a>            <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb99-146"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-146" tabindex="-1"></a>      )</span>
+<span id="cb99-147"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-147" tabindex="-1"></a>    </span>
+<span id="cb99-148"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-148" tabindex="-1"></a>    VIP_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(PLS_gg,</span>
+<span id="cb99-149"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-149" tabindex="-1"></a>                       <span class="fu">aes</span>(<span class="at">x =</span> Date,</span>
+<span id="cb99-150"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-150" tabindex="-1"></a>                           <span class="at">y =</span> VIP)) <span class="sc">+</span></span>
+<span id="cb99-151"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-151" tabindex="-1"></a>      <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>,</span>
+<span id="cb99-152"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-152" tabindex="-1"></a>               <span class="at">xmin =</span> chill_start_date,</span>
+<span id="cb99-153"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-153" tabindex="-1"></a>               <span class="at">xmax =</span> chill_end_date,</span>
+<span id="cb99-154"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-154" tabindex="-1"></a>               <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb99-155"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-155" tabindex="-1"></a>               <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb99-156"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-156" tabindex="-1"></a>               <span class="at">alpha =</span> .<span class="dv">1</span>,</span>
+<span id="cb99-157"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-157" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-158"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-158" tabindex="-1"></a>      <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>,</span>
+<span id="cb99-159"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-159" tabindex="-1"></a>               <span class="at">xmin =</span> heat_start_date,</span>
+<span id="cb99-160"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-160" tabindex="-1"></a>               <span class="at">xmax =</span> heat_end_date,</span>
+<span id="cb99-161"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-161" tabindex="-1"></a>               <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb99-162"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-162" tabindex="-1"></a>               <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb99-163"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-163" tabindex="-1"></a>               <span class="at">alpha =</span> .<span class="dv">1</span>,</span>
+<span id="cb99-164"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-164" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-165"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-165" tabindex="-1"></a>      <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>,</span>
+<span id="cb99-166"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-166" tabindex="-1"></a>               <span class="at">xmin =</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-167"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-167" tabindex="-1"></a>                              <span class="dv">12</span>,</span>
+<span id="cb99-168"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-168" tabindex="-1"></a>                              <span class="dv">31</span>) <span class="sc">+</span> <span class="fu">min</span>(plscf<span class="sc">$</span>pheno<span class="sc">$</span>pheno,</span>
+<span id="cb99-169"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-169" tabindex="-1"></a>                                        <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span>,</span>
+<span id="cb99-170"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-170" tabindex="-1"></a>               <span class="at">xmax =</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-171"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-171" tabindex="-1"></a>                              <span class="dv">12</span>,</span>
+<span id="cb99-172"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-172" tabindex="-1"></a>                              <span class="dv">31</span>) <span class="sc">+</span> <span class="fu">max</span>(plscf<span class="sc">$</span>pheno<span class="sc">$</span>pheno,</span>
+<span id="cb99-173"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-173" tabindex="-1"></a>                                        <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span>,</span>
+<span id="cb99-174"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-174" tabindex="-1"></a>               <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb99-175"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-175" tabindex="-1"></a>               <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb99-176"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-176" tabindex="-1"></a>               <span class="at">alpha =</span> .<span class="dv">1</span>,</span>
+<span id="cb99-177"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-177" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-178"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-178" tabindex="-1"></a>      <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-179"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-179" tabindex="-1"></a>                                      <span class="dv">12</span>,</span>
+<span id="cb99-180"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-180" tabindex="-1"></a>                                      <span class="dv">31</span>) <span class="sc">+</span> <span class="fu">median</span>(plscf<span class="sc">$</span>pheno<span class="sc">$</span>pheno,</span>
+<span id="cb99-181"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-181" tabindex="-1"></a>                                                   <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span>,</span>
+<span id="cb99-182"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-182" tabindex="-1"></a>                 <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-183"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-183" tabindex="-1"></a>      <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&#39;identity&#39;</span>,</span>
+<span id="cb99-184"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-184" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">fill =</span> VIP<span class="sc">&gt;</span><span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb99-185"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-185" tabindex="-1"></a>      <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(Type), </span>
+<span id="cb99-186"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-186" tabindex="-1"></a>                 <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>,</span>
+<span id="cb99-187"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-187" tabindex="-1"></a>                 <span class="at">strip.position =</span> <span class="st">&quot;left&quot;</span>,</span>
+<span id="cb99-188"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-188" tabindex="-1"></a>                 <span class="at">labeller =</span> </span>
+<span id="cb99-189"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-189" tabindex="-1"></a>                   <span class="fu">labeller</span>(</span>
+<span id="cb99-190"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-190" tabindex="-1"></a>                     <span class="at">Type =</span> <span class="fu">as_labeller</span>(<span class="fu">c</span>(<span class="at">Chill=</span><span class="st">&quot;VIP for chill&quot;</span>,</span>
+<span id="cb99-191"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-191" tabindex="-1"></a>                                          <span class="at">Heat=</span><span class="st">&quot;VIP for heat&quot;</span>)))) <span class="sc">+</span></span>
+<span id="cb99-192"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-192" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb99-193"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-193" tabindex="-1"></a>        <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,</span>
+<span id="cb99-194"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-194" tabindex="-1"></a>                 <span class="fu">max</span>(plscf[[chill_metric]][[heat_metric]]<span class="sc">$</span>PLS_summary<span class="sc">$</span>VIP))) <span class="sc">+</span></span>
+<span id="cb99-195"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-195" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">&quot;Variable Importance in the Projection (VIP) scores&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-196"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-196" tabindex="-1"></a>      <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">15</span>) <span class="sc">+</span> </span>
+<span id="cb99-197"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-197" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb99-198"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-198" tabindex="-1"></a>            <span class="at">strip.placement =</span> <span class="st">&quot;outside&quot;</span>,</span>
+<span id="cb99-199"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-199" tabindex="-1"></a>            <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb99-200"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-200" tabindex="-1"></a>            <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb99-201"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-201" tabindex="-1"></a>            <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb99-202"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-202" tabindex="-1"></a>      ) <span class="sc">+</span></span>
+<span id="cb99-203"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-203" tabindex="-1"></a>      <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">&quot;VIP&quot;</span>, </span>
+<span id="cb99-204"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-204" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;&lt;0.8&quot;</span>, <span class="st">&quot;&gt;0.8&quot;</span>), </span>
+<span id="cb99-205"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-205" tabindex="-1"></a>                        <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;FALSE&quot;</span> <span class="ot">=</span> <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb99-206"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-206" tabindex="-1"></a>                                   <span class="st">&quot;TRUE&quot;</span> <span class="ot">=</span> <span class="st">&quot;blue&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb99-207"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-207" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb99-208"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-208" tabindex="-1"></a>            <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb99-209"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-209" tabindex="-1"></a>            <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb99-210"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-210" tabindex="-1"></a>            <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb99-211"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-211" tabindex="-1"></a>    </span>
+<span id="cb99-212"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-212" tabindex="-1"></a>    coeff_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(PLS_gg,</span>
+<span id="cb99-213"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-213" tabindex="-1"></a>                         <span class="fu">aes</span>(<span class="at">x =</span> Date,</span>
+<span id="cb99-214"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-214" tabindex="-1"></a>                             <span class="at">y =</span> Coef)) <span class="sc">+</span></span>
+<span id="cb99-215"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-215" tabindex="-1"></a>      <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>,</span>
+<span id="cb99-216"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-216" tabindex="-1"></a>               <span class="at">xmin =</span> chill_start_date,</span>
+<span id="cb99-217"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-217" tabindex="-1"></a>               <span class="at">xmax =</span> chill_end_date,</span>
+<span id="cb99-218"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-218" tabindex="-1"></a>               <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb99-219"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-219" tabindex="-1"></a>               <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb99-220"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-220" tabindex="-1"></a>               <span class="at">alpha =</span> .<span class="dv">1</span>,</span>
+<span id="cb99-221"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-221" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-222"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-222" tabindex="-1"></a>      <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>,</span>
+<span id="cb99-223"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-223" tabindex="-1"></a>               <span class="at">xmin =</span> heat_start_date,</span>
+<span id="cb99-224"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-224" tabindex="-1"></a>               <span class="at">xmax =</span> heat_end_date,</span>
+<span id="cb99-225"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-225" tabindex="-1"></a>               <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb99-226"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-226" tabindex="-1"></a>               <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb99-227"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-227" tabindex="-1"></a>               <span class="at">alpha =</span> .<span class="dv">1</span>,</span>
+<span id="cb99-228"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-228" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-229"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-229" tabindex="-1"></a>      <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>,</span>
+<span id="cb99-230"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-230" tabindex="-1"></a>               <span class="at">xmin =</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-231"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-231" tabindex="-1"></a>                              <span class="dv">12</span>,</span>
+<span id="cb99-232"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-232" tabindex="-1"></a>                              <span class="dv">31</span>) <span class="sc">+</span> <span class="fu">min</span>(plscf<span class="sc">$</span>pheno<span class="sc">$</span>pheno,</span>
+<span id="cb99-233"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-233" tabindex="-1"></a>                                        <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span>,</span>
+<span id="cb99-234"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-234" tabindex="-1"></a>               <span class="at">xmax =</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-235"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-235" tabindex="-1"></a>                              <span class="dv">12</span>,</span>
+<span id="cb99-236"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-236" tabindex="-1"></a>                              <span class="dv">31</span>) <span class="sc">+</span> <span class="fu">max</span>(plscf<span class="sc">$</span>pheno<span class="sc">$</span>pheno,</span>
+<span id="cb99-237"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-237" tabindex="-1"></a>                                        <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span>,</span>
+<span id="cb99-238"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-238" tabindex="-1"></a>               <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb99-239"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-239" tabindex="-1"></a>               <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb99-240"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-240" tabindex="-1"></a>               <span class="at">alpha =</span> .<span class="dv">1</span>,</span>
+<span id="cb99-241"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-241" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-242"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-242" tabindex="-1"></a>      <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">ISOdate</span>(<span class="dv">2001</span>,</span>
+<span id="cb99-243"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-243" tabindex="-1"></a>                                      <span class="dv">12</span>,</span>
+<span id="cb99-244"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-244" tabindex="-1"></a>                                      <span class="dv">31</span>) <span class="sc">+</span> <span class="fu">median</span>(plscf<span class="sc">$</span>pheno<span class="sc">$</span>pheno,</span>
+<span id="cb99-245"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-245" tabindex="-1"></a>                                                   <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">24</span> <span class="sc">*</span> <span class="dv">3600</span>,</span>
+<span id="cb99-246"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-246" tabindex="-1"></a>                 <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-247"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-247" tabindex="-1"></a>      <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&#39;identity&#39;</span>,</span>
+<span id="cb99-248"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-248" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">fill =</span> VIP_Coeff)) <span class="sc">+</span></span>
+<span id="cb99-249"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-249" tabindex="-1"></a>      <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(Type),</span>
+<span id="cb99-250"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-250" tabindex="-1"></a>                 <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>,</span>
+<span id="cb99-251"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-251" tabindex="-1"></a>                 <span class="at">strip.position =</span> <span class="st">&quot;left&quot;</span>,</span>
+<span id="cb99-252"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-252" tabindex="-1"></a>                 <span class="at">labeller =</span></span>
+<span id="cb99-253"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-253" tabindex="-1"></a>                   <span class="fu">labeller</span>(</span>
+<span id="cb99-254"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-254" tabindex="-1"></a>                     <span class="at">Type =</span> <span class="fu">as_labeller</span>(<span class="fu">c</span>(<span class="at">Chill =</span> <span class="st">&quot;MC for chill&quot;</span>,</span>
+<span id="cb99-255"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-255" tabindex="-1"></a>                                          <span class="at">Heat =</span> <span class="st">&quot;MC for heat&quot;</span>)))) <span class="sc">+</span></span>
+<span id="cb99-256"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-256" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb99-257"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-257" tabindex="-1"></a>        <span class="at">limits =</span> <span class="fu">c</span>(<span class="fu">min</span>(plscf[[chill_metric]][[heat_metric]]<span class="sc">$</span>PLS_summary<span class="sc">$</span>Coef),</span>
+<span id="cb99-258"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-258" tabindex="-1"></a>                   <span class="fu">max</span>(plscf[[chill_metric]][[heat_metric]]<span class="sc">$</span>PLS_summary<span class="sc">$</span>Coef))) <span class="sc">+</span></span>
+<span id="cb99-259"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-259" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">&quot;Model coefficients (MC)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-260"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-260" tabindex="-1"></a>      <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">15</span>) <span class="sc">+</span> </span>
+<span id="cb99-261"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-261" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb99-262"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-262" tabindex="-1"></a>            <span class="at">strip.placement =</span> <span class="st">&quot;outside&quot;</span>,</span>
+<span id="cb99-263"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-263" tabindex="-1"></a>            <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb99-264"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-264" tabindex="-1"></a>            <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb99-265"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-265" tabindex="-1"></a>            <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb99-266"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-266" tabindex="-1"></a>      ) <span class="sc">+</span></span>
+<span id="cb99-267"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-267" tabindex="-1"></a>      <span class="fu">scale_fill_manual</span>(<span class="at">name=</span><span class="st">&quot;Effect direction&quot;</span>, </span>
+<span id="cb99-268"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-268" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Advancing&quot;</span>,</span>
+<span id="cb99-269"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-269" tabindex="-1"></a>                                   <span class="st">&quot;Unimportant&quot;</span>,</span>
+<span id="cb99-270"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-270" tabindex="-1"></a>                                   <span class="st">&quot;Delaying&quot;</span>), </span>
+<span id="cb99-271"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-271" tabindex="-1"></a>                        <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;-1&quot;</span> <span class="ot">=</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb99-272"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-272" tabindex="-1"></a>                                   <span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb99-273"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-273" tabindex="-1"></a>                                   <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;dark green&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb99-274"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-274" tabindex="-1"></a>      <span class="fu">ylab</span>(<span class="st">&quot;PLS coefficient&quot;</span>) <span class="sc">+</span></span>
+<span id="cb99-275"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-275" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb99-276"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-276" tabindex="-1"></a>            <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb99-277"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-277" tabindex="-1"></a>            <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb99-278"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-278" tabindex="-1"></a>            <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb99-279"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-279" tabindex="-1"></a>    </span>
+<span id="cb99-280"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-280" tabindex="-1"></a>    <span class="fu">library</span>(patchwork)</span>
+<span id="cb99-281"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-281" tabindex="-1"></a>    </span>
+<span id="cb99-282"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-282" tabindex="-1"></a>    plot <span class="ot">&lt;-</span> (VIP_plot <span class="sc">+</span></span>
+<span id="cb99-283"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-283" tabindex="-1"></a>               coeff_plot <span class="sc">+</span></span>
+<span id="cb99-284"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-284" tabindex="-1"></a>               temp_plot <span class="sc">+</span></span>
+<span id="cb99-285"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-285" tabindex="-1"></a>               <span class="fu">plot_layout</span>(<span class="at">ncol=</span><span class="dv">1</span>,</span>
+<span id="cb99-286"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-286" tabindex="-1"></a>                           <span class="at">guides =</span> <span class="st">&quot;collect&quot;</span>)</span>
+<span id="cb99-287"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-287" tabindex="-1"></a>    ) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb99-288"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-288" tabindex="-1"></a>              <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb99-289"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-289" tabindex="-1"></a>              <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb99-290"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-290" tabindex="-1"></a>              <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb99-291"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-291" tabindex="-1"></a>    </span>
+<span id="cb99-292"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-292" tabindex="-1"></a>    plot</span>
+<span id="cb99-293"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-293" tabindex="-1"></a>    </span>
+<span id="cb99-294"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-294" tabindex="-1"></a>  }</span>
+<span id="cb99-295"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-295" tabindex="-1"></a>  </span>
+<span id="cb99-296"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-296" tabindex="-1"></a></span>
+<span id="cb99-297"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-297" tabindex="-1"></a></span>
+<span id="cb99-298"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-298" tabindex="-1"></a>plscf <span class="ot">&lt;-</span> <span class="fu">PLS_chill_force</span>(<span class="at">daily_chill_obj =</span> daychill,</span>
+<span id="cb99-299"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-299" tabindex="-1"></a>                         <span class="at">bio_data_frame =</span> Roter_first,</span>
+<span id="cb99-300"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-300" tabindex="-1"></a>                         <span class="at">split_month =</span> <span class="dv">6</span>,</span>
+<span id="cb99-301"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-301" tabindex="-1"></a>                         <span class="at">chill_models =</span> <span class="fu">c</span>(<span class="st">&quot;Chilling_Hours&quot;</span>,</span>
+<span id="cb99-302"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-302" tabindex="-1"></a>                                          <span class="st">&quot;Utah_Chill_Units&quot;</span>,</span>
+<span id="cb99-303"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-303" tabindex="-1"></a>                                          <span class="st">&quot;Chill_Portions&quot;</span>),</span>
+<span id="cb99-304"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-304" tabindex="-1"></a>                       <span class="at">heat_models =</span> <span class="fu">c</span>(<span class="st">&quot;GDH&quot;</span>))</span>
+<span id="cb99-305"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-305" tabindex="-1"></a></span>
+<span id="cb99-306"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-306" tabindex="-1"></a><span class="co">#chill metric: different model </span></span>
+<span id="cb99-307"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-307" tabindex="-1"></a></span>
+<span id="cb99-308"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-308" tabindex="-1"></a><span class="do">##shaded plot (CH)</span></span>
+<span id="cb99-309"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-309" tabindex="-1"></a><span class="fu">plot_PLS_chill_force</span>(plscf,</span>
+<span id="cb99-310"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-310" tabindex="-1"></a>                     <span class="at">chill_metric =</span> <span class="st">&quot;Chilling_Hours&quot;</span>,</span>
+<span id="cb99-311"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-311" tabindex="-1"></a>                     <span class="at">heat_metric =</span> <span class="st">&quot;GDH&quot;</span>,</span>
+<span id="cb99-312"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-312" tabindex="-1"></a>                     <span class="at">chill_label =</span> <span class="st">&quot;CH&quot;</span>,</span>
+<span id="cb99-313"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-313" tabindex="-1"></a>                     <span class="at">heat_label =</span> <span class="st">&quot;GDH&quot;</span>,</span>
+<span id="cb99-314"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-314" tabindex="-1"></a>                     <span class="at">chill_phase =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb99-315"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-315" tabindex="-1"></a>                     <span class="at">heat_phase =</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">105</span>))</span>
+<span id="cb99-316"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-316" tabindex="-1"></a><span class="do">##shaded plot (CU)</span></span>
+<span id="cb99-317"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-317" tabindex="-1"></a><span class="fu">plot_PLS_chill_force</span>(plscf,</span>
+<span id="cb99-318"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-318" tabindex="-1"></a>                     <span class="at">chill_metric =</span> <span class="st">&quot;Utah_Chill_Units&quot;</span>,</span>
+<span id="cb99-319"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-319" tabindex="-1"></a>                     <span class="at">heat_metric =</span> <span class="st">&quot;GDH&quot;</span>,</span>
+<span id="cb99-320"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-320" tabindex="-1"></a>                     <span class="at">chill_label =</span> <span class="st">&quot;CU&quot;</span>,</span>
+<span id="cb99-321"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-321" tabindex="-1"></a>                     <span class="at">heat_label =</span> <span class="st">&quot;GDH&quot;</span>,</span>
+<span id="cb99-322"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-322" tabindex="-1"></a>                     <span class="at">chill_phase =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">15</span>,<span class="dv">66</span>),</span>
+<span id="cb99-323"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-323" tabindex="-1"></a>                     <span class="at">heat_phase =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">106</span>))</span>
+<span id="cb99-324"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-324" tabindex="-1"></a><span class="do">##shaded plot (CP)</span></span>
+<span id="cb99-325"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-325" tabindex="-1"></a><span class="fu">plot_PLS_chill_force</span>(plscf,</span>
+<span id="cb99-326"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-326" tabindex="-1"></a>                     <span class="at">chill_metric =</span> <span class="st">&quot;Chilling_Hours&quot;</span>,</span>
+<span id="cb99-327"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-327" tabindex="-1"></a>                     <span class="at">heat_metric =</span> <span class="st">&quot;GDH&quot;</span>,</span>
+<span id="cb99-328"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-328" tabindex="-1"></a>                     <span class="at">chill_label =</span> <span class="st">&quot;CP&quot;</span>,</span>
+<span id="cb99-329"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-329" tabindex="-1"></a>                     <span class="at">heat_label =</span> <span class="st">&quot;GDH&quot;</span>,</span>
+<span id="cb99-330"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-330" tabindex="-1"></a>                     <span class="at">chill_phase =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>,<span class="dv">62</span>),</span>
+<span id="cb99-331"><a href="pls-regression-with-agroclimatic-metrics.html#cb99-331" tabindex="-1"></a>                     <span class="at">heat_phase =</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">105</span>))</span></code></pre></div>
+</div>
+<div id="plot-results-for-all-three-analyses-including-shaded-plot-areas-for-the-chilling-and-forcing-periods-you-estimated." class="section level2 hasAnchor" number="22.3">
+<h2><span class="header-section-number">22.3</span> Plot results for all three analyses, including shaded plot areas for the chilling and forcing periods you estimated.<a href="pls-regression-with-agroclimatic-metrics.html#plot-results-for-all-three-analyses-including-shaded-plot-areas-for-the-chilling-and-forcing-periods-you-estimated." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-114"></span>
+<img src="KR_image/chunk111_CH.png" alt="heat and chill accumulation (CH)" width="100%" />
+<p class="caption">
+Figure 22.4: heat and chill accumulation (CH)
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-115"></span>
+<img src="KR_image/chunk111_CU.png" alt="heat and chill accumulation (CU)" width="100%" />
+<p class="caption">
+Figure 22.5: heat and chill accumulation (CU)
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-116"></span>
+<img src="KR_image/chunk111_CP.png" alt="heat and chill accumulation (CP)" width="100%" />
+<p class="caption">
+Figure 22.6: heat and chill accumulation (CP)
+</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="successes-and-limitations-of-pls-regression-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="examples-of-pls-regression-with-agroclimatic-metrics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": false,
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 17 Plotting future scenario | ‘Tree phenology analysis with R’ learning Logbook</title>
+  <meta name="description" content="Chapter 17 Plotting future scenario | ‘Tree phenology analysis with R’ learning Logbook" />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 17 Plotting future scenario | ‘Tree phenology analysis with R’ learning Logbook" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 17 Plotting future scenario | ‘Tree phenology analysis with R’ learning Logbook" />
+  
+  
+  
+
+<meta name="author" content="Sang Hyo Moon" />
+
+
+<meta name="date" content="2024-03-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="making-cmpi6-scenario.html"/>
+<link rel="next" href="chill-model-comparison.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Tree phenology analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="tools.html"><a href="tools.html"><i class="fa fa-check"></i><b>2</b> tools</a></li>
+<li class="chapter" data-level="3" data-path="tree-dormancy.html"><a href="tree-dormancy.html"><i class="fa fa-check"></i><b>3</b> <strong>tree dormancy</strong></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tree-dormancy.html"><a href="tree-dormancy.html#put-yourself-in-the-place-of-a-breeder-who-wants-to-calculate-the-temperature-requirements-of-a-newly-released-cultivar.-which-method-will-you-use-to-calculate-the-chilling-and-forcing-periods-please-justify-your-answer."><i class="fa fa-check"></i><b>3.1</b> Put yourself in the place of a breeder who wants to calculate the temperature requirements of a newly released cultivar. Which method will you use to calculate the chilling and forcing periods? Please justify your answer.</a></li>
+<li class="chapter" data-level="3.2" data-path="tree-dormancy.html"><a href="tree-dormancy.html#which-are-the-advantages-2-of-the-bbch-scale-compared-with-earlies-scales"><i class="fa fa-check"></i><b>3.2</b> Which are the advantages (2) of the BBCH scale compared with earlies scales?</a></li>
+<li class="chapter" data-level="3.3" data-path="tree-dormancy.html"><a href="tree-dormancy.html#classify-the-following-phenological-stages-of-sweet-cherry-according-to-the-bbch-scalephenological-stages-of-cherry"><i class="fa fa-check"></i><b>3.3</b> Classify the following phenological stages of sweet cherry according to the BBCH scale:Phenological stages of cherry</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="climate-change-and-impact-projection.html"><a href="climate-change-and-impact-projection.html"><i class="fa fa-check"></i><b>4</b> <strong>Climate change and impact projection</strong></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="climate-change-and-impact-projection.html"><a href="climate-change-and-impact-projection.html#list-the-main-drivers-of-climate-change-at-the-decade-to-century-scale-and-briefly-explain-the-mechanism-through-which-the-currently-most-important-driver-affects-our-climate."><i class="fa fa-check"></i><b>4.1</b> List the main drivers of climate change at the decade to century scale, and briefly explain the mechanism through which the currently most important driver affects our climate.</a></li>
+<li class="chapter" data-level="4.2" data-path="climate-change-and-impact-projection.html"><a href="climate-change-and-impact-projection.html#explain-briefly-what-is-special-about-temperature-dynamics-of-recent-decades-and-why-we-have-good-reasons-to-be-concerned."><i class="fa fa-check"></i><b>4.2</b> Explain briefly what is special about temperature dynamics of recent decades, and why we have good reasons to be concerned.</a></li>
+<li class="chapter" data-level="4.3" data-path="climate-change-and-impact-projection.html"><a href="climate-change-and-impact-projection.html#what-does-the-abbreviation-rcp-stand-for-how-are-rcps-defined-and-what-is-their-role-in-projecting-future-climates"><i class="fa fa-check"></i><b>4.3</b> What does the abbreviation ‘RCP’ stand for, how are RCPs defined, and what is their role in projecting future climates?</a></li>
+<li class="chapter" data-level="4.4" data-path="climate-change-and-impact-projection.html"><a href="climate-change-and-impact-projection.html#briefly-describe-the-4-climate-impact-projection-methods-described-in-the-fourth-video."><i class="fa fa-check"></i><b>4.4</b> Briefly describe the 4 climate impact projection methods described in the fourth video.</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="winter-chill-projections.html"><a href="winter-chill-projections.html"><i class="fa fa-check"></i><b>5</b> <strong>Winter chill projections</strong></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="winter-chill-projections.html"><a href="winter-chill-projections.html#sketch-out-three-data-access-and-processing-challenges-that-had-to-be-overcome-in-order-to-produce-chill-projections-with-state-of-the-art-methodology."><i class="fa fa-check"></i><b>5.1</b> Sketch out three data access and processing challenges that had to be overcome in order to produce chill projections with state-of-the-art methodology.</a></li>
+<li class="chapter" data-level="5.2" data-path="winter-chill-projections.html"><a href="winter-chill-projections.html#outline-in-your-understanding-the-basic-steps-that-are-necessary-to-make-such-projections."><i class="fa fa-check"></i><b>5.2</b> Outline, in your understanding, the basic steps that are necessary to make such projections.</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manual-chill-analysis.html"><a href="manual-chill-analysis.html"><i class="fa fa-check"></i><b>6</b> <strong>Manual chill analysis</strong></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manual-chill-analysis.html"><a href="manual-chill-analysis.html#write-a-basic-function-that-calculates-warm-hours-25c"><i class="fa fa-check"></i><b>6.1</b> Write a basic function that calculates warm hours (&gt;25°C)</a></li>
+<li class="chapter" data-level="6.2" data-path="manual-chill-analysis.html"><a href="manual-chill-analysis.html#apply-this-function-to-the-winters_hours_gaps-dataset"><i class="fa fa-check"></i><b>6.2</b> Apply this function to the Winters_hours_gaps dataset</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="manual-chill-analysis.html"><a href="manual-chill-analysis.html#extend-this-function-so-that-it-can-take-start-and-end-dates-as-inputs-and-sums-up-warm-hours-between-these-dates"><i class="fa fa-check"></i><b>6.2.1</b> Extend this function, so that it can take start and end dates as inputs and sums up warm hours between these dates</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chill-models.html"><a href="chill-models.html"><i class="fa fa-check"></i><b>7</b> <strong>Chill models</strong></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chill-models.html"><a href="chill-models.html#run-the-chilling-function-on-the-winters_hours_gap-dataset"><i class="fa fa-check"></i><b>7.1</b> Run the chilling() function on the Winters_hours_gap dataset</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="chill-models.html"><a href="chill-models.html#create-your-own-temperature-weighting-chill-model-using-the-step_model-function"><i class="fa fa-check"></i><b>7.1.1</b> Create your own temperature-weighting chill model using the step_model() function</a></li>
+<li class="chapter" data-level="7.1.2" data-path="chill-models.html"><a href="chill-models.html#run-this-model-on-the-winters_hours_gaps-dataset-using-the-tempresponse-function."><i class="fa fa-check"></i><b>7.1.2</b> Run this model on the Winters_hours_gaps dataset using the tempResponse() function.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="making-hourly-temperatures.html"><a href="making-hourly-temperatures.html"><i class="fa fa-check"></i><b>8</b> <strong>Making hourly temperatures</strong></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="making-hourly-temperatures.html"><a href="making-hourly-temperatures.html#choose-a-location-of-interest-find-out-its-latitude-and-produce-plots-of-daily-sunrise-sunset-and-daylength"><i class="fa fa-check"></i><b>8.1</b> Choose a location of interest, find out its latitude and produce plots of daily sunrise, sunset and daylength</a></li>
+<li class="chapter" data-level="8.2" data-path="making-hourly-temperatures.html"><a href="making-hourly-temperatures.html#produce-an-hourly-dataset-based-on-idealized-daily-curves-for-the-ka_weather-dataset-included-in-chillr"><i class="fa fa-check"></i><b>8.2</b> Produce an hourly dataset, based on idealized daily curves, for the KA_weather dataset (included in chillR)</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="making-hourly-temperatures.html"><a href="making-hourly-temperatures.html#produce-empirical-temperature-curve-parameters-for-the-winters_hours_gaps-dataset-and-use-them-to-predict-hourly-values-from-daily-temperatures-this-is-very-similar-to-the-example-above-but-please-make-sure-you-understand-whats-going-on"><i class="fa fa-check"></i><b>8.2.1</b> Produce empirical temperature curve parameters for the Winters_hours_gaps dataset, and use them to predict hourly values from daily temperatures (this is very similar to the example above, but please make sure you understand what’s going on)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html"><i class="fa fa-check"></i><b>9</b> <strong>Some useful tools in R</strong></a>
+<ul>
+<li class="chapter" data-level="9.0.1" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html#based-on-the-winters_hours_gaps-dataset-use-magrittr-pipes-and-functions-of-the-tidyverse-to-accomplish-the-following"><i class="fa fa-check"></i><b>9.0.1</b> Based on the <code>Winters_hours_gaps</code> dataset, use <code>magrittr</code> pipes and functions of the <code>tidyvers</code>e to accomplish the following:</a></li>
+<li class="chapter" data-level="9.1" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html#for-the-winter_hours_gaps-dataset-write-a-for-loop-to-convert-all-temperatures-temp-column-to-degrees-fahrenheit"><i class="fa fa-check"></i><b>9.1</b> For the <code>Winter_hours_gaps</code> dataset, write a <code>for</code> loop to convert all temperatures (<code>Temp</code> column) to degrees Fahrenheit</a></li>
+<li class="chapter" data-level="9.2" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html#execute-the-same-operation-with-a-function-from-the-apply-family"><i class="fa fa-check"></i><b>9.2</b> Execute the same operation with a function from the <code>apply</code> family</a></li>
+<li class="chapter" data-level="9.3" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html#now-use-the-tidyverse-function-mutate-to-achieve-the-same-outcome"><i class="fa fa-check"></i><b>9.3</b> Now use the <code>tidyverse</code> function <code>mutate</code> to achieve the same outcome</a></li>
+<li class="chapter" data-level="9.4" data-path="some-useful-tools-in-r.html"><a href="some-useful-tools-in-r.html#voluntary-consider-taking-a-look-at-the-instruction-materials-on-all-these-functions-which-i-linked-above-as-well-as-at-other-sources-on-the-internet.-theres-a-lot-more-to-discover-here-with-ots-of-potential-for-making-your-coding-more-elegant-and-easier---and-possibly-even-more-fun"><i class="fa fa-check"></i><b>9.4</b> Voluntary: consider taking a look at the instruction materials on all these functions, which I linked above, as well as at other sources on the internet. There’s a lot more to discover here, with ots of potential for making your coding more elegant and easier - and possibly even more fun!</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="getting-temperature-data.html"><a href="getting-temperature-data.html"><i class="fa fa-check"></i><b>10</b> <strong>Getting temperature data</strong></a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="getting-temperature-data.html"><a href="getting-temperature-data.html#choose-a-location-of-interest-and-find-the-25-closest-weather-stations-using-the-handle_gsod-function"><i class="fa fa-check"></i><b>10.1</b> Choose a location of interest and find the 25 closest weather stations using the handle_gsod function</a></li>
+<li class="chapter" data-level="10.2" data-path="getting-temperature-data.html"><a href="getting-temperature-data.html#download-weather-data-for-the-most-promising-station-on-the-list"><i class="fa fa-check"></i><b>10.2</b> Download weather data for the most promising station on the list</a></li>
+<li class="chapter" data-level="10.3" data-path="getting-temperature-data.html"><a href="getting-temperature-data.html#convert-the-weather-data-into-chillr-format"><i class="fa fa-check"></i><b>10.3</b> Convert the weather data into chillR format</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html"><i class="fa fa-check"></i><b>11</b> <strong>Filling gaps in temperature records</strong></a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#use-chillr-functions-to-find-out-how-many-gaps-you-have-in-this-dataset-even-if-you-have-none-please-still-follow-all-further-steps"><i class="fa fa-check"></i><b>11.1</b> Use chillR functions to find out how many gaps you have in this dataset (even if you have none, please still follow all further steps)</a></li>
+<li class="chapter" data-level="11.2" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#create-a-list-of-the-25-closest-weather-stations-using-the-handle_gsod-function"><i class="fa fa-check"></i><b>11.2</b> Create a list of the 25 closest weather stations using the handle_gsod function</a></li>
+<li class="chapter" data-level="11.3" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#identify-suitable-weather-stations-for-patching-gaps"><i class="fa fa-check"></i><b>11.3</b> Identify suitable weather stations for patching gaps</a></li>
+<li class="chapter" data-level="11.4" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#download-weather-data-for-promising-stations-convert-them-to-chillr-format-and-compile-them-in-a-list"><i class="fa fa-check"></i><b>11.4</b> Download weather data for promising stations, convert them to chillR format and compile them in a list</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#use-the-patch_daily_temperatures-function-to-fill-gaps"><i class="fa fa-check"></i><b>11.4.1</b> Use the patch_daily_temperatures function to fill gaps</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#investigate-the-results---have-all-gaps-been-filled"><i class="fa fa-check"></i><b>11.5</b> Investigate the results - have all gaps been filled?</a></li>
+<li class="chapter" data-level="11.6" data-path="filling-gaps-in-temperature-records.html"><a href="filling-gaps-in-temperature-records.html#if-necessary-repeat-until-you-have-a-dataset-you-can-work-with-in-further-analyses"><i class="fa fa-check"></i><b>11.6</b> If necessary, repeat until you have a dataset you can work with in further analyses</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="generating-temperature-scenarios.html"><a href="generating-temperature-scenarios.html"><i class="fa fa-check"></i><b>12</b> <strong>Generating temperature scenarios</strong></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="generating-temperature-scenarios.html"><a href="generating-temperature-scenarios.html#for-the-location-you-chose-for-your-earlier-analyses-use-chillrs-weather-generator-to-produce-100-years-of-synthetic-temperature-data."><i class="fa fa-check"></i><b>12.1</b> For the location you chose for your earlier analyses, use chillR’s weather generator to produce 100 years of synthetic temperature data.</a></li>
+<li class="chapter" data-level="12.2" data-path="generating-temperature-scenarios.html"><a href="generating-temperature-scenarios.html#calculate-winter-chill-in-chill-portions-for-your-synthetic-weather-and-illustrate-your-results-as-histograms-and-cumulative-distributions."><i class="fa fa-check"></i><b>12.2</b> Calculate winter chill (in Chill Portions) for your synthetic weather, and illustrate your results as histograms and cumulative distributions.</a></li>
+<li class="chapter" data-level="12.3" data-path="generating-temperature-scenarios.html"><a href="generating-temperature-scenarios.html#produce-similar-plots-for-the-number-of-freezing-hours-0c-in-april-or-october-if-your-site-is-in-the-southern-hemisphere-for-your-location-of-interest."><i class="fa fa-check"></i><b>12.3</b> Produce similar plots for the number of freezing hours (&lt;0°C) in April (or October, if your site is in the Southern Hemisphere) for your location of interest.</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="saving-and-loading-data.html"><a href="saving-and-loading-data.html"><i class="fa fa-check"></i><b>13</b> Saving and loading data</a></li>
+<li class="chapter" data-level="14" data-path="historic-temperature-scenarios.html"><a href="historic-temperature-scenarios.html"><i class="fa fa-check"></i><b>14</b> <strong>historic temperature scenarios</strong></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="historic-temperature-scenarios.html"><a href="historic-temperature-scenarios.html#for-the-location-you-chose-for-previous-exercises-produce-historic-temperature-scenarios-representing-several-years-of-the-historic-record-your-choice."><i class="fa fa-check"></i><b>14.1</b> For the location you chose for previous exercises, produce historic temperature scenarios representing several years of the historic record (your choice).</a></li>
+<li class="chapter" data-level="14.2" data-path="historic-temperature-scenarios.html"><a href="historic-temperature-scenarios.html#produce-chill-distributions-for-these-scenarios-and-plot-them."><i class="fa fa-check"></i><b>14.2</b> Produce chill distributions for these scenarios and plot them.</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="future-temperature-scenarios.html"><a href="future-temperature-scenarios.html"><i class="fa fa-check"></i><b>15</b> <strong>future temperature scenarios</strong></a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="future-temperature-scenarios.html"><a href="future-temperature-scenarios.html#briefly-describe-the-differences-between-the-rcps-and-the-ssps-you-may-have-to-follow-some-of-the-links-provided-above."><i class="fa fa-check"></i><b>15.1</b> Briefly describe the differences between the RCPs and the SSPs (you may have to follow some of the links provided above).</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="making-cmpi6-scenario.html"><a href="making-cmpi6-scenario.html"><i class="fa fa-check"></i><b>16</b> <strong>Making CMPI6 scenario</strong></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="making-cmpi6-scenario.html"><a href="making-cmpi6-scenario.html#analyze-the-historic-and-future-impact-of-climate-change-on-two-agroclimatic-metrics-of-your-choice-for-the-location-youve-chosen-for-your-earlier-analyses."><i class="fa fa-check"></i><b>16.1</b> Analyze the historic and future impact of climate change on two agroclimatic metrics of your choice, for the location you’ve chosen for your earlier analyses.</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="plotting-future-scenario.html"><a href="plotting-future-scenario.html"><i class="fa fa-check"></i><b>17</b> <strong>Plotting future scenario</strong></a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="plotting-future-scenario.html"><a href="plotting-future-scenario.html#produce-similar-plots-for-the-weather-station-you-selected-for-earlier-exercises."><i class="fa fa-check"></i><b>17.1</b> Produce similar plots for the weather station you selected for earlier exercises.</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="chill-model-comparison.html"><a href="chill-model-comparison.html"><i class="fa fa-check"></i><b>18</b> <strong>Chill model comparison</strong></a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="chill-model-comparison.html"><a href="chill-model-comparison.html#perform-a-similar-analysis-for-the-location-youve-chosen-for-your-exercises."><i class="fa fa-check"></i><b>18.1</b> Perform a similar analysis for the location you’ve chosen for your exercises.</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="chill-model-comparison.html"><a href="chill-model-comparison.html#make-a-heat-map-illustrating-past-and-future-changes-in-safe-winter-chill-relative-to-a-past-scenario-for-the-13-chill-models-used-here"><i class="fa fa-check"></i><b>18.1.1</b> Make a heat map illustrating past and future changes in Safe Winter Chill, relative to a past scenario, for the 13 chill models used here</a></li>
+<li class="chapter" data-level="18.1.2" data-path="chill-model-comparison.html"><a href="chill-model-comparison.html#produce-an-animated-line-plot-of-your-results-summarizing-safe-winter-chill-across-all-the-gcms."><i class="fa fa-check"></i><b>18.1.2</b> Produce an animated line plot of your results (summarizing Safe Winter Chill across all the GCMs).</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="simple-phenology-analysis.html"><a href="simple-phenology-analysis.html"><i class="fa fa-check"></i><b>19</b> <strong>Simple phenology analysis</strong></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="simple-phenology-analysis.html"><a href="simple-phenology-analysis.html#provide-a-brief-narrative-describing-what-p-hacking-is-and-why-this-is-a-problematic-approach-to-data-analysis."><i class="fa fa-check"></i><b>19.1</b> Provide a brief narrative describing what p-hacking is, and why this is a problematic approach to data analysis.</a></li>
+<li class="chapter" data-level="19.2" data-path="simple-phenology-analysis.html"><a href="simple-phenology-analysis.html#provide-a-sketch-of-your-causal-understanding-of-the-relationship-between-temperature-and-bloom-dates."><i class="fa fa-check"></i><b>19.2</b> Provide a sketch of your causal understanding of the relationship between temperature and bloom dates.</a></li>
+<li class="chapter" data-level="19.3" data-path="simple-phenology-analysis.html"><a href="simple-phenology-analysis.html#what-do-we-need-to-know-to-build-a-process-based-model-from-this"><i class="fa fa-check"></i><b>19.3</b> What do we need to know to build a process-based model from this?</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="delineating-temperature-response-phases-with-pls-regression.html"><a href="delineating-temperature-response-phases-with-pls-regression.html"><i class="fa fa-check"></i><b>20</b> <strong>Delineating temperature response phases with PLS regression</strong></a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="delineating-temperature-response-phases-with-pls-regression.html"><a href="delineating-temperature-response-phases-with-pls-regression.html#briefly-explain-why-you-shouldnt-take-the-results-of-a-pls-regression-analysis-between-temperature-and-phenology-at-face-value.-what-do-you-need-in-addition-in-order-to-make-sense-of-such-outputs"><i class="fa fa-check"></i><b>20.1</b> Briefly explain why you shouldn’t take the results of a PLS regression analysis between temperature and phenology at face value. What do you need in addition in order to make sense of such outputs?</a></li>
+<li class="chapter" data-level="20.2" data-path="delineating-temperature-response-phases-with-pls-regression.html"><a href="delineating-temperature-response-phases-with-pls-regression.html#replicate-the-pls-analysis-for-the-roter-boskoop-dataset-that-you-used-in-a-previous-lesson."><i class="fa fa-check"></i><b>20.2</b> Replicate the PLS analysis for the Roter Boskoop dataset that you used in a previous lesson.</a></li>
+<li class="chapter" data-level="20.3" data-path="delineating-temperature-response-phases-with-pls-regression.html"><a href="delineating-temperature-response-phases-with-pls-regression.html#write-down-your-thoughts-on-why-were-not-seeing-the-temperature-response-pattern-we-may-have-expected.-what-happened-to-the-chill-response"><i class="fa fa-check"></i><b>20.3</b> Write down your thoughts on why we’re not seeing the temperature response pattern we may have expected. What happened to the chill response?</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="successes-and-limitations-of-pls-regression-analysis.html"><a href="successes-and-limitations-of-pls-regression-analysis.html"><i class="fa fa-check"></i><b>21</b> <strong>Successes and limitations of PLS regression analysis</strong></a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="successes-and-limitations-of-pls-regression-analysis.html"><a href="successes-and-limitations-of-pls-regression-analysis.html#briefly-explain-in-what-climatic-settings-we-can-expect-pls-regression-to-detect-the-chilling-phase---and-in-what-settings-this-probably-wont-work."><i class="fa fa-check"></i><b>21.1</b> Briefly explain in what climatic settings we can expect PLS regression to detect the chilling phase - and in what settings this probably won’t work.</a></li>
+<li class="chapter" data-level="21.2" data-path="successes-and-limitations-of-pls-regression-analysis.html"><a href="successes-and-limitations-of-pls-regression-analysis.html#how-could-we-overcome-this-problem"><i class="fa fa-check"></i><b>21.2</b> How could we overcome this problem?</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="pls-regression-with-agroclimatic-metrics.html"><a href="pls-regression-with-agroclimatic-metrics.html"><i class="fa fa-check"></i><b>22</b> <strong>PLS regression with agroclimatic metrics</strong></a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="pls-regression-with-agroclimatic-metrics.html"><a href="pls-regression-with-agroclimatic-metrics.html#repeat-the-pls_chill_force-procedure-for-the-roter-boskoop-dataset.-include-plots-of-daily-chill-and-heat-accumulation."><i class="fa fa-check"></i><b>22.1</b> Repeat the PLS_chill_force procedure for the ‘Roter Boskoop’ dataset. Include plots of daily chill and heat accumulation.</a></li>
+<li class="chapter" data-level="22.2" data-path="pls-regression-with-agroclimatic-metrics.html"><a href="pls-regression-with-agroclimatic-metrics.html#run-pls_chill_force-analyses-for-all-three-major-chill-models.-delineate-your-best-estimates-of-chilling-and-forcing-phases-for-all-of-them."><i class="fa fa-check"></i><b>22.2</b> Run PLS_chill_force analyses for all three major chill models. Delineate your best estimates of chilling and forcing phases for all of them.</a></li>
+<li class="chapter" data-level="22.3" data-path="pls-regression-with-agroclimatic-metrics.html"><a href="pls-regression-with-agroclimatic-metrics.html#plot-results-for-all-three-analyses-including-shaded-plot-areas-for-the-chilling-and-forcing-periods-you-estimated."><i class="fa fa-check"></i><b>22.3</b> Plot results for all three analyses, including shaded plot areas for the chilling and forcing periods you estimated.</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="examples-of-pls-regression-with-agroclimatic-metrics.html"><a href="examples-of-pls-regression-with-agroclimatic-metrics.html"><i class="fa fa-check"></i><b>23</b> <strong>Examples of PLS regression with agroclimatic metrics</strong></a>
+<ul>
+<li class="chapter" data-level="23.0.1" data-path="examples-of-pls-regression-with-agroclimatic-metrics.html"><a href="examples-of-pls-regression-with-agroclimatic-metrics.html#look-across-all-the-pls-results-presented-above.-can-you-detect-a-pattern-in-where-chilling-and-forcing-periods-could-be-delineated-clearly-and-where-this-attempt-failed"><i class="fa fa-check"></i><b>23.0.1</b> Look across all the PLS results presented above. Can you detect a pattern in where chilling and forcing periods could be delineated clearly, and where this attempt failed?</a></li>
+<li class="chapter" data-level="23.1" data-path="examples-of-pls-regression-with-agroclimatic-metrics.html"><a href="examples-of-pls-regression-with-agroclimatic-metrics.html#think-about-possible-reasons-for-the-success-or-failure-of-pls-analysis-based-on-agroclimatic-metrics.-write-down-your-thoughts."><i class="fa fa-check"></i><b>23.1</b> Think about possible reasons for the success or failure of PLS analysis based on agroclimatic metrics. Write down your thoughts.</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="why-pls-doesnt-always-work.html"><a href="why-pls-doesnt-always-work.html"><i class="fa fa-check"></i><b>24</b> <strong>Why PLS doesn’t always work</strong></a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="why-pls-doesnt-always-work.html"><a href="why-pls-doesnt-always-work.html#produce-chill-and-heat-model-sensitivity-plots-for-the-location-you-focused-on-in-previous-exercises."><i class="fa fa-check"></i><b>24.1</b> Produce chill and heat model sensitivity plots for the location you focused on in previous exercises.</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="evaluating-pls-outputs.html"><a href="evaluating-pls-outputs.html"><i class="fa fa-check"></i><b>25</b> <strong>Evaluating PLS outputs</strong></a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="evaluating-pls-outputs.html"><a href="evaluating-pls-outputs.html#reproduce-the-analysis-for-the-roter-boskoop-dataset."><i class="fa fa-check"></i><b>25.1</b> Reproduce the analysis for the ‘Roter Boskoop’ dataset.</a></li>
+<li class="chapter" data-level="25.2" data-path="evaluating-pls-outputs.html"><a href="evaluating-pls-outputs.html#weve-looked-at-data-from-a-number-of-locations-so-far.-how-would-you-expect-this-surface-plot-to-look-like-in-beijing-and-how-should-it-look-in-tunisia"><i class="fa fa-check"></i><b>25.2</b> We’ve looked at data from a number of locations so far. How would you expect this surface plot to look like in Beijing? And how should it look in Tunisia?</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="the-relative-importance-of-chill-and-heat.html"><a href="the-relative-importance-of-chill-and-heat.html"><i class="fa fa-check"></i><b>26</b> <strong>The relative importance of chill and heat</strong></a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="the-relative-importance-of-chill-and-heat.html"><a href="the-relative-importance-of-chill-and-heat.html#describe-the-temperature-response-hypothesis-outlined-in-this-chapter."><i class="fa fa-check"></i><b>26.1</b> Describe the temperature response hypothesis outlined in this chapter.</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="experimentally-enhanced-pls.html"><a href="experimentally-enhanced-pls.html"><i class="fa fa-check"></i><b>27</b> Experimentally enhanced PLS</a></li>
+<li class="chapter" data-level="28" data-path="making-valid-tree-phenology-models.html"><a href="making-valid-tree-phenology-models.html"><i class="fa fa-check"></i><b>28</b> <strong>Making valid tree phenology models</strong></a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="making-valid-tree-phenology-models.html"><a href="making-valid-tree-phenology-models.html#explain-the-difference-between-output-validation-and-process-validation."><i class="fa fa-check"></i><b>28.1</b> Explain the difference between output validation and process validation.</a></li>
+<li class="chapter" data-level="28.2" data-path="making-valid-tree-phenology-models.html"><a href="making-valid-tree-phenology-models.html#explain-what-a-validity-domain-is-and-why-it-is-important-to-consider-this-whenever-we-want-to-use-our-model-to-forecast-something."><i class="fa fa-check"></i><b>28.2</b> Explain what a validity domain is and why it is important to consider this whenever we want to use our model to forecast something.</a></li>
+<li class="chapter" data-level="28.3" data-path="making-valid-tree-phenology-models.html"><a href="making-valid-tree-phenology-models.html#what-is-validation-for-purpose"><i class="fa fa-check"></i><b>28.3</b> What is validation for purpose?</a></li>
+<li class="chapter" data-level="28.4" data-path="making-valid-tree-phenology-models.html"><a href="making-valid-tree-phenology-models.html#how-can-we-ensure-that-our-model-is-suitable-for-the-predictions-we-want-to-make"><i class="fa fa-check"></i><b>28.4</b> How can we ensure that our model is suitable for the predictions we want to make?</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="the-phenoflex-model.html"><a href="the-phenoflex-model.html"><i class="fa fa-check"></i><b>29</b> <strong>The PhenoFlex model</strong></a>
+<ul>
+<li class="chapter" data-level="29.0.1" data-path="the-phenoflex-model.html"><a href="the-phenoflex-model.html#parameterize-the-phenoflex-model-for-roter-boskoop-apples."><i class="fa fa-check"></i><b>29.0.1</b> Parameterize the PhenoFlex model for `Roter Boskoop’ apples.</a></li>
+<li class="chapter" data-level="29.0.2" data-path="the-phenoflex-model.html"><a href="the-phenoflex-model.html#produce-plots-of-predicted-vs.-observed-bloom-dates-and-distribution-of-prediction-errors."><i class="fa fa-check"></i><b>29.0.2</b> Produce plots of predicted vs. observed bloom dates and distribution of prediction errors.</a></li>
+<li class="chapter" data-level="29.1" data-path="the-phenoflex-model.html"><a href="the-phenoflex-model.html#compute-the-model-performance-metrics-rmsep-mean-error-and-mean-absolute-error."><i class="fa fa-check"></i><b>29.1</b> Compute the model performance metrics RMSEP, mean error and mean absolute error.</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="the-phenoflex-model---a-second-look.html"><a href="the-phenoflex-model---a-second-look.html"><i class="fa fa-check"></i><b>30</b> <strong>The PhenoFlex model - a second look</strong></a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="the-phenoflex-model---a-second-look.html"><a href="the-phenoflex-model---a-second-look.html#make-chill-and-heat-response-plots-for-the-roter-boskoop-phenoflex-modelfrom-lecture-30-for-the-location-you-did-the-earlier-analyses-for."><i class="fa fa-check"></i><b>30.1</b> Make chill and heat response plots for the `Roter Boskoop’ PhenoFlex model(from lecture 30) for the location you did the earlier analyses for.</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="can-we-improve-the-performance-of-phenoflex.html"><a href="can-we-improve-the-performance-of-phenoflex.html"><i class="fa fa-check"></i><b>31</b> <strong>Can we improve the performance of PhenoFlex?</strong></a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="can-we-improve-the-performance-of-phenoflex.html"><a href="can-we-improve-the-performance-of-phenoflex.html#what-was-the-objective-of-this-work"><i class="fa fa-check"></i><b>31.1</b> What was the objective of this work?</a></li>
+<li class="chapter" data-level="31.2" data-path="can-we-improve-the-performance-of-phenoflex.html"><a href="can-we-improve-the-performance-of-phenoflex.html#what-was-the-main-conclusion"><i class="fa fa-check"></i><b>31.2</b> What was the main conclusion?</a></li>
+<li class="chapter" data-level="31.3" data-path="can-we-improve-the-performance-of-phenoflex.html"><a href="can-we-improve-the-performance-of-phenoflex.html#what-experiments-could-we-conduct-to-test-the-hypothesis-that-emerged-at-the-end-of-the-conclusion"><i class="fa fa-check"></i><b>31.3</b> What experiments could we conduct to test the hypothesis that emerged at the end of the conclusion?</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html"><i class="fa fa-check"></i><b>32</b> <strong>Frost risk analysis</strong></a>
+<ul>
+<li class="chapter" data-level="32.1" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html#download-the-phenology-dataset-for-the-apple-cultivar-roter-boskoop-from-klein-altendorf."><i class="fa fa-check"></i><b>32.1</b> Download the phenology dataset for the apple cultivar Roter Boskoop from Klein-Altendorf.</a></li>
+<li class="chapter" data-level="32.2" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html#illustrate-the-development-of-the-bloom-period-over-the-duration-of-the-weather-record.-use-multiple-ways-to-show-this---feel-free-to-be-creative."><i class="fa fa-check"></i><b>32.2</b> Illustrate the development of the bloom period over the duration of the weather record. Use multiple ways to show this - feel free to be creative.</a></li>
+<li class="chapter" data-level="32.3" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html#evaluate-the-occurrence-of-frost-events-at-klein-altendorf-since-1958.-illustrate-this-in-a-plot."><i class="fa fa-check"></i><b>32.3</b> Evaluate the occurrence of frost events at Klein-Altendorf since 1958. Illustrate this in a plot.</a></li>
+<li class="chapter" data-level="32.4" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html#produce-an-illustration-of-the-relationship-between-spring-frost-events-and-the-bloom-period-of-roter-boskoop."><i class="fa fa-check"></i><b>32.4</b> Produce an illustration of the relationship between spring frost events and the bloom period of ‘Roter Boskoop’.</a></li>
+<li class="chapter" data-level="32.5" data-path="frost-risk-analysis.html"><a href="frost-risk-analysis.html#evaluate-how-the-risk-of-spring-frost-for-this-cultivar-has-changed-over-time.-has-there-been-a-significant-trend"><i class="fa fa-check"></i><b>32.5</b> Evaluate how the risk of spring frost for this cultivar has changed over time. Has there been a significant trend?</a></li>
+</ul></li>
+<li class="chapter" data-level="33" data-path="end-of-the-assignment.html"><a href="end-of-the-assignment.html"><i class="fa fa-check"></i><b>33</b> <strong>End of the Assignment</strong></a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">‘Tree phenology analysis with R’ learning Logbook</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="plotting-future-scenario" class="section level1 hasAnchor" number="17">
+<h1><span class="header-section-number">Chapter 17</span> <strong>Plotting future scenario</strong><a href="plotting-future-scenario.html#plotting-future-scenario" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="produce-similar-plots-for-the-weather-station-you-selected-for-earlier-exercises." class="section level2 hasAnchor" number="17.1">
+<h2><span class="header-section-number">17.1</span> Produce similar plots for the weather station you selected for earlier exercises.<a href="plotting-future-scenario.html#produce-similar-plots-for-the-weather-station-you-selected-for-earlier-exercises." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="plotting-future-scenario.html#cb84-1" tabindex="-1"></a>chill_future_scenario_list_GWANGJU <span class="ot">&lt;-</span> <span class="fu">load_temperature_scenarios</span>(<span class="st">&quot;KR_data/GWANGJU_future_climate&quot;</span>,<span class="st">&quot;GWANGJU_futurechill_305&quot;</span>)</span>
+<span id="cb84-2"><a href="plotting-future-scenario.html#cb84-2" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="plotting-future-scenario.html#cb84-3" tabindex="-1"></a></span>
+<span id="cb84-4"><a href="plotting-future-scenario.html#cb84-4" tabindex="-1"></a>chill_hist_scenario_list_GWANGJU<span class="ot">&lt;-</span><span class="fu">load_temperature_scenarios</span>(<span class="st">&quot;KR_data&quot;</span>,<span class="st">&quot;GWANGJU_hist_chill_305_59&quot;</span>)</span>
+<span id="cb84-5"><a href="plotting-future-scenario.html#cb84-5" tabindex="-1"></a>observed_chill_GWANGJU <span class="ot">&lt;-</span> <span class="fu">read_tab</span>(<span class="st">&quot;KR_data/GWANGJU_observed_chill_305_59.csv&quot;</span>)</span>
+<span id="cb84-6"><a href="plotting-future-scenario.html#cb84-6" tabindex="-1"></a><span class="co">#observed chill = actual chill</span></span>
+<span id="cb84-7"><a href="plotting-future-scenario.html#cb84-7" tabindex="-1"></a></span>
+<span id="cb84-8"><a href="plotting-future-scenario.html#cb84-8" tabindex="-1"></a></span>
+<span id="cb84-9"><a href="plotting-future-scenario.html#cb84-9" tabindex="-1"></a>chills_GWANGJU <span class="ot">&lt;-</span> <span class="fu">make_climate_scenario</span>(</span>
+<span id="cb84-10"><a href="plotting-future-scenario.html#cb84-10" tabindex="-1"></a>  chill_hist_scenario_list_GWANGJU,</span>
+<span id="cb84-11"><a href="plotting-future-scenario.html#cb84-11" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Historic&quot;</span>,</span>
+<span id="cb84-12"><a href="plotting-future-scenario.html#cb84-12" tabindex="-1"></a>  <span class="at">historic_data =</span> observed_chill_GWANGJU,</span>
+<span id="cb84-13"><a href="plotting-future-scenario.html#cb84-13" tabindex="-1"></a>  <span class="at">time_series =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb84-14"><a href="plotting-future-scenario.html#cb84-14" tabindex="-1"></a></span>
+<span id="cb84-15"><a href="plotting-future-scenario.html#cb84-15" tabindex="-1"></a></span>
+<span id="cb84-16"><a href="plotting-future-scenario.html#cb84-16" tabindex="-1"></a></span>
+<span id="cb84-17"><a href="plotting-future-scenario.html#cb84-17" tabindex="-1"></a>SSPs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ssp126&quot;</span>, <span class="st">&quot;ssp245&quot;</span>, <span class="st">&quot;ssp585&quot;</span>)</span>
+<span id="cb84-18"><a href="plotting-future-scenario.html#cb84-18" tabindex="-1"></a>Times <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2050</span>, <span class="dv">2085</span>)</span>
+<span id="cb84-19"><a href="plotting-future-scenario.html#cb84-19" tabindex="-1"></a></span>
+<span id="cb84-20"><a href="plotting-future-scenario.html#cb84-20" tabindex="-1"></a>list_ssp <span class="ot">&lt;-</span> </span>
+<span id="cb84-21"><a href="plotting-future-scenario.html#cb84-21" tabindex="-1"></a>  <span class="fu">strsplit</span>(<span class="fu">names</span>(chill_future_scenario_list_GWANGJU), <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb84-22"><a href="plotting-future-scenario.html#cb84-22" tabindex="-1"></a>  <span class="fu">map</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb84-23"><a href="plotting-future-scenario.html#cb84-23" tabindex="-1"></a>  <span class="fu">unlist</span>()</span>
+<span id="cb84-24"><a href="plotting-future-scenario.html#cb84-24" tabindex="-1"></a></span>
+<span id="cb84-25"><a href="plotting-future-scenario.html#cb84-25" tabindex="-1"></a>list_gcm <span class="ot">&lt;-</span></span>
+<span id="cb84-26"><a href="plotting-future-scenario.html#cb84-26" tabindex="-1"></a>  <span class="fu">strsplit</span>(<span class="fu">names</span>(chill_future_scenario_list_GWANGJU), <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb84-27"><a href="plotting-future-scenario.html#cb84-27" tabindex="-1"></a>  <span class="fu">map</span>(<span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb84-28"><a href="plotting-future-scenario.html#cb84-28" tabindex="-1"></a>  <span class="fu">unlist</span>()</span>
+<span id="cb84-29"><a href="plotting-future-scenario.html#cb84-29" tabindex="-1"></a></span>
+<span id="cb84-30"><a href="plotting-future-scenario.html#cb84-30" tabindex="-1"></a>list_time <span class="ot">&lt;-</span></span>
+<span id="cb84-31"><a href="plotting-future-scenario.html#cb84-31" tabindex="-1"></a>  <span class="fu">strsplit</span>(<span class="fu">names</span>(chill_future_scenario_list_GWANGJU), <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb84-32"><a href="plotting-future-scenario.html#cb84-32" tabindex="-1"></a>  <span class="fu">map</span>(<span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb84-33"><a href="plotting-future-scenario.html#cb84-33" tabindex="-1"></a>  <span class="fu">unlist</span>()</span>
+<span id="cb84-34"><a href="plotting-future-scenario.html#cb84-34" tabindex="-1"></a></span>
+<span id="cb84-35"><a href="plotting-future-scenario.html#cb84-35" tabindex="-1"></a></span>
+<span id="cb84-36"><a href="plotting-future-scenario.html#cb84-36" tabindex="-1"></a><span class="cf">for</span>(SSP <span class="cf">in</span> SSPs)</span>
+<span id="cb84-37"><a href="plotting-future-scenario.html#cb84-37" tabindex="-1"></a>  <span class="cf">for</span>(Time <span class="cf">in</span> Times)</span>
+<span id="cb84-38"><a href="plotting-future-scenario.html#cb84-38" tabindex="-1"></a>    {</span>
+<span id="cb84-39"><a href="plotting-future-scenario.html#cb84-39" tabindex="-1"></a>    </span>
+<span id="cb84-40"><a href="plotting-future-scenario.html#cb84-40" tabindex="-1"></a>    <span class="co"># find all scenarios for the ssp and time</span></span>
+<span id="cb84-41"><a href="plotting-future-scenario.html#cb84-41" tabindex="-1"></a>    GWANGJU_chill <span class="ot">&lt;-</span> chill_future_scenario_list_GWANGJU[list_ssp <span class="sc">==</span> SSP <span class="sc">&amp;</span> list_time <span class="sc">==</span> Time]</span>
+<span id="cb84-42"><a href="plotting-future-scenario.html#cb84-42" tabindex="-1"></a>    <span class="fu">names</span>(GWANGJU_chill) <span class="ot">&lt;-</span> list_gcm[list_ssp <span class="sc">==</span> SSP <span class="sc">&amp;</span> list_time <span class="sc">==</span> Time]</span>
+<span id="cb84-43"><a href="plotting-future-scenario.html#cb84-43" tabindex="-1"></a>    <span class="cf">if</span>(SSP <span class="sc">==</span> <span class="st">&quot;ssp126&quot;</span>) SSPcaption <span class="ot">&lt;-</span> <span class="st">&quot;SSP1&quot;</span></span>
+<span id="cb84-44"><a href="plotting-future-scenario.html#cb84-44" tabindex="-1"></a>    <span class="cf">if</span>(SSP <span class="sc">==</span> <span class="st">&quot;ssp245&quot;</span>) SSPcaption <span class="ot">&lt;-</span> <span class="st">&quot;SSP2&quot;</span></span>
+<span id="cb84-45"><a href="plotting-future-scenario.html#cb84-45" tabindex="-1"></a>    <span class="cf">if</span>(SSP <span class="sc">==</span> <span class="st">&quot;ssp585&quot;</span>) SSPcaption <span class="ot">&lt;-</span> <span class="st">&quot;SSP5&quot;</span>    </span>
+<span id="cb84-46"><a href="plotting-future-scenario.html#cb84-46" tabindex="-1"></a>    <span class="cf">if</span>(Time <span class="sc">==</span> <span class="st">&quot;2050&quot;</span>) Time_caption <span class="ot">&lt;-</span> <span class="st">&quot;2050&quot;</span></span>
+<span id="cb84-47"><a href="plotting-future-scenario.html#cb84-47" tabindex="-1"></a>    <span class="cf">if</span>(Time <span class="sc">==</span> <span class="st">&quot;2085&quot;</span>) Time_caption <span class="ot">&lt;-</span> <span class="st">&quot;2085&quot;</span></span>
+<span id="cb84-48"><a href="plotting-future-scenario.html#cb84-48" tabindex="-1"></a>    chills_GWANGJU <span class="ot">&lt;-</span> GWANGJU_chill <span class="sc">%&gt;%</span> </span>
+<span id="cb84-49"><a href="plotting-future-scenario.html#cb84-49" tabindex="-1"></a>      <span class="fu">make_climate_scenario</span>(</span>
+<span id="cb84-50"><a href="plotting-future-scenario.html#cb84-50" tabindex="-1"></a>        <span class="at">caption =</span> <span class="fu">c</span>(SSPcaption,</span>
+<span id="cb84-51"><a href="plotting-future-scenario.html#cb84-51" tabindex="-1"></a>                    Time_caption),</span>
+<span id="cb84-52"><a href="plotting-future-scenario.html#cb84-52" tabindex="-1"></a>        <span class="at">add_to =</span> chills_GWANGJU)</span>
+<span id="cb84-53"><a href="plotting-future-scenario.html#cb84-53" tabindex="-1"></a>}</span>
+<span id="cb84-54"><a href="plotting-future-scenario.html#cb84-54" tabindex="-1"></a></span>
+<span id="cb84-55"><a href="plotting-future-scenario.html#cb84-55" tabindex="-1"></a><span class="fu">plot_climate_scenarios</span>(</span>
+<span id="cb84-56"><a href="plotting-future-scenario.html#cb84-56" tabindex="-1"></a>  <span class="at">climate_scenario_list =</span> chills_GWANGJU,</span>
+<span id="cb84-57"><a href="plotting-future-scenario.html#cb84-57" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">&quot;Chill_Portions&quot;</span>,</span>
+<span id="cb84-58"><a href="plotting-future-scenario.html#cb84-58" tabindex="-1"></a>  <span class="at">metric_label =</span> <span class="st">&quot;Chill (Chill Portions)&quot;</span>,</span>
+<span id="cb84-59"><a href="plotting-future-scenario.html#cb84-59" tabindex="-1"></a>  <span class="at">texcex =</span> <span class="dv">1</span>)</span>
+<span id="cb84-60"><a href="plotting-future-scenario.html#cb84-60" tabindex="-1"></a></span>
+<span id="cb84-61"><a href="plotting-future-scenario.html#cb84-61" tabindex="-1"></a></span>
+<span id="cb84-62"><a href="plotting-future-scenario.html#cb84-62" tabindex="-1"></a><span class="co"># We&#39;ll first process the past scenarios (element 1 of the chills list).</span></span>
+<span id="cb84-63"><a href="plotting-future-scenario.html#cb84-63" tabindex="-1"></a><span class="co"># Within the data element, we have a list of multiple data.frames for</span></span>
+<span id="cb84-64"><a href="plotting-future-scenario.html#cb84-64" tabindex="-1"></a><span class="co"># the various past scenarios.</span></span>
+<span id="cb84-65"><a href="plotting-future-scenario.html#cb84-65" tabindex="-1"></a><span class="co"># Using a &#39;for&#39; loop, we cycle through all these data.frames.</span></span>
+<span id="cb84-66"><a href="plotting-future-scenario.html#cb84-66" tabindex="-1"></a></span>
+<span id="cb84-67"><a href="plotting-future-scenario.html#cb84-67" tabindex="-1"></a><span class="cf">for</span>(nam <span class="cf">in</span> <span class="fu">names</span>(chills_GWANGJU[[<span class="dv">1</span>]]<span class="sc">$</span>data))</span>
+<span id="cb84-68"><a href="plotting-future-scenario.html#cb84-68" tabindex="-1"></a>  {</span>
+<span id="cb84-69"><a href="plotting-future-scenario.html#cb84-69" tabindex="-1"></a>   <span class="co"># Extract the data frame.</span></span>
+<span id="cb84-70"><a href="plotting-future-scenario.html#cb84-70" tabindex="-1"></a>   ch <span class="ot">&lt;-</span> chills_GWANGJU[[<span class="dv">1</span>]]<span class="sc">$</span>data[[nam]]</span>
+<span id="cb84-71"><a href="plotting-future-scenario.html#cb84-71" tabindex="-1"></a>   <span class="co"># Add columns for the new information we have to add and fill them.</span></span>
+<span id="cb84-72"><a href="plotting-future-scenario.html#cb84-72" tabindex="-1"></a>   ch[,<span class="st">&quot;GCM&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb84-73"><a href="plotting-future-scenario.html#cb84-73" tabindex="-1"></a>   ch[,<span class="st">&quot;SSP&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb84-74"><a href="plotting-future-scenario.html#cb84-74" tabindex="-1"></a>   ch[,<span class="st">&quot;Year&quot;</span>] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(nam)</span>
+<span id="cb84-75"><a href="plotting-future-scenario.html#cb84-75" tabindex="-1"></a>   </span>
+<span id="cb84-76"><a href="plotting-future-scenario.html#cb84-76" tabindex="-1"></a>   <span class="co"># Now check if this is the first time we&#39;ve gone through this loop.</span></span>
+<span id="cb84-77"><a href="plotting-future-scenario.html#cb84-77" tabindex="-1"></a>   <span class="co"># If this is the first time, the ch data.frame becomes the output</span></span>
+<span id="cb84-78"><a href="plotting-future-scenario.html#cb84-78" tabindex="-1"></a>   <span class="co"># object (past_simulated).</span></span>
+<span id="cb84-79"><a href="plotting-future-scenario.html#cb84-79" tabindex="-1"></a>   <span class="co"># If it is not the first time (&#39;else&#39;), we add the current data.frame</span></span>
+<span id="cb84-80"><a href="plotting-future-scenario.html#cb84-80" tabindex="-1"></a>   <span class="co"># to the &#39;past_simulated&#39; object</span></span>
+<span id="cb84-81"><a href="plotting-future-scenario.html#cb84-81" tabindex="-1"></a>  <span class="cf">if</span>(nam <span class="sc">==</span> <span class="fu">names</span>(chills_GWANGJU[[<span class="dv">1</span>]]<span class="sc">$</span>data)[<span class="dv">1</span>])</span>
+<span id="cb84-82"><a href="plotting-future-scenario.html#cb84-82" tabindex="-1"></a>    past_simulated <span class="ot">&lt;-</span> ch <span class="cf">else</span></span>
+<span id="cb84-83"><a href="plotting-future-scenario.html#cb84-83" tabindex="-1"></a>      past_simulated <span class="ot">&lt;-</span> <span class="fu">rbind</span>(past_simulated,</span>
+<span id="cb84-84"><a href="plotting-future-scenario.html#cb84-84" tabindex="-1"></a>                              ch)</span>
+<span id="cb84-85"><a href="plotting-future-scenario.html#cb84-85" tabindex="-1"></a>  }</span>
+<span id="cb84-86"><a href="plotting-future-scenario.html#cb84-86" tabindex="-1"></a></span>
+<span id="cb84-87"><a href="plotting-future-scenario.html#cb84-87" tabindex="-1"></a><span class="co"># We add another column called &#39;Scenario&#39; and label all rows as &#39;Historic&#39; </span></span>
+<span id="cb84-88"><a href="plotting-future-scenario.html#cb84-88" tabindex="-1"></a>past_simulated[<span class="st">&quot;Scenario&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Historic&quot;</span></span>
+<span id="cb84-89"><a href="plotting-future-scenario.html#cb84-89" tabindex="-1"></a></span>
+<span id="cb84-90"><a href="plotting-future-scenario.html#cb84-90" tabindex="-1"></a><span class="fu">head</span>(past_simulated)</span>
+<span id="cb84-91"><a href="plotting-future-scenario.html#cb84-91" tabindex="-1"></a></span>
+<span id="cb84-92"><a href="plotting-future-scenario.html#cb84-92" tabindex="-1"></a><span class="co"># We&#39;ll want to add the historic observation too, so let&#39;s simplify the</span></span>
+<span id="cb84-93"><a href="plotting-future-scenario.html#cb84-93" tabindex="-1"></a><span class="co"># pointer to this information for easier use later</span></span>
+<span id="cb84-94"><a href="plotting-future-scenario.html#cb84-94" tabindex="-1"></a></span>
+<span id="cb84-95"><a href="plotting-future-scenario.html#cb84-95" tabindex="-1"></a>past_observed <span class="ot">&lt;-</span> chills_GWANGJU[[<span class="dv">1</span>]][[<span class="st">&quot;historic_data&quot;</span>]]</span>
+<span id="cb84-96"><a href="plotting-future-scenario.html#cb84-96" tabindex="-1"></a></span>
+<span id="cb84-97"><a href="plotting-future-scenario.html#cb84-97" tabindex="-1"></a></span>
+<span id="cb84-98"><a href="plotting-future-scenario.html#cb84-98" tabindex="-1"></a><span class="fu">head</span>(past_observed)</span>
+<span id="cb84-99"><a href="plotting-future-scenario.html#cb84-99" tabindex="-1"></a></span>
+<span id="cb84-100"><a href="plotting-future-scenario.html#cb84-100" tabindex="-1"></a></span>
+<span id="cb84-101"><a href="plotting-future-scenario.html#cb84-101" tabindex="-1"></a><span class="co"># Extract future data</span></span>
+<span id="cb84-102"><a href="plotting-future-scenario.html#cb84-102" tabindex="-1"></a></span>
+<span id="cb84-103"><a href="plotting-future-scenario.html#cb84-103" tabindex="-1"></a></span>
+<span id="cb84-104"><a href="plotting-future-scenario.html#cb84-104" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(chills_GWANGJU))</span>
+<span id="cb84-105"><a href="plotting-future-scenario.html#cb84-105" tabindex="-1"></a>  <span class="cf">for</span>(nam <span class="cf">in</span> <span class="fu">names</span>(chills_GWANGJU[[i]]<span class="sc">$</span>data))</span>
+<span id="cb84-106"><a href="plotting-future-scenario.html#cb84-106" tabindex="-1"></a>    {ch <span class="ot">&lt;-</span> chills_GWANGJU[[i]]<span class="sc">$</span>data[[nam]]</span>
+<span id="cb84-107"><a href="plotting-future-scenario.html#cb84-107" tabindex="-1"></a>     ch[,<span class="st">&quot;GCM&quot;</span>] <span class="ot">&lt;-</span> nam</span>
+<span id="cb84-108"><a href="plotting-future-scenario.html#cb84-108" tabindex="-1"></a>     ch[,<span class="st">&quot;SSP&quot;</span>] <span class="ot">&lt;-</span> chills_GWANGJU[[i]]<span class="sc">$</span>caption[<span class="dv">1</span>]</span>
+<span id="cb84-109"><a href="plotting-future-scenario.html#cb84-109" tabindex="-1"></a>     ch[,<span class="st">&quot;Year&quot;</span>] <span class="ot">&lt;-</span> chills_GWANGJU[[i]]<span class="sc">$</span>caption[<span class="dv">2</span>]</span>
+<span id="cb84-110"><a href="plotting-future-scenario.html#cb84-110" tabindex="-1"></a>     <span class="cf">if</span>(i <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> nam <span class="sc">==</span> <span class="fu">names</span>(chills_GWANGJU[[i]]<span class="sc">$</span>data)[<span class="dv">1</span>])</span>
+<span id="cb84-111"><a href="plotting-future-scenario.html#cb84-111" tabindex="-1"></a>       future_data <span class="ot">&lt;-</span> ch <span class="cf">else</span></span>
+<span id="cb84-112"><a href="plotting-future-scenario.html#cb84-112" tabindex="-1"></a>         future_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(future_data,ch)</span>
+<span id="cb84-113"><a href="plotting-future-scenario.html#cb84-113" tabindex="-1"></a>    </span>
+<span id="cb84-114"><a href="plotting-future-scenario.html#cb84-114" tabindex="-1"></a>  }</span>
+<span id="cb84-115"><a href="plotting-future-scenario.html#cb84-115" tabindex="-1"></a></span>
+<span id="cb84-116"><a href="plotting-future-scenario.html#cb84-116" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(chills_GWANGJU)) {</span>
+<span id="cb84-117"><a href="plotting-future-scenario.html#cb84-117" tabindex="-1"></a>  <span class="cf">for</span>(nam <span class="cf">in</span> <span class="fu">names</span>(chills_GWANGJU[[i]]<span class="sc">$</span>data)[<span class="sc">!</span><span class="fu">is.na</span>(<span class="fu">names</span>(chills_GWANGJU[[i]]<span class="sc">$</span>data))]) {</span>
+<span id="cb84-118"><a href="plotting-future-scenario.html#cb84-118" tabindex="-1"></a>    ch <span class="ot">&lt;-</span> chills_GWANGJU[[i]]<span class="sc">$</span>data[[nam]]</span>
+<span id="cb84-119"><a href="plotting-future-scenario.html#cb84-119" tabindex="-1"></a>    ch[,<span class="st">&quot;GCM&quot;</span>] <span class="ot">&lt;-</span> nam</span>
+<span id="cb84-120"><a href="plotting-future-scenario.html#cb84-120" tabindex="-1"></a>    ch[,<span class="st">&quot;SSP&quot;</span>] <span class="ot">&lt;-</span> chills_GWANGJU[[i]]<span class="sc">$</span>caption[<span class="dv">1</span>]</span>
+<span id="cb84-121"><a href="plotting-future-scenario.html#cb84-121" tabindex="-1"></a>    ch[,<span class="st">&quot;Year&quot;</span>] <span class="ot">&lt;-</span> chills_GWANGJU[[i]]<span class="sc">$</span>caption[<span class="dv">2</span>]</span>
+<span id="cb84-122"><a href="plotting-future-scenario.html#cb84-122" tabindex="-1"></a>    <span class="cf">if</span>(i <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> nam <span class="sc">==</span> <span class="fu">names</span>(chills_GWANGJU[[i]]<span class="sc">$</span>data)[<span class="dv">1</span>])</span>
+<span id="cb84-123"><a href="plotting-future-scenario.html#cb84-123" tabindex="-1"></a>      future_data <span class="ot">&lt;-</span> ch <span class="cf">else</span></span>
+<span id="cb84-124"><a href="plotting-future-scenario.html#cb84-124" tabindex="-1"></a>        future_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(future_data,ch)</span>
+<span id="cb84-125"><a href="plotting-future-scenario.html#cb84-125" tabindex="-1"></a>  }</span>
+<span id="cb84-126"><a href="plotting-future-scenario.html#cb84-126" tabindex="-1"></a>}</span>
+<span id="cb84-127"><a href="plotting-future-scenario.html#cb84-127" tabindex="-1"></a></span>
+<span id="cb84-128"><a href="plotting-future-scenario.html#cb84-128" tabindex="-1"></a></span>
+<span id="cb84-129"><a href="plotting-future-scenario.html#cb84-129" tabindex="-1"></a><span class="fu">head</span>(future_data) <span class="co">#long dataset</span></span>
+<span id="cb84-130"><a href="plotting-future-scenario.html#cb84-130" tabindex="-1"></a></span>
+<span id="cb84-131"><a href="plotting-future-scenario.html#cb84-131" tabindex="-1"></a></span>
+<span id="cb84-132"><a href="plotting-future-scenario.html#cb84-132" tabindex="-1"></a>metric <span class="ot">&lt;-</span> <span class="st">&quot;GDH&quot;</span> <span class="co">#this can be changed to what I want to see (like Chill_Portions,Frost_H ect.)</span></span>
+<span id="cb84-133"><a href="plotting-future-scenario.html#cb84-133" tabindex="-1"></a>axis_label <span class="ot">&lt;-</span> <span class="st">&quot;Heat (in GDH)&quot;</span></span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-85"></span>
+<img src="KR_image/chunk60_CP.png" alt="plot of chill accumulation" width="800" />
+<p class="caption">
+Figure 17.1: plot of chill accumulation
+</p>
+</div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="plotting-future-scenario.html#cb85-1" tabindex="-1"></a>plot_scenarios_gg <span class="ot">&lt;-</span> <span class="cf">function</span>(past_observed,</span>
+<span id="cb85-2"><a href="plotting-future-scenario.html#cb85-2" tabindex="-1"></a>                              past_simulated,</span>
+<span id="cb85-3"><a href="plotting-future-scenario.html#cb85-3" tabindex="-1"></a>                              future_data,</span>
+<span id="cb85-4"><a href="plotting-future-scenario.html#cb85-4" tabindex="-1"></a>                              metric,</span>
+<span id="cb85-5"><a href="plotting-future-scenario.html#cb85-5" tabindex="-1"></a>                              axis_label)</span>
+<span id="cb85-6"><a href="plotting-future-scenario.html#cb85-6" tabindex="-1"></a>{</span>
+<span id="cb85-7"><a href="plotting-future-scenario.html#cb85-7" tabindex="-1"></a>  rng <span class="ot">&lt;-</span> <span class="fu">range</span>(past_observed[[metric]], <span class="co">#get extreme values for the axis scale</span></span>
+<span id="cb85-8"><a href="plotting-future-scenario.html#cb85-8" tabindex="-1"></a>               past_simulated[[metric]],</span>
+<span id="cb85-9"><a href="plotting-future-scenario.html#cb85-9" tabindex="-1"></a>               future_data[[metric]])  </span>
+<span id="cb85-10"><a href="plotting-future-scenario.html#cb85-10" tabindex="-1"></a>  past_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb85-11"><a href="plotting-future-scenario.html#cb85-11" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">data =</span> past_simulated,</span>
+<span id="cb85-12"><a href="plotting-future-scenario.html#cb85-12" tabindex="-1"></a>                 <span class="fu">aes_string</span>(<span class="st">&quot;as.numeric(Year)&quot;</span>,</span>
+<span id="cb85-13"><a href="plotting-future-scenario.html#cb85-13" tabindex="-1"></a>                            metric,</span>
+<span id="cb85-14"><a href="plotting-future-scenario.html#cb85-14" tabindex="-1"></a>                            <span class="at">group=</span><span class="st">&quot;Year&quot;</span>),</span>
+<span id="cb85-15"><a href="plotting-future-scenario.html#cb85-15" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">&quot;skyblue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb85-16"><a href="plotting-future-scenario.html#cb85-16" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, </span>
+<span id="cb85-17"><a href="plotting-future-scenario.html#cb85-17" tabindex="-1"></a>                                  <span class="fu">round</span>(<span class="fu">round</span>(<span class="fl">1.1</span><span class="sc">*</span>rng[<span class="dv">2</span>])))) <span class="sc">+</span></span>
+<span id="cb85-18"><a href="plotting-future-scenario.html#cb85-18" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> axis_label) <span class="sc">+</span></span>
+<span id="cb85-19"><a href="plotting-future-scenario.html#cb85-19" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="sc">~</span> Scenario) <span class="sc">+</span></span>
+<span id="cb85-20"><a href="plotting-future-scenario.html#cb85-20" tabindex="-1"></a>    <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">15</span>) <span class="sc">+</span>  </span>
+<span id="cb85-21"><a href="plotting-future-scenario.html#cb85-21" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb85-22"><a href="plotting-future-scenario.html#cb85-22" tabindex="-1"></a>          <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb85-23"><a href="plotting-future-scenario.html#cb85-23" tabindex="-1"></a>          <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>, </span>
+<span id="cb85-24"><a href="plotting-future-scenario.html#cb85-24" tabindex="-1"></a>                                     <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb85-25"><a href="plotting-future-scenario.html#cb85-25" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> past_observed,</span>
+<span id="cb85-26"><a href="plotting-future-scenario.html#cb85-26" tabindex="-1"></a>               <span class="fu">aes_string</span>(<span class="st">&quot;End_year&quot;</span>,</span>
+<span id="cb85-27"><a href="plotting-future-scenario.html#cb85-27" tabindex="-1"></a>                          metric),</span>
+<span id="cb85-28"><a href="plotting-future-scenario.html#cb85-28" tabindex="-1"></a>               <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb85-29"><a href="plotting-future-scenario.html#cb85-29" tabindex="-1"></a>  </span>
+<span id="cb85-30"><a href="plotting-future-scenario.html#cb85-30" tabindex="-1"></a>  future_plot_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb85-31"><a href="plotting-future-scenario.html#cb85-31" tabindex="-1"></a>  </span>
+<span id="cb85-32"><a href="plotting-future-scenario.html#cb85-32" tabindex="-1"></a>  <span class="cf">for</span>(y <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">2050</span>,</span>
+<span id="cb85-33"><a href="plotting-future-scenario.html#cb85-33" tabindex="-1"></a>             <span class="dv">2085</span>))</span>
+<span id="cb85-34"><a href="plotting-future-scenario.html#cb85-34" tabindex="-1"></a>  {</span>
+<span id="cb85-35"><a href="plotting-future-scenario.html#cb85-35" tabindex="-1"></a>    future_plot_list[[<span class="fu">which</span>(y <span class="sc">==</span> <span class="fu">c</span>(<span class="dv">2050</span>,<span class="dv">2085</span>))]] <span class="ot">&lt;-</span></span>
+<span id="cb85-36"><a href="plotting-future-scenario.html#cb85-36" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="at">data =</span> future_data[<span class="fu">which</span>(future_data<span class="sc">$</span>Year<span class="sc">==</span>y),]) <span class="sc">+</span></span>
+<span id="cb85-37"><a href="plotting-future-scenario.html#cb85-37" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="fu">aes_string</span>(<span class="st">&quot;GCM&quot;</span>, </span>
+<span id="cb85-38"><a href="plotting-future-scenario.html#cb85-38" tabindex="-1"></a>                              metric, </span>
+<span id="cb85-39"><a href="plotting-future-scenario.html#cb85-39" tabindex="-1"></a>                              <span class="at">fill=</span><span class="st">&quot;GCM&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb85-40"><a href="plotting-future-scenario.html#cb85-40" tabindex="-1"></a>      <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(SSP)) <span class="sc">+</span></span>
+<span id="cb85-41"><a href="plotting-future-scenario.html#cb85-41" tabindex="-1"></a>      <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="cn">NULL</span>,</span>
+<span id="cb85-42"><a href="plotting-future-scenario.html#cb85-42" tabindex="-1"></a>                       <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb85-43"><a href="plotting-future-scenario.html#cb85-43" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, </span>
+<span id="cb85-44"><a href="plotting-future-scenario.html#cb85-44" tabindex="-1"></a>                                    <span class="fu">round</span>(<span class="fu">round</span>(<span class="fl">1.1</span><span class="sc">*</span>rng[<span class="dv">2</span>])))) <span class="sc">+</span></span>
+<span id="cb85-45"><a href="plotting-future-scenario.html#cb85-45" tabindex="-1"></a>      <span class="fu">geom_text_npc</span>(<span class="fu">aes</span>(<span class="at">npcx =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb85-46"><a href="plotting-future-scenario.html#cb85-46" tabindex="-1"></a>                        <span class="at">npcy =</span> <span class="st">&quot;top&quot;</span>,</span>
+<span id="cb85-47"><a href="plotting-future-scenario.html#cb85-47" tabindex="-1"></a>                        <span class="at">label =</span> Year),</span>
+<span id="cb85-48"><a href="plotting-future-scenario.html#cb85-48" tabindex="-1"></a>                    <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb85-49"><a href="plotting-future-scenario.html#cb85-49" tabindex="-1"></a>      <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb85-50"><a href="plotting-future-scenario.html#cb85-50" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb85-51"><a href="plotting-future-scenario.html#cb85-51" tabindex="-1"></a>            <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb85-52"><a href="plotting-future-scenario.html#cb85-52" tabindex="-1"></a>            <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb85-53"><a href="plotting-future-scenario.html#cb85-53" tabindex="-1"></a>            <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb85-54"><a href="plotting-future-scenario.html#cb85-54" tabindex="-1"></a>            <span class="at">legend.margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>,</span>
+<span id="cb85-55"><a href="plotting-future-scenario.html#cb85-55" tabindex="-1"></a>                                   <span class="dv">0</span>, </span>
+<span id="cb85-56"><a href="plotting-future-scenario.html#cb85-56" tabindex="-1"></a>                                   <span class="dv">0</span>, </span>
+<span id="cb85-57"><a href="plotting-future-scenario.html#cb85-57" tabindex="-1"></a>                                   <span class="dv">0</span>, </span>
+<span id="cb85-58"><a href="plotting-future-scenario.html#cb85-58" tabindex="-1"></a>                                   <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb85-59"><a href="plotting-future-scenario.html#cb85-59" tabindex="-1"></a>            <span class="at">legend.background =</span> <span class="fu">element_rect</span>(),</span>
+<span id="cb85-60"><a href="plotting-future-scenario.html#cb85-60" tabindex="-1"></a>            <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb85-61"><a href="plotting-future-scenario.html#cb85-61" tabindex="-1"></a>            <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb85-62"><a href="plotting-future-scenario.html#cb85-62" tabindex="-1"></a>            <span class="at">legend.box.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb85-63"><a href="plotting-future-scenario.html#cb85-63" tabindex="-1"></a>            <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb85-64"><a href="plotting-future-scenario.html#cb85-64" tabindex="-1"></a>                                         <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb85-65"><a href="plotting-future-scenario.html#cb85-65" tabindex="-1"></a>                                         <span class="at">size =</span> <span class="dv">15</span> <span class="sc">*</span> <span class="fl">1.05</span>,</span>
+<span id="cb85-66"><a href="plotting-future-scenario.html#cb85-66" tabindex="-1"></a>                                         <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)) </span>
+<span id="cb85-67"><a href="plotting-future-scenario.html#cb85-67" tabindex="-1"></a>  }</span>
+<span id="cb85-68"><a href="plotting-future-scenario.html#cb85-68" tabindex="-1"></a>  </span>
+<span id="cb85-69"><a href="plotting-future-scenario.html#cb85-69" tabindex="-1"></a>  plot <span class="ot">&lt;-</span> (past_plot <span class="sc">+</span></span>
+<span id="cb85-70"><a href="plotting-future-scenario.html#cb85-70" tabindex="-1"></a>             future_plot_list <span class="sc">+</span></span>
+<span id="cb85-71"><a href="plotting-future-scenario.html#cb85-71" tabindex="-1"></a>             <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">&quot;collect&quot;</span>,</span>
+<span id="cb85-72"><a href="plotting-future-scenario.html#cb85-72" tabindex="-1"></a>                         <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fu">rep</span>(<span class="fl">1.8</span>,<span class="fu">length</span>(future_plot_list))))</span>
+<span id="cb85-73"><a href="plotting-future-scenario.html#cb85-73" tabindex="-1"></a>           ) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb85-74"><a href="plotting-future-scenario.html#cb85-74" tabindex="-1"></a>                     <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb85-75"><a href="plotting-future-scenario.html#cb85-75" tabindex="-1"></a>                     <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
+<span id="cb85-76"><a href="plotting-future-scenario.html#cb85-76" tabindex="-1"></a>                     <span class="at">axis.title.x=</span><span class="fu">element_blank</span>())</span>
+<span id="cb85-77"><a href="plotting-future-scenario.html#cb85-77" tabindex="-1"></a>  plot</span>
+<span id="cb85-78"><a href="plotting-future-scenario.html#cb85-78" tabindex="-1"></a>  </span>
+<span id="cb85-79"><a href="plotting-future-scenario.html#cb85-79" tabindex="-1"></a>}</span>
+<span id="cb85-80"><a href="plotting-future-scenario.html#cb85-80" tabindex="-1"></a></span>
+<span id="cb85-81"><a href="plotting-future-scenario.html#cb85-81" tabindex="-1"></a></span>
+<span id="cb85-82"><a href="plotting-future-scenario.html#cb85-82" tabindex="-1"></a></span>
+<span id="cb85-83"><a href="plotting-future-scenario.html#cb85-83" tabindex="-1"></a></span>
+<span id="cb85-84"><a href="plotting-future-scenario.html#cb85-84" tabindex="-1"></a></span>
+<span id="cb85-85"><a href="plotting-future-scenario.html#cb85-85" tabindex="-1"></a></span>
+<span id="cb85-86"><a href="plotting-future-scenario.html#cb85-86" tabindex="-1"></a><span class="fu">plot_scenarios_gg</span>(<span class="at">past_observed=</span>past_observed,</span>
+<span id="cb85-87"><a href="plotting-future-scenario.html#cb85-87" tabindex="-1"></a>                  <span class="at">past_simulated=</span>past_simulated,</span>
+<span id="cb85-88"><a href="plotting-future-scenario.html#cb85-88" tabindex="-1"></a>                  <span class="at">future_data=</span>future_data,</span>
+<span id="cb85-89"><a href="plotting-future-scenario.html#cb85-89" tabindex="-1"></a>                  <span class="at">metric=</span><span class="st">&quot;GDH&quot;</span>,</span>
+<span id="cb85-90"><a href="plotting-future-scenario.html#cb85-90" tabindex="-1"></a>                  <span class="at">axis_label=</span><span class="st">&quot;Heat (in Growing Degree Hours)&quot;</span>)</span>
+<span id="cb85-91"><a href="plotting-future-scenario.html#cb85-91" tabindex="-1"></a><span class="fu">plot_scenarios_gg</span>(<span class="at">past_observed=</span>past_observed,</span>
+<span id="cb85-92"><a href="plotting-future-scenario.html#cb85-92" tabindex="-1"></a>                  <span class="at">past_simulated=</span>past_simulated,</span>
+<span id="cb85-93"><a href="plotting-future-scenario.html#cb85-93" tabindex="-1"></a>                  <span class="at">future_data=</span>future_data,</span>
+<span id="cb85-94"><a href="plotting-future-scenario.html#cb85-94" tabindex="-1"></a>                  <span class="at">metric=</span><span class="st">&quot;Chill_Portions&quot;</span>,</span>
+<span id="cb85-95"><a href="plotting-future-scenario.html#cb85-95" tabindex="-1"></a>                  <span class="at">axis_label=</span><span class="st">&quot;Chill (in Chill Portions)&quot;</span>)</span>
+<span id="cb85-96"><a href="plotting-future-scenario.html#cb85-96" tabindex="-1"></a><span class="fu">plot_scenarios_gg</span>(<span class="at">past_observed=</span>past_observed,</span>
+<span id="cb85-97"><a href="plotting-future-scenario.html#cb85-97" tabindex="-1"></a>                  <span class="at">past_simulated=</span>past_simulated,</span>
+<span id="cb85-98"><a href="plotting-future-scenario.html#cb85-98" tabindex="-1"></a>                  <span class="at">future_data=</span>future_data,</span>
+<span id="cb85-99"><a href="plotting-future-scenario.html#cb85-99" tabindex="-1"></a>                  <span class="at">metric=</span><span class="st">&quot;Frost_H&quot;</span>,</span>
+<span id="cb85-100"><a href="plotting-future-scenario.html#cb85-100" tabindex="-1"></a>                  <span class="at">axis_label=</span><span class="st">&quot;Frost duration (in hours)&quot;</span>)</span>
+<span id="cb85-101"><a href="plotting-future-scenario.html#cb85-101" tabindex="-1"></a></span>
+<span id="cb85-102"><a href="plotting-future-scenario.html#cb85-102" tabindex="-1"></a></span>
+<span id="cb85-103"><a href="plotting-future-scenario.html#cb85-103" tabindex="-1"></a><span class="co"># use ggsave for the adjustable format for a paper </span></span>
+<span id="cb85-104"><a href="plotting-future-scenario.html#cb85-104" tabindex="-1"></a><span class="co">#ggsave(&quot;data/__, width= 10, height =5, dpi = 600) # dpi resolution </span></span></code></pre></div>
+<p>plots of chill, heat and frost hour accumulation with time series labels</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-87"></span>
+<img src="KR_image/chunk61_CP.png" alt="plot of chill accumulation" width="800" />
+<p class="caption">
+Figure 17.2: plot of chill accumulation
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-88"></span>
+<img src="KR_image/chunk61_GDH.png" alt="plot of heat accumulation" width="800" />
+<p class="caption">
+Figure 17.3: plot of heat accumulation
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-89"></span>
+<img src="KR_image/chunk61_Frost_H.png" alt="plot of frost hour accumulation" width="800" />
+<p class="caption">
+Figure 17.4: plot of frost hour accumulation
+</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="making-cmpi6-scenario.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chill-model-comparison.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": false,
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+</body>
+
+</html>
