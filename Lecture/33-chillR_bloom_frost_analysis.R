@@ -21,8 +21,8 @@ leaflet() %>%
 
 
 #usual weather data in KA
-CKA_Alexander_Lucas <- read_tab("data/Alexander_Lucas_bloom_1958_2019.csv")
-CKA_weather <- read_tab("data/TMaxTMin1958-2019_patched.csv")
+CKA_Alexander_Lucas <- read_tab("KR_data/Alexander_Lucas_bloom_1958_2019.csv")
+CKA_weather <- read_tab("KR_data/TMaxTMin1958-2019_patched.csv")
 
 head(CKA_Alexander_Lucas)
 

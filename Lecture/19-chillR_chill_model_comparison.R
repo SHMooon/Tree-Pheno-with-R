@@ -271,7 +271,7 @@ for(met in metrics)
       results[which(results$Metric == met & results$Year == 1980),
               "Result"]-1
 
-## Here we start
+
 
 rng = range(results$SWC)
 #rng: (decrease 78% amd increase 60% )

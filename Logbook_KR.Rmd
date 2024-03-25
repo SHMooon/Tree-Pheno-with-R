@@ -4,12 +4,13 @@ author: "Sang Hyo Moon"
 date: "2024-02-03"
 output: 
   html_document:
+
     toc: true
     toc_depth: 2
     toc_float: true
     number_sections: true
-    code_folding: "hide"
-    
+    code_folding: hide
+    df_print: default
 editor_options: 
   markdown: 
     wrap: 72
@@ -17,7 +18,7 @@ editor_options:
 
 don't run a code but show it eval = FALSE
 
-
+ddd
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
     echo = TRUE, # show all code
